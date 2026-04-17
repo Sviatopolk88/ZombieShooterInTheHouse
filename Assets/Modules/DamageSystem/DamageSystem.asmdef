@@ -1,0 +1,16 @@
+{
+  "name": "Modules.DamageSystem",
+  "rootNamespace": "Modules.DamageSystem",
+  "references": [
+    "Modules.HealthSystem"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

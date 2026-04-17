@@ -1,0 +1,20 @@
+{
+  "name": "Modules.NeoFPS_Adapter",
+  "rootNamespace": "Modules.NeoFPS_Adapter",
+  "references": [
+    "NeoFPS",
+    "NeoFPS.Managers",
+    "NeoSaveGames",
+    "Modules.HealthSystem",
+    "Modules.DamageSystem"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

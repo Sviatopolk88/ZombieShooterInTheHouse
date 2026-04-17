@@ -1,0 +1,17 @@
+{
+  "name": "Modules.EnemyAI_Base",
+  "rootNamespace": "Modules.EnemyAI_Base",
+  "references": [
+    "Modules.DamageSystem",
+    "Modules.HealthSystem"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

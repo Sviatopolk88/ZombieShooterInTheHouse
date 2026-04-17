@@ -1,0 +1,23 @@
+{
+  "name": "Project.HealthSystem.EditModeTests",
+  "rootNamespace": "Project.HealthSystem.EditModeTests",
+  "references": [
+    "Modules.HealthSystem"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [
+    "nunit.framework.dll"
+  ],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}
