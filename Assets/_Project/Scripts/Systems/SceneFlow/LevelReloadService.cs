@@ -1,4 +1,5 @@
 using System.Collections;
+using _Project.Scripts.Save;
 using Modules.AdsCore;
 using Modules.SceneLoader;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace _Project.Scripts.Systems.SceneFlow
 
         public void ReloadLevel()
         {
+            GameSaveController.Instance?.SaveGame();
             StartCoroutine(ReloadLevelRoutine());
         }
 

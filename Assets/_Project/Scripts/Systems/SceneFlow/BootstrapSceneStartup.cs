@@ -1,6 +1,7 @@
 using System.Collections;
 using Modules.AdsCore;
 using Modules.PurchasesCore;
+using Modules.SaveSystem;
 using Modules.SceneLoader;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,6 +18,7 @@ namespace _Project.Scripts.Systems.SceneFlow
         private void Start()
         {
             PurchaseService.Instance.Warmup();
+            SaveService.Instance.Warmup();
             StartCoroutine(LoadInitialScenes());
         }
 

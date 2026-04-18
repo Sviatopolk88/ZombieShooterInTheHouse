@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using Modules.NeoFPS_Adapter;
 using NeoFPS;
 using UnityEngine;
-using YG;
 
 namespace _Project.Scripts.Purchases
 {
     /// <summary>
     /// Изолированная project-side логика проверки и выдачи наград за успешные покупки.
+    /// Runtime-выдача отделена от ownership и не пишет entitlement сама.
     /// </summary>
     public static class PurchaseRewardApplier
     {
@@ -18,47 +19,86 @@ namespace _Project.Scripts.Purchases
         private static FpsInventoryItemBase cachedShotgunPrefab;
         private static bool shotgunPrefabLoaded;
 
-        public static bool CanApplyPurchase(string productId, out string reason)
+        public static bool TryNormalizeOwnedProductId(string productId, out string normalizedProductId)
         {
-            if (IsShotgunProduct(productId))
+            string candidateProductId = string.IsNullOrWhiteSpace(productId)
+                ? string.Empty
+                : productId.Trim();
+
+            if (IsShotgunProduct(candidateProductId))
             {
-                return CanGrantShotgun(out reason);
+                normalizedProductId = ShotgunProductId;
+                return true;
+            }
+
+            normalizedProductId = string.Empty;
+            return false;
+        }
+
+        public static bool CanApplyRuntime(string productId, out string reason)
+        {
+            if (!TryNormalizeOwnedProductId(productId, out string normalizedProductId))
+            {
+                reason = $"Неизвестный товар '{productId}'.";
+                return false;
+            }
+
+            if (normalizedProductId == ShotgunProductId)
+            {
+                return CanApplyShotgunRuntime(out reason);
             }
 
             reason = $"Неизвестный товар '{productId}'.";
             return false;
         }
 
-        public static bool TryApplyPurchase(string productId, out string message)
+        public static bool CanApplyAnyOwnedRuntime(IReadOnlyList<string> ownedProductIds, out string reason)
         {
-            if (IsShotgunProduct(productId))
+            reason = "Gameplay ещё не готов к восстановлению покупок.";
+
+            if (ownedProductIds == null || ownedProductIds.Count == 0)
             {
-                return TryGrantShotgun(markAsOwned: true, out message);
+                return false;
+            }
+
+            for (int i = 0; i < ownedProductIds.Count; i++)
+            {
+                if (CanApplyRuntime(ownedProductIds[i], out reason))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryApplyOwnedProduct(string productId, out string message)
+        {
+            if (TryNormalizeOwnedProductId(productId, out string normalizedProductId) && normalizedProductId == ShotgunProductId)
+            {
+                return TryGrantShotgun(out message);
             }
 
             message = $"Неизвестный товар '{productId}'.";
             return false;
         }
 
-        public static void RestoreOwnedPurchases()
+        public static void RestoreOwnedPurchases(IReadOnlyList<string> ownedProductIds)
         {
-            if (!IsShotgunOwned())
+            if (ownedProductIds == null || ownedProductIds.Count == 0)
             {
                 return;
             }
 
-            TryGrantShotgun(markAsOwned: false, out _);
+            for (int i = 0; i < ownedProductIds.Count; i++)
+            {
+                TryApplyOwnedProduct(ownedProductIds[i], out _);
+            }
         }
 
-        private static bool CanGrantShotgun(out string reason)
+        private static bool CanApplyShotgunRuntime(out string reason)
         {
-            if (IsShotgunOwned())
-            {
-                reason = "Дробовик уже куплен и разблокирован.";
-                return false;
-            }
-
-            if (!TryGetPlayerInventory(out IInventory inventory))
+            if (!TryGetPlayerInventory(out _))
             {
                 reason = "Игрок или инвентарь недоступны.";
                 return false;
@@ -71,17 +111,11 @@ namespace _Project.Scripts.Purchases
                 return false;
             }
 
-            if (inventory.GetItem(shotgunPrefab.itemIdentifier) != null)
-            {
-                reason = "Дробовик уже есть в текущем инвентаре.";
-                return false;
-            }
-
             reason = string.Empty;
             return true;
         }
 
-        private static bool TryGrantShotgun(bool markAsOwned, out string message)
+        private static bool TryGrantShotgun(out string message)
         {
             if (!TryGetPlayerInventory(out IInventory inventory))
             {
@@ -97,6 +131,8 @@ namespace _Project.Scripts.Purchases
             }
 
             IInventoryItem existingItem = inventory.GetItem(shotgunPrefab.itemIdentifier);
+            bool itemAdded = false;
+
             if (existingItem == null)
             {
                 InventoryAddResult addResult = inventory.AddItemFromPrefab(shotgunPrefab.gameObject);
@@ -107,6 +143,7 @@ namespace _Project.Scripts.Purchases
                 }
 
                 existingItem = inventory.GetItem(shotgunPrefab.itemIdentifier);
+                itemAdded = existingItem != null;
             }
 
             if (existingItem == null)
@@ -115,12 +152,9 @@ namespace _Project.Scripts.Purchases
                 return false;
             }
 
-            if (markAsOwned)
-            {
-                MarkShotgunAsOwned();
-            }
-
-            message = "Дробовик выдан игроку.";
+            message = itemAdded
+                ? "Дробовик выдан игроку."
+                : "Дробовик уже доступен игроку.";
             return true;
         }
 
@@ -159,39 +193,8 @@ namespace _Project.Scripts.Purchases
 
         private static bool IsShotgunProduct(string productId)
         {
-            return string.Equals(productId, ShotgunProductId, System.StringComparison.Ordinal)
-                || string.Equals(productId, ShotgunEditorSimulationProductId, System.StringComparison.Ordinal);
-        }
-
-        private static bool IsShotgunOwned()
-        {
-#if Storage_yg
-            return YG2.saves != null && YG2.saves.purchasedWeaponShotgun;
-#else
-            return false;
-#endif
-        }
-
-        private static void MarkShotgunAsOwned()
-        {
-#if Storage_yg
-            if (YG2.saves == null)
-            {
-                return;
-            }
-
-            if (YG2.saves.purchasedWeaponShotgun)
-            {
-                return;
-            }
-
-            YG2.saves.purchasedWeaponShotgun = true;
-
-            if (YG2.isSDKEnabled)
-            {
-                YG2.SaveProgress();
-            }
-#endif
+            return string.Equals(productId, ShotgunProductId, System.StringComparison.OrdinalIgnoreCase)
+                || string.Equals(productId, ShotgunEditorSimulationProductId, System.StringComparison.OrdinalIgnoreCase);
         }
     }
 }
