@@ -1,0 +1,26 @@
+{
+    "saveSystemKeys": [
+        "game_progress_v1"
+    ],
+    "saveSystemValues": [
+        "{\"version\":1,\"currentLevel\":1,\"weapons\":[],\"ammo9mm\":60}"
+    ],
+    "stringKeys": [],
+    "stringValues": [],
+    "floatKeys": [],
+    "floatValues": [],
+    "intKeys": [],
+    "intValues": [],
+    "intExample": 5,
+    "strExample": "Hello!",
+    "boolExample": [
+        false,
+        false,
+        false,
+        false
+    ],
+    "idSave": 11,
+    "purchasedWeaponShotgun": false,
+    "purchasesOwnershipMigrated": true,
+    "purchasedProductIds": []
+}

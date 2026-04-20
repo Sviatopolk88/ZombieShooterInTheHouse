@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using _Project.Scripts.Purchases;
 using Modules.SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -168,6 +169,10 @@ namespace _Project.Scripts.Save
             loadInProgress = true;
 
             yield return SaveDataApplier.Apply(data);
+
+            // Save restore заменяет runtime-loadout целиком, поэтому ownership-покупки
+            // нужно переапплаить после него, чтобы купленное оружие не терялось между сессиями.
+            ProjectPurchaseService.RestoreOwnedPurchases();
 
             loadInProgress = false;
             autoLoadCompleted = markAutoLoaded || autoLoadCompleted;

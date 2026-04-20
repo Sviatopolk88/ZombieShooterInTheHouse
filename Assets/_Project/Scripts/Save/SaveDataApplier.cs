@@ -39,7 +39,8 @@ namespace _Project.Scripts.Save
             IInventoryItem ammoItem = inventory.GetItem(FpsInventoryKey.Ammo9mm);
             if (ammoItem != null)
             {
-                ammoItem.quantity = Mathf.Clamp(data.ammo9mm, 0, ammoItem.maxQuantity);
+                int desiredAmmoQuantity = ResolveDesiredAmmo9mmQuantity(data);
+                ammoItem.quantity = Mathf.Clamp(desiredAmmoQuantity, 0, ammoItem.maxQuantity);
             }
         }
 
@@ -94,6 +95,18 @@ namespace _Project.Scripts.Save
         private static List<IInventoryItem> BuildLoadout(GameSaveData data)
         {
             List<IInventoryItem> result = new();
+            FpsInventoryItemBase[] startupPrefabs = GameSaveWeaponCatalog.GetStartupLoadoutPrefabs();
+
+            for (int i = 0; i < startupPrefabs.Length; i++)
+            {
+                FpsInventoryItemBase startupPrefab = startupPrefabs[i];
+                if (startupPrefab == null || ContainsItem(result, startupPrefab.itemIdentifier))
+                {
+                    continue;
+                }
+
+                result.Add(startupPrefab);
+            }
 
             string[] weapons = data.weapons ?? System.Array.Empty<string>();
             for (int i = 0; i < weapons.Length; i++)
@@ -112,7 +125,9 @@ namespace _Project.Scripts.Save
                 result.Add(weaponPrefab);
             }
 
-            if (data.ammo9mm > 0 && GameSaveWeaponCatalog.TryResolveAmmo9mmPrefab(out FpsInventoryItemBase ammoPrefab) && ammoPrefab != null)
+            if (ResolveDesiredAmmo9mmQuantity(data) > 0
+                && GameSaveWeaponCatalog.TryResolveAmmo9mmPrefab(out FpsInventoryItemBase ammoPrefab)
+                && ammoPrefab != null)
             {
                 if (!ContainsItem(result, ammoPrefab.itemIdentifier))
                 {
@@ -134,6 +149,13 @@ namespace _Project.Scripts.Save
             }
 
             return false;
+        }
+
+        private static int ResolveDesiredAmmo9mmQuantity(GameSaveData data)
+        {
+            int savedAmmoQuantity = data != null ? Mathf.Max(0, data.ammo9mm) : 0;
+            int defaultAmmoQuantity = GameSaveWeaponCatalog.GetDefaultAmmo9mmQuantity();
+            return Mathf.Max(defaultAmmoQuantity, savedAmmoQuantity);
         }
 
         private static string GetSceneNameForLevel(int levelIndex)

@@ -20,6 +20,17 @@ namespace _Project.Scripts.Save
         private static FpsInventoryItemBase cachedShotgunPrefab;
         private static bool shotgunPrefabLoaded;
 
+        public static FpsInventoryItemBase[] GetStartupLoadoutPrefabs()
+        {
+            NeoFPS_PlayerLoadoutAdapter loadoutAdapter = Object.FindFirstObjectByType<NeoFPS_PlayerLoadoutAdapter>(FindObjectsInactive.Exclude);
+            if (loadoutAdapter == null)
+            {
+                return System.Array.Empty<FpsInventoryItemBase>();
+            }
+
+            return loadoutAdapter.GetStartupItemPrefabs();
+        }
+
         public static string[] CollectOwnedWeapons(IInventory inventory)
         {
             if (inventory == null)
@@ -84,6 +95,13 @@ namespace _Project.Scripts.Save
 
             itemPrefab = loadoutAdapter.GetStartupItemPrefab(FpsInventoryKey.Ammo9mm);
             return itemPrefab != null;
+        }
+
+        public static int GetDefaultAmmo9mmQuantity()
+        {
+            return TryResolveAmmo9mmPrefab(out FpsInventoryItemBase itemPrefab) && itemPrefab != null
+                ? Mathf.Max(0, itemPrefab.quantity)
+                : 0;
         }
 
         private static FpsInventoryItemBase GetShotgunPrefab()
