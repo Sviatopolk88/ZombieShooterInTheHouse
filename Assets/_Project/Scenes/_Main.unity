@@ -5390,7 +5390,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.UI.VictoryScreenController
   root: {fileID: 2112000000}
   nextButton: {fileID: 2112000122}
-  restartButton: {fileID: 2112000142}
   titleLabel: {fileID: 2112000042}
   subtitleLabel: {fileID: 2112000052}
   rescuedLabel: {fileID: 2112000072}
@@ -5398,7 +5397,6 @@ MonoBehaviour:
   remainingLabel: {fileID: 2112000092}
   summaryLabel: {fileID: 2112000102}
   nextButtonLabel: {fileID: 2112000132}
-  restartButtonLabel: {fileID: 2112000152}
 --- !u!1 &2112000010
 GameObject:
   m_ObjectHideFlags: 0
@@ -6523,7 +6521,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -150, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 240, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2112000122
@@ -6763,7 +6761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2112000141
 RectTransform:
   m_ObjectHideFlags: 0

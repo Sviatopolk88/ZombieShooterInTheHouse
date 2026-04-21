@@ -21,6 +21,7 @@ namespace _Project.Scripts.Save
 
         private bool autoLoadCompleted;
         private bool loadInProgress;
+        private bool suppressNextAutoLoad;
 
         public static GameSaveController Instance => instance;
 
@@ -102,6 +103,11 @@ namespace _Project.Scripts.Save
             return true;
         }
 
+        public void SuppressAutoLoadForNextGameplayScene()
+        {
+            suppressNextAutoLoad = true;
+        }
+
         private void OnApplicationPause(bool pauseStatus)
         {
             if (pauseStatus)
@@ -119,6 +125,13 @@ namespace _Project.Scripts.Save
         {
             if (!scene.IsValid() || !scene.isLoaded || !IsGameplayLevelScene(scene.name))
             {
+                return;
+            }
+
+            if (suppressNextAutoLoad)
+            {
+                suppressNextAutoLoad = false;
+                autoLoadCompleted = true;
                 return;
             }
 

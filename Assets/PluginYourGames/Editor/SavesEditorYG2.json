@@ -3,7 +3,7 @@
         "game_progress_v1"
     ],
     "saveSystemValues": [
-        "{\"version\":1,\"currentLevel\":1,\"weapons\":[],\"ammo9mm\":60}"
+        "{\"version\":1,\"currentLevel\":1,\"weapons\":[],\"ammo9mm\":15}"
     ],
     "stringKeys": [],
     "stringValues": [],
@@ -19,7 +19,7 @@
         false,
         false
     ],
-    "idSave": 13,
+    "idSave": 20,
     "purchasedWeaponShotgun": false,
     "purchasesOwnershipMigrated": true,
     "purchasedProductIds": []
