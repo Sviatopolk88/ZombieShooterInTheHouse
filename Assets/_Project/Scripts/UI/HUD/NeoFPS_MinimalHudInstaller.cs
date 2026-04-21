@@ -1,4 +1,3 @@
-using System;
 using _Project.Scripts.Localization;
 using NeoFPS;
 using UnityEngine;
@@ -11,9 +10,13 @@ namespace _Project.Scripts.UI.HUD
     /// </summary>
     public sealed class NeoFPS_MinimalHudInstaller : MonoBehaviour
     {
+        [Tooltip("Prefab прицела NeoFPS, который создается в HUD для PC-версии.")]
         [SerializeField] private GameObject crosshairPrefab;
+        [Tooltip("Prefab счетчика патронов NeoFPS, который создается в HUD для PC-версии.")]
         [SerializeField] private GameObject ammoCounterPrefab;
+        [Tooltip("Prefab панели инвентаря NeoFPS, который создается в HUD для PC-версии.")]
         [SerializeField] private GameObject inventoryHudPrefab;
+
         private const string HudRootName = "HUD_Root";
         private const string HudPcName = "HUD_PC";
         private const string HudMobileName = "HUD_Mobile";
@@ -94,7 +97,7 @@ namespace _Project.Scripts.UI.HUD
             text.color = Color.white;
             text.text = ProjectLocalizationYG.FormatRescueProgress(0, 0);
 
-            var presenterType = Type.GetType("_Project.Scripts.UI.HUD.RescueHudPresenter, Assembly-CSharp");
+            var presenterType = System.Type.GetType("_Project.Scripts.UI.HUD.RescueHudPresenter, Assembly-CSharp");
             if (presenterType != null)
             {
                 gameObject.AddComponent(presenterType);
