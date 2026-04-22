@@ -28,6 +28,7 @@
   <Project Path="Unity.AI.Navigation.Updater.csproj" />
   <Project Path="Modules.DamageSystem.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
+  <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
   <Project Path="Modules.EnemyAI_Base.csproj" />
   <Project Path="Unity.AI.Navigation.Editor.csproj" />
   <Project Path="Unity.InputSystem.ForUI.csproj" />
