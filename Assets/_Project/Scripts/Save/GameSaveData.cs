@@ -14,6 +14,15 @@ namespace _Project.Scripts.Save
         public int version = CurrentVersion;
         public int currentLevel = 1;
         public string[] weapons = Array.Empty<string>();
+        public WeaponMagazineSaveData[] weaponMagazines = Array.Empty<WeaponMagazineSaveData>();
         public int ammo9mm;
+        public int ammo12Gauge;
+    }
+
+    [Serializable]
+    public sealed class WeaponMagazineSaveData
+    {
+        public string weaponId;
+        public int magazine;
     }
 }

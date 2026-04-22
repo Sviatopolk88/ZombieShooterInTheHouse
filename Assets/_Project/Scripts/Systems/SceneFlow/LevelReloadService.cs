@@ -42,10 +42,18 @@ namespace _Project.Scripts.Systems.SceneFlow
         {
             string currentLevelName = GetCurrentLevelName();
             string nextLevelName = GetNextLevelName(currentLevelName);
-            StartCoroutine(LoadLevelRoutine(nextLevelName, saveAfterLoad: true, suppressAutoLoad: true));
+            bool savedForNextLevel = GameSaveController.Instance != null
+                && GameSaveController.Instance.SaveGameForLevel(nextLevelName);
+
+            if (!savedForNextLevel)
+            {
+                Debug.LogWarning($"LevelReloadService: failed to save current player state before loading '{nextLevelName}'.");
+            }
+
+            StartCoroutine(LoadLevelRoutine(nextLevelName, suppressAutoLoad: !savedForNextLevel));
         }
 
-        private IEnumerator LoadLevelRoutine(string levelSceneName, bool saveAfterLoad = false, bool suppressAutoLoad = false)
+        private IEnumerator LoadLevelRoutine(string levelSceneName, bool suppressAutoLoad = false)
         {
             const float reloadDelay = 1.5f;
 
@@ -81,11 +89,6 @@ namespace _Project.Scripts.Systems.SceneFlow
             if (mainScene.IsValid() && mainScene.isLoaded)
             {
                 SceneLoader.SetActiveScene(ProjectSceneNames.Main);
-            }
-
-            if (saveAfterLoad)
-            {
-                GameSaveController.Instance?.SaveGame();
             }
 
             CursorStateService.Instance?.SetGameplayMode();

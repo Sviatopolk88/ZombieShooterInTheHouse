@@ -17,7 +17,9 @@ namespace _Project.Scripts.Save
             {
                 currentLevel = GetCurrentLevelIndex(),
                 weapons = System.Array.Empty<string>(),
-                ammo9mm = 0
+                weaponMagazines = System.Array.Empty<WeaponMagazineSaveData>(),
+                ammo9mm = 0,
+                ammo12Gauge = 0
             };
 
             if (!TryGetPlayerInventory(out IInventory inventory))
@@ -27,9 +29,13 @@ namespace _Project.Scripts.Save
             }
 
             data.weapons = GameSaveWeaponCatalog.CollectOwnedWeapons(inventory);
+            data.weaponMagazines = GameSaveWeaponCatalog.CollectWeaponMagazines(inventory);
 
             IInventoryItem ammoItem = inventory.GetItem(FpsInventoryKey.Ammo9mm);
             data.ammo9mm = ammoItem != null ? Mathf.Max(0, ammoItem.quantity) : 0;
+
+            IInventoryItem ammo12GaugeItem = inventory.GetItem(FpsInventoryKey.Ammo12gauge);
+            data.ammo12Gauge = ammo12GaugeItem != null ? Mathf.Max(0, ammo12GaugeItem.quantity) : 0;
 
             return true;
         }

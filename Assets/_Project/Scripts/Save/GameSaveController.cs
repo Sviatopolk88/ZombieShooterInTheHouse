@@ -72,6 +72,28 @@ namespace _Project.Scripts.Save
                 return false;
             }
 
+            return Save(data);
+        }
+
+        public bool SaveGameForLevel(string levelSceneName)
+        {
+            if (!SaveDataCollector.TryCollect(out GameSaveData data))
+            {
+                return false;
+            }
+
+            if (!TryParseLevelIndex(levelSceneName, out int levelIndex))
+            {
+                Debug.LogWarning($"GameSaveController: не удалось определить индекс уровня '{levelSceneName}'. Сохранение пропущено.");
+                return false;
+            }
+
+            data.currentLevel = levelIndex;
+            return Save(data);
+        }
+
+        private bool Save(GameSaveData data)
+        {
             bool saved = SaveService.Instance.Save(SaveKey, data);
 
             if (saved)
@@ -212,6 +234,18 @@ namespace _Project.Scripts.Save
         {
             return !string.IsNullOrWhiteSpace(sceneName)
                 && sceneName.StartsWith("Level_", StringComparison.Ordinal);
+        }
+
+        private static bool TryParseLevelIndex(string sceneName, out int levelIndex)
+        {
+            levelIndex = 0;
+
+            if (!IsGameplayLevelScene(sceneName))
+            {
+                return false;
+            }
+
+            return int.TryParse(sceneName.Substring("Level_".Length), out levelIndex) && levelIndex > 0;
         }
     }
 }

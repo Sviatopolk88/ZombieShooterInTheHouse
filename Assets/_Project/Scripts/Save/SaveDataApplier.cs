@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Modules.SceneLoader;
 using NeoFPS;
 using NeoFPS.Constants;
+using NeoFPS.ModularFirearms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using _Project.Scripts.Systems.SceneFlow;
@@ -26,6 +27,7 @@ namespace _Project.Scripts.Save
 
             yield return EnsureTargetLevelLoaded(targetLevelSceneName);
             yield return WaitForPlayerInventory();
+            yield return null;
 
             if (!TryGetPlayerInventory(out IInventory inventory))
             {
@@ -36,12 +38,9 @@ namespace _Project.Scripts.Save
             List<IInventoryItem> loadout = BuildLoadout(data);
             inventory.ApplyLoadout(loadout.ToArray(), prefabs: true, replace: true);
 
-            IInventoryItem ammoItem = inventory.GetItem(FpsInventoryKey.Ammo9mm);
-            if (ammoItem != null)
-            {
-                int desiredAmmoQuantity = ResolveDesiredAmmo9mmQuantity(data);
-                ammoItem.quantity = Mathf.Clamp(desiredAmmoQuantity, 0, ammoItem.maxQuantity);
-            }
+            ApplyAmmoQuantity(inventory, FpsInventoryKey.Ammo9mm, ResolveDesiredAmmo9mmQuantity(data));
+            ApplyAmmoQuantity(inventory, FpsInventoryKey.Ammo12gauge, ResolveDesiredAmmo12GaugeQuantity(data));
+            ApplyWeaponMagazines(inventory, data.weaponMagazines);
         }
 
         private static IEnumerator EnsureTargetLevelLoaded(string targetLevelSceneName)
@@ -135,7 +134,55 @@ namespace _Project.Scripts.Save
                 }
             }
 
+            if (ResolveDesiredAmmo12GaugeQuantity(data) > 0
+                && GameSaveWeaponCatalog.TryResolveAmmo12GaugePrefab(out FpsInventoryItemBase ammo12GaugePrefab)
+                && ammo12GaugePrefab != null)
+            {
+                if (!ContainsItem(result, ammo12GaugePrefab.itemIdentifier))
+                {
+                    result.Add(ammo12GaugePrefab);
+                }
+            }
+
             return result;
+        }
+
+        private static void ApplyAmmoQuantity(IInventory inventory, int itemIdentifier, int desiredQuantity)
+        {
+            IInventoryItem ammoItem = inventory.GetItem(itemIdentifier);
+            if (ammoItem == null)
+            {
+                return;
+            }
+
+            ammoItem.quantity = Mathf.Clamp(desiredQuantity, 0, ammoItem.maxQuantity);
+        }
+
+        private static void ApplyWeaponMagazines(IInventory inventory, WeaponMagazineSaveData[] weaponMagazines)
+        {
+            if (inventory == null || weaponMagazines == null || weaponMagazines.Length == 0)
+            {
+                return;
+            }
+
+            for (int i = 0; i < weaponMagazines.Length; i++)
+            {
+                WeaponMagazineSaveData state = weaponMagazines[i];
+                if (state == null
+                    || !GameSaveWeaponCatalog.TryGetWeaponInventoryItem(inventory, state.weaponId, out IInventoryItem item))
+                {
+                    continue;
+                }
+
+                IModularFirearm firearm = item.gameObject.GetComponentInChildren<IModularFirearm>(true);
+                IReloader reloader = firearm?.reloader;
+                if (reloader == null)
+                {
+                    continue;
+                }
+
+                reloader.currentMagazine = Mathf.Clamp(state.magazine, 0, reloader.magazineSize);
+            }
         }
 
         private static bool ContainsItem(List<IInventoryItem> items, int itemIdentifier)
@@ -153,9 +200,12 @@ namespace _Project.Scripts.Save
 
         private static int ResolveDesiredAmmo9mmQuantity(GameSaveData data)
         {
-            int savedAmmoQuantity = data != null ? Mathf.Max(0, data.ammo9mm) : 0;
-            int defaultAmmoQuantity = GameSaveWeaponCatalog.GetDefaultAmmo9mmQuantity();
-            return Mathf.Max(defaultAmmoQuantity, savedAmmoQuantity);
+            return data != null ? Mathf.Max(0, data.ammo9mm) : GameSaveWeaponCatalog.GetDefaultAmmo9mmQuantity();
+        }
+
+        private static int ResolveDesiredAmmo12GaugeQuantity(GameSaveData data)
+        {
+            return data != null ? Mathf.Max(0, data.ammo12Gauge) : 0;
         }
 
         private static string GetSceneNameForLevel(int levelIndex)
