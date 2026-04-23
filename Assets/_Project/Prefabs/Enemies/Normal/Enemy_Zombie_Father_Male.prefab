@@ -1495,11 +1495,7 @@ MonoBehaviour:
   targetPriorityMode: 1
   lostTargetCooldown: 5
   retargetDistanceAdvantage: 0.75
-  moveSpeed: 2
-  attackDistance: 1.5
-  attackCooldown: 1
   searchInterval: 0.2
-  attackTurnSpeed: 12
 --- !u!114 &671701866205479914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1514,7 +1510,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Modules.EnemyAI_Base::Modules.EnemyAI_Base.Attack.EnemyAttack
   damage: 10
   attackDistance: 1.5
+  attackCooldown: 1
   attackDelay: 0.4
+  attackTurnSpeed: 12
 --- !u!114 &7013659246099269574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1527,7 +1525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1793ec9a235e64693eedcfcd74af8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Modules.EnemyAI_Base::Modules.EnemyAI_Base.Movement.EnemyMovement
-  baseSpeed: 1.5
+  baseSpeed: 2
   speedVariation: 0.5
   wobbleFrequency: 3
   wobbleAmplitude: 0.3
@@ -1547,9 +1545,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Modules.EnemyAI_Base::Modules.EnemyAI_Base.Vision.EnemyVision
   viewDistance: 25
-  aggroDistance: 3
+  aggroDistance: 5
   aggroPathLengthMultiplier: 1.25
-  viewAngle: 180
+  viewAngle: 270
   obstacleMask:
     serializedVersion: 2
     m_Bits: 134217523

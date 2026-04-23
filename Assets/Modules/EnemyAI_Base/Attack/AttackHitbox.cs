@@ -52,14 +52,7 @@ namespace Modules.EnemyAI_Base.Attack
                 return;
             }
 
-            IDamageable damageable = other.GetComponent<IDamageable>();
-
-            if (damageable == null)
-            {
-                damageable = other.GetComponentInParent<IDamageable>();
-            }
-
-            if (damageable == null || !damageable.CanTakeDamage)
+            if (!EnemyDamageResolver.TryGetDamageable(other, out IDamageable damageable) || !damageable.CanTakeDamage)
             {
                 return;
             }
