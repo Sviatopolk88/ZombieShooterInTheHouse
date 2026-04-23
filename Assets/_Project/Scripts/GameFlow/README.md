@@ -29,7 +29,7 @@
 - Если `RemainingCount == 0`, экран результата открывается сразу без confirmation.
 - `LevelCompleteScreenController` живёт в `Main`, автоматически находит `VictoryScreen` и показывает итог:
   `Boss defeated`, `Rescued`, `Failed`, `Remaining`.
-- Кнопка `Restart` на экране результата использует текущий `GameFlowService.RestartLevel()`.
+- Кнопка `Next` на экране результата использует `LevelReloadService.LoadNextLevel()` и циклически переходит по списку `ProjectSceneNames.Levels`.
 
 ## Scene Setup
 - Добавьте на сцену объект `LevelExitController`.

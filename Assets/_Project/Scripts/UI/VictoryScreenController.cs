@@ -1,5 +1,4 @@
 using System;
-using _Project.Scripts.GameFlow;
 using _Project.Scripts.Localization;
 using TMPro;
 using UnityEngine;
@@ -10,17 +9,34 @@ namespace _Project.Scripts.UI
 {
     public sealed class VictoryScreenController : MonoBehaviour
     {
+        private const string RestartButtonPath = "Panel/Buttons/RestartButton";
+
+        [Tooltip("Корневой объект экрана результата, который включается при завершении уровня и скрывается при переходе дальше.")]
         [SerializeField] private GameObject root;
+
+        [Tooltip("Кнопка продолжения, запускающая переход на следующий уровень.")]
         [SerializeField] private Button nextButton;
-        [SerializeField] private Button restartButton;
+
+        [Tooltip("Заголовок экрана результата с сообщением о прохождении уровня.")]
         [SerializeField] private TMP_Text titleLabel;
+
+        [Tooltip("Подзаголовок результата, который можно скрывать, если победа над боссом не должна показываться.")]
         [SerializeField] private TMP_Text subtitleLabel;
+
+        [Tooltip("Текст со статистикой спасённых жителей на завершённом уровне.")]
         [SerializeField] private TMP_Text rescuedLabel;
+
+        [Tooltip("Текст со статистикой погибших жителей на завершённом уровне.")]
         [SerializeField] private TMP_Text failedLabel;
+
+        [Tooltip("Текст с количеством жителей, оставшихся на уровне.")]
         [SerializeField] private TMP_Text remainingLabel;
+
+        [Tooltip("Итоговое сообщение, зависящее от того, все ли жители были спасены.")]
         [SerializeField] private TMP_Text summaryLabel;
+
+        [Tooltip("Текст на кнопке продолжения к следующему уровню.")]
         [SerializeField] private TMP_Text nextButtonLabel;
-        [SerializeField] private TMP_Text restartButtonLabel;
 
         private Action nextAction;
         private int rescuedCount;
@@ -28,7 +44,6 @@ namespace _Project.Scripts.UI
         private int failedCount;
         private int remainingCount;
         private bool showNextButton = true;
-        private bool showRestartButton = true;
         private bool showBossSubtitle = true;
 
         private void Reset()
@@ -104,19 +119,13 @@ namespace _Project.Scripts.UI
             nextAction = action;
         }
 
-        public void SetButtonsVisible(bool showNext, bool showRestart)
+        public void SetNextButtonVisible(bool visible)
         {
-            showNextButton = showNext;
-            showRestartButton = showRestart;
+            showNextButton = visible;
 
             if (nextButton != null)
             {
                 nextButton.gameObject.SetActive(showNextButton);
-            }
-
-            if (restartButton != null)
-            {
-                restartButton.gameObject.SetActive(showRestartButton);
             }
         }
 
@@ -138,11 +147,7 @@ namespace _Project.Scripts.UI
                 nextButton.onClick.AddListener(HandleNext);
             }
 
-            if (restartButton != null)
-            {
-                restartButton.onClick.RemoveListener(HandleRestart);
-                restartButton.onClick.AddListener(HandleRestart);
-            }
+            HideLegacyRestartButton();
         }
 
         private void UnbindButtons()
@@ -150,11 +155,6 @@ namespace _Project.Scripts.UI
             if (nextButton != null)
             {
                 nextButton.onClick.RemoveListener(HandleNext);
-            }
-
-            if (restartButton != null)
-            {
-                restartButton.onClick.RemoveListener(HandleRestart);
             }
         }
 
@@ -167,16 +167,6 @@ namespace _Project.Scripts.UI
             }
 
             Debug.LogWarning("VictoryScreenController: next action is not assigned.", this);
-        }
-
-        private void HandleRestart()
-        {
-            if (root != null)
-            {
-                root.SetActive(false);
-            }
-
-            GameFlowService.Instance?.RestartLevel();
         }
 
         private void RefreshLocalizedText()
@@ -219,20 +209,12 @@ namespace _Project.Scripts.UI
                 nextButtonLabel.text = ProjectLocalizationYG.Get(ProjectTextKey.VictoryNext);
             }
 
-            if (restartButtonLabel != null)
-            {
-                restartButtonLabel.text = ProjectLocalizationYG.Get(ProjectTextKey.VictoryRestart);
-            }
-
             if (nextButton != null)
             {
                 nextButton.gameObject.SetActive(showNextButton);
             }
 
-            if (restartButton != null)
-            {
-                restartButton.gameObject.SetActive(showRestartButton);
-            }
+            HideLegacyRestartButton();
         }
 
         private void AutoAssignReferences()
@@ -249,9 +231,8 @@ namespace _Project.Scripts.UI
             remainingLabel ??= FindLabel("Panel/Stats/RemainingText");
             summaryLabel ??= FindLabel("Panel/Stats/SummaryText");
             nextButton ??= FindButton("Panel/Buttons/NextButton");
-            restartButton ??= FindButton("Panel/Buttons/RestartButton");
             nextButtonLabel ??= FindLabel("Panel/Buttons/NextButton/Label");
-            restartButtonLabel ??= FindLabel("Panel/Buttons/RestartButton/Label");
+            HideLegacyRestartButton();
         }
 
         private TMP_Text FindLabel(string path)
@@ -264,6 +245,15 @@ namespace _Project.Scripts.UI
         {
             Transform target = transform.Find(path);
             return target != null ? target.GetComponent<Button>() : null;
+        }
+
+        private void HideLegacyRestartButton()
+        {
+            Transform restartButtonTransform = transform.Find(RestartButtonPath);
+            if (restartButtonTransform != null)
+            {
+                restartButtonTransform.gameObject.SetActive(false);
+            }
         }
 
         private void OnSwitchLanguage(string language)

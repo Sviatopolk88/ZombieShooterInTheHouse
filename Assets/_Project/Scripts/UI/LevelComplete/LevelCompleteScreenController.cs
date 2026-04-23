@@ -73,10 +73,20 @@ namespace _Project.Scripts.UI.LevelComplete
             Time.timeScale = 0f;
             CursorStateService.Instance?.SetUiMode();
 
-            victoryScreen.SetNextAction(null);
-            victoryScreen.SetButtonsVisible(false, true);
+            victoryScreen.SetNextAction(LoadNextLevel);
+            victoryScreen.SetNextButtonVisible(true);
             victoryScreen.SetBossDefeatedVisible(bossDefeated);
             victoryScreen.Show(rescuedCount, totalCount, failedCount, remainingCount);
+        }
+
+        private void LoadNextLevel()
+        {
+            if (victoryScreen != null)
+            {
+                victoryScreen.Hide();
+            }
+
+            LevelReloadService.Instance?.LoadNextLevel();
         }
 
         private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)

@@ -1,0 +1,251 @@
+using System;
+using System.Collections;
+using _Project.Scripts.Purchases;
+using Modules.SaveSystem;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using YG;
+
+namespace _Project.Scripts.Save
+{
+    /// <summary>
+    /// Project-side orchestration слой сохранения и загрузки.
+    /// Связывает reusable SaveService с DTO/collector/applier конкретной игры.
+    /// </summary>
+    public sealed class GameSaveController : MonoBehaviour
+    {
+        private const string RuntimeObjectName = "GameSaveControllerRuntime";
+        private const string SaveKey = "game_progress_v1";
+
+        private static GameSaveController instance;
+
+        private bool autoLoadCompleted;
+        private bool loadInProgress;
+        private bool suppressNextAutoLoad;
+
+        public static GameSaveController Instance => instance;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void Bootstrap()
+        {
+            if (instance != null)
+            {
+                return;
+            }
+
+            GameObject runtimeObject = new(RuntimeObjectName);
+            DontDestroyOnLoad(runtimeObject);
+            instance = runtimeObject.AddComponent<GameSaveController>();
+        }
+
+        private void Awake()
+        {
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+
+            YG2.onGetSDKData -= OnGetSdkData;
+            YG2.onGetSDKData += OnGetSdkData;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            YG2.onGetSDKData -= OnGetSdkData;
+        }
+
+        public bool SaveGame()
+        {
+            if (!SaveDataCollector.TryCollect(out GameSaveData data))
+            {
+                return false;
+            }
+
+            return Save(data);
+        }
+
+        public bool SaveGameForLevel(string levelSceneName)
+        {
+            if (!SaveDataCollector.TryCollect(out GameSaveData data))
+            {
+                return false;
+            }
+
+            if (!TryParseLevelIndex(levelSceneName, out int levelIndex))
+            {
+                Debug.LogWarning($"GameSaveController: не удалось определить индекс уровня '{levelSceneName}'. Сохранение пропущено.");
+                return false;
+            }
+
+            data.currentLevel = levelIndex;
+            return Save(data);
+        }
+
+        private bool Save(GameSaveData data)
+        {
+            bool saved = SaveService.Instance.Save(SaveKey, data);
+
+            if (saved)
+            {
+                Debug.Log($"GameSaveController: прогресс сохранён. Уровень {data.currentLevel}, оружие: {data.weapons.Length}, ammo9mm: {data.ammo9mm}.");
+            }
+
+            return saved;
+        }
+
+        public bool LoadGame()
+        {
+            if (loadInProgress)
+            {
+                return false;
+            }
+
+            if (!SaveService.Instance.IsReady)
+            {
+                return false;
+            }
+
+            if (!SaveService.Instance.TryLoad(SaveKey, out GameSaveData data))
+            {
+                return false;
+            }
+
+            StartCoroutine(LoadRoutine(data, markAutoLoaded: true));
+            return true;
+        }
+
+        public void SuppressAutoLoadForNextGameplayScene()
+        {
+            suppressNextAutoLoad = true;
+        }
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+            {
+                SaveGame();
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            SaveGame();
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (!scene.IsValid() || !scene.isLoaded || !IsGameplayLevelScene(scene.name))
+            {
+                return;
+            }
+
+            if (suppressNextAutoLoad)
+            {
+                suppressNextAutoLoad = false;
+                autoLoadCompleted = true;
+                return;
+            }
+
+            autoLoadCompleted = false;
+            TryAutoLoad();
+        }
+
+        private void OnGetSdkData()
+        {
+            TryAutoLoad();
+        }
+
+        private void TryAutoLoad()
+        {
+            if (autoLoadCompleted || loadInProgress)
+            {
+                return;
+            }
+
+            if (!IsAnyGameplayLevelLoaded())
+            {
+                return;
+            }
+
+            if (!SaveService.Instance.IsReady)
+            {
+                return;
+            }
+
+            if (!SaveService.Instance.HasKey(SaveKey))
+            {
+                autoLoadCompleted = true;
+                return;
+            }
+
+            if (!SaveService.Instance.TryLoad(SaveKey, out GameSaveData data))
+            {
+                autoLoadCompleted = true;
+                Debug.LogWarning("GameSaveController: сохранение найдено, но не удалось его загрузить.");
+                return;
+            }
+
+            StartCoroutine(LoadRoutine(data, markAutoLoaded: true));
+        }
+
+        private IEnumerator LoadRoutine(GameSaveData data, bool markAutoLoaded)
+        {
+            loadInProgress = true;
+
+            yield return SaveDataApplier.Apply(data);
+
+            // Save restore заменяет runtime-loadout целиком, поэтому ownership-покупки
+            // нужно переапплаить после него, чтобы купленное оружие не терялось между сессиями.
+            ProjectPurchaseService.RestoreOwnedPurchases();
+
+            loadInProgress = false;
+            autoLoadCompleted = markAutoLoaded || autoLoadCompleted;
+
+            Debug.Log($"GameSaveController: прогресс загружен. Уровень {Mathf.Max(1, data.currentLevel)}, оружие: {(data.weapons != null ? data.weapons.Length : 0)}, ammo9mm: {Mathf.Max(0, data.ammo9mm)}.");
+        }
+
+        private static bool IsAnyGameplayLevelLoaded()
+        {
+            int sceneCount = SceneManager.sceneCount;
+            for (int i = 0; i < sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (scene.IsValid() && scene.isLoaded && IsGameplayLevelScene(scene.name))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool IsGameplayLevelScene(string sceneName)
+        {
+            return !string.IsNullOrWhiteSpace(sceneName)
+                && sceneName.StartsWith("Level_", StringComparison.Ordinal);
+        }
+
+        private static bool TryParseLevelIndex(string sceneName, out int levelIndex)
+        {
+            levelIndex = 0;
+
+            if (!IsGameplayLevelScene(sceneName))
+            {
+                return false;
+            }
+
+            return int.TryParse(sceneName.Substring("Level_".Length), out levelIndex) && levelIndex > 0;
+        }
+    }
+}

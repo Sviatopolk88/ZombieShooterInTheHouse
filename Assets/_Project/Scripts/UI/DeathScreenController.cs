@@ -142,8 +142,7 @@ namespace _Project.Scripts.Localization
         VictoryRemainingFormat = 10,
         VictorySummaryPerfect = 11,
         VictorySummaryIncomplete = 12,
-        VictoryNext = 13,
-        VictoryRestart = 14
+        VictoryNext = 13
     }
 
     public static class ProjectLocalizationYG
@@ -214,9 +213,6 @@ namespace _Project.Scripts.Localization
 
                 case ProjectTextKey.VictoryNext:
                     return isRussian ? "ДАЛЕЕ" : "NEXT";
-
-                case ProjectTextKey.VictoryRestart:
-                    return isRussian ? "ПЕРЕИГРАТЬ" : "RESTART";
 
                 default:
                     return string.Empty;

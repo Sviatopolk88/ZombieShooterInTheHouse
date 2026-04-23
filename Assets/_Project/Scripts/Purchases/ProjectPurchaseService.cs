@@ -16,7 +16,13 @@ namespace _Project.Scripts.Purchases
                 return false;
             }
 
-            return PurchaseRewardApplier.CanApplyPurchase(productId, out reason);
+            if (ProjectPurchasesOwnershipStore.IsOwned(productId))
+            {
+                reason = "Товар уже куплен и разблокирован.";
+                return false;
+            }
+
+            return PurchaseRewardApplier.CanApplyRuntime(productId, out reason);
         }
 
         public static bool TryPurchase(string productId)
@@ -43,7 +49,7 @@ namespace _Project.Scripts.Purchases
 
         public static void RestoreOwnedPurchases()
         {
-            PurchaseRewardApplier.RestoreOwnedPurchases();
+            PurchaseRewardApplier.RestoreOwnedPurchases(ProjectPurchasesOwnershipStore.GetOwnedProductIds());
         }
 
         private static void OnPurchaseCompleted(string productId, PurchaseResult result, Action<PurchaseResult> callback)
@@ -54,15 +60,51 @@ namespace _Project.Scripts.Purchases
                 return;
             }
 
-            if (!PurchaseRewardApplier.TryApplyPurchase(productId, out string rewardMessage))
+            if (!ProjectPurchasesOwnershipStore.TryGrantOwnership(productId, out string normalizedProductId, out string ownershipMessage))
             {
-                Debug.LogWarning($"ProjectPurchaseService: purchase '{productId}' подтверждён, но награда не выдана. {rewardMessage}");
-                callback?.Invoke(PurchaseResult.Failed(rewardMessage));
+                Debug.LogWarning($"ProjectPurchaseService: purchase '{productId}' подтверждён, но entitlement не сохранён. {ownershipMessage}");
+                callback?.Invoke(PurchaseResult.Failed(ownershipMessage));
                 return;
             }
 
-            Debug.Log($"ProjectPurchaseService: purchase '{productId}' обработан успешно. {rewardMessage}");
-            callback?.Invoke(PurchaseResult.Completed(rewardMessage));
+            if (!PurchaseRewardApplier.TryApplyOwnedProduct(normalizedProductId, out string rewardMessage))
+            {
+                string deferredMessage = CombineMessages(
+                    ownershipMessage,
+                    rewardMessage,
+                    "Выдача будет повторена автоматически при готовности gameplay.");
+
+                Debug.LogWarning($"ProjectPurchaseService: purchase '{productId}' подтверждён, entitlement сохранён, но runtime-выдача отложена. {deferredMessage}");
+                callback?.Invoke(PurchaseResult.Completed(deferredMessage));
+                return;
+            }
+
+            string successMessage = CombineMessages(ownershipMessage, rewardMessage);
+            Debug.Log($"ProjectPurchaseService: purchase '{productId}' обработан успешно. {successMessage}");
+            callback?.Invoke(PurchaseResult.Completed(successMessage));
+        }
+
+        private static string CombineMessages(params string[] parts)
+        {
+            System.Text.StringBuilder builder = new();
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                string part = parts[i];
+                if (string.IsNullOrWhiteSpace(part))
+                {
+                    continue;
+                }
+
+                if (builder.Length > 0)
+                {
+                    builder.Append(' ');
+                }
+
+                builder.Append(part.Trim());
+            }
+
+            return builder.ToString();
         }
     }
 }

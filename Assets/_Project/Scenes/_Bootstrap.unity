@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Systems.SceneFlow.BootstrapSceneStartup
   mainSceneName: _Main
-  levelSceneName: Level_3
+  levelSceneName: Level_1
   unloadBootstrapSceneAfterLoad: 1
 --- !u!4 &129193232
 Transform:

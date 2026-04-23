@@ -14,15 +14,21 @@ namespace _Project.Scripts.Purchases
     public sealed class PurchaseOfferZone : MonoBehaviour
     {
         [Header("Product")]
+        [Tooltip("Идентификатор товара в каталоге покупок.")]
         [SerializeField] private string productId = PurchaseRewardApplier.ShotgunEditorSimulationProductId;
 
         [Header("Activation")]
+        [Tooltip("Клавиша взаимодействия с зоной покупки.")]
         [SerializeField] private KeyCode interactionKey = KeyCode.E;
+        [Tooltip("Слои объектов, которые могут активировать зону покупки.")]
         [SerializeField] private LayerMask activatorLayers = ~0;
+        [Tooltip("Тег объекта, которому разрешено активировать зону покупки.")]
         [SerializeField] private string requiredTag = "Player";
 
         [Header("Prompt")]
+        [Tooltip("Корневой объект визуальной подсказки о покупке.")]
         [SerializeField] private GameObject promptRoot;
+        [Tooltip("Текстовый компонент, в который выводится название и цена товара.")]
         [SerializeField] private TMP_Text promptLabel;
 
         private readonly HashSet<Collider> occupants = new();

@@ -62,5 +62,21 @@ namespace Modules.NeoFPS_Adapter
 
             return null;
         }
+
+        public FpsInventoryItemBase[] GetStartupItemPrefabs()
+        {
+            if (startupItemPrefabs == null || startupItemPrefabs.Length == 0)
+            {
+                return System.Array.Empty<FpsInventoryItemBase>();
+            }
+
+            FpsInventoryItemBase[] result = new FpsInventoryItemBase[startupItemPrefabs.Length];
+            for (int i = 0; i < startupItemPrefabs.Length; i++)
+            {
+                result[i] = startupItemPrefabs[i];
+            }
+
+            return result;
+        }
     }
 }
