@@ -63,6 +63,23 @@ namespace Modules.SaveSystem
             return true;
         }
 
+        public bool Delete(string key)
+        {
+            if (!provider.IsReady)
+            {
+                Debug.LogWarning("SaveService: provider ещё не готов к удалению сохранения.");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                Debug.LogWarning("SaveService: ключ сохранения пустой.");
+                return false;
+            }
+
+            return provider.Delete(key);
+        }
+
         public bool TryLoadRaw(string key, out string json)
         {
             json = string.Empty;

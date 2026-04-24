@@ -65,6 +65,28 @@ namespace Modules.SaveSystem
             return YG2.saves.saveSystemKeys.Contains(key);
         }
 
+        public bool Delete(string key)
+        {
+            EnsureStorage();
+
+            List<string> keys = YG2.saves.saveSystemKeys;
+            List<string> values = YG2.saves.saveSystemValues;
+            int index = keys.IndexOf(key);
+            if (index < 0)
+            {
+                return true;
+            }
+
+            keys.RemoveAt(index);
+            if (index < values.Count)
+            {
+                values.RemoveAt(index);
+            }
+
+            YG2.SaveProgress();
+            return true;
+        }
+
         private static void EnsureStorage()
         {
             if (YG2.saves == null)

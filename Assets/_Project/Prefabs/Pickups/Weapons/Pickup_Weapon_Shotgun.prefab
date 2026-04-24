@@ -145,8 +145,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f584881cb0f56e47a64c6a27ce99298, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_Surface:
     m_Value: 8
 --- !u!1 &4695039038522283298
@@ -167,7 +167,8 @@ GameObject:
   - component: {fileID: 2850993774209262677}
   - component: {fileID: 2003684397691490554}
   - component: {fileID: 6901864933487721334}
-  m_Layer: 22
+  - component: {fileID: 5471459983138599741}
+  m_Layer: 21
   m_Name: Pickup_Weapon_Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,8 +250,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f584881cb0f56e47a64c6a27ce99298, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_Surface:
     m_Value: 8
 --- !u!114 &660173831416309948
@@ -464,6 +465,19 @@ MonoBehaviour:
   expandNeoComponents: 0
   expandOtherComponents: 1
   prefabGuid: fd868190a6a39a64d850c6176bce3992
+--- !u!114 &5471459983138599741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4695039038522283298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8f1e0220604307997dc0b04f3cecc8, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  weaponPickup: {fileID: 2798884513030699212}
 --- !u!1 &8534467884988652643
 GameObject:
   m_ObjectHideFlags: 0

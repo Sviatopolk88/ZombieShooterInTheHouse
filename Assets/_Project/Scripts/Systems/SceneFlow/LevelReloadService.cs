@@ -34,8 +34,25 @@ namespace _Project.Scripts.Systems.SceneFlow
 
         public void ReloadLevel()
         {
-            GameSaveController.Instance?.SaveGame();
-            StartCoroutine(LoadLevelRoutine(GetCurrentLevelName()));
+            ReloadLevelFromCheckpoint();
+        }
+
+        public void ReloadLevelFresh()
+        {
+            StartCoroutine(LoadLevelRoutine(GetCurrentLevelName(), suppressAutoLoad: true));
+        }
+
+        public void ReloadLevelFromCheckpoint()
+        {
+            bool hasCheckpoint = GameSaveController.Instance != null
+                && GameSaveController.Instance.QueueLevelCheckpointRestore();
+
+            if (!hasCheckpoint)
+            {
+                Debug.LogWarning("LevelReloadService: checkpoint текущего уровня не найден. Уровень будет перезагружен без сохранения прогресса попытки.");
+            }
+
+            StartCoroutine(LoadLevelRoutine(GetCurrentLevelName(), suppressAutoLoad: true));
         }
 
         public void LoadNextLevel()

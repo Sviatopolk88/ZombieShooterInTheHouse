@@ -13,6 +13,11 @@ namespace _Project.Scripts.Save
     {
         public static bool TryCollect(out GameSaveData data)
         {
+            return TryCollect(out data, logWarnings: true);
+        }
+
+        public static bool TryCollect(out GameSaveData data, bool logWarnings)
+        {
             data = new GameSaveData()
             {
                 currentLevel = GetCurrentLevelIndex(),
@@ -24,7 +29,11 @@ namespace _Project.Scripts.Save
 
             if (!TryGetPlayerInventory(out IInventory inventory))
             {
-                Debug.LogWarning("SaveDataCollector: игрок или инвентарь недоступны. Сохранение пропущено, чтобы не перезаписать прогресс пустыми данными.");
+                if (logWarnings)
+                {
+                    Debug.LogWarning("SaveDataCollector: игрок или инвентарь недоступны. Сохранение пропущено, чтобы не перезаписать прогресс пустыми данными.");
+                }
+
                 return false;
             }
 
