@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Pickup_Ammo_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1297103672879800, guid: 36cb5c37e13515341b3ec35609861d71, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4903591308292106, guid: 36cb5c37e13515341b3ec35609861d71, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
