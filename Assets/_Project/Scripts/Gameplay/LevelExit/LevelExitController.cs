@@ -41,6 +41,7 @@ namespace _Project.Scripts.Gameplay.LevelExit
         private bool completionRequested;
 
         public static LevelExitController Active { get; private set; }
+        public IReadOnlyList<Health> BossHealths => trackedBossHealths;
 
         private void OnValidate()
         {

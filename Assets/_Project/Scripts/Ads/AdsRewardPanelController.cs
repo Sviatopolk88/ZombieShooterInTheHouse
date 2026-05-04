@@ -56,6 +56,7 @@ namespace _Project.Scripts.Ads
 
         private void OnDestroy()
         {
+            GameplayPauseService.Resume(this);
             UnbindButtons();
 
             if (Instance == this)
@@ -75,6 +76,7 @@ namespace _Project.Scripts.Ads
             activeZone = zone;
             Refresh(zone);
             SetPanelVisible(true);
+            GameplayPauseService.Pause(this);
             CursorStateService.Instance?.SetUiMode();
         }
 
@@ -141,6 +143,7 @@ namespace _Project.Scripts.Ads
         {
             activeZone = null;
             SetPanelVisible(false);
+            GameplayPauseService.Resume(this);
             CursorStateService.Instance?.SetGameplayMode();
         }
 

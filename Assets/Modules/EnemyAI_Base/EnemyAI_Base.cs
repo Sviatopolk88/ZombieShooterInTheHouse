@@ -56,6 +56,10 @@ namespace Modules.EnemyAI_Base
         private Transform pendingAggroTarget;
         private readonly List<Transform> registeredTargetBuffer = new();
 
+        public Transform CurrentTarget => target;
+        public bool HasTarget => target != null;
+        public bool IsPursuingPlayer => enabled && target != null && target.CompareTag("Player") && (health == null || !health.IsDead);
+
         private void Awake()
         {
             enemyAttack = GetComponent<EnemyAttack>();
