@@ -2035,7 +2035,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -6281,7 +6285,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
+      propertyPath: aggroDistance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: showVisionGizmos
@@ -6626,7 +6634,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -6880,7 +6892,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
+      propertyPath: aggroDistance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: showVisionGizmos
@@ -9795,7 +9811,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
       propertyPath: showVisionGizmos
@@ -12652,7 +12672,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -16843,7 +16867,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: showVisionGizmos
@@ -17757,7 +17785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -18329,7 +18357,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -20667,7 +20699,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 88170765814417b49949adbb0be265f4, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 88170765814417b49949adbb0be265f4, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 88170765814417b49949adbb0be265f4, type: 3}
       propertyPath: showVisionGizmos
@@ -21368,7 +21404,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -21954,7 +21994,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -24801,7 +24845,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 1
-  m_NavMeshData: {fileID: 23800000, guid: 490885f9c10881049ab4fb8357532d4c, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 37f3b4f8c0fb67e488274dc97ed06137, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &614389371
 PrefabInstance:
@@ -28121,7 +28165,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
+      propertyPath: aggroDistance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: showVisionGizmos
@@ -29683,7 +29731,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: showVisionGizmos
@@ -29835,7 +29887,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 36f88d31b0cf3314daca4a0d82c7485e, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 36f88d31b0cf3314daca4a0d82c7485e, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 36f88d31b0cf3314daca4a0d82c7485e, type: 3}
       propertyPath: showVisionGizmos
@@ -31555,7 +31611,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -32862,7 +32922,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 885514353267444190, guid: 91f67d04ee4e4a35be84fd07f38e0d18, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.287
+      value: 22.19
       objectReference: {fileID: 0}
     - target: {fileID: 885514353267444190, guid: 91f67d04ee4e4a35be84fd07f38e0d18, type: 3}
       propertyPath: m_LocalPosition.y
@@ -32870,7 +32930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 885514353267444190, guid: 91f67d04ee4e4a35be84fd07f38e0d18, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.527
+      value: 11.13
       objectReference: {fileID: 0}
     - target: {fileID: 885514353267444190, guid: 91f67d04ee4e4a35be84fd07f38e0d18, type: 3}
       propertyPath: m_LocalRotation.w
@@ -32903,6 +32963,10 @@ PrefabInstance:
     - target: {fileID: 2190150688239428977, guid: 91f67d04ee4e4a35be84fd07f38e0d18, type: 3}
       propertyPath: viewDistance
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 91f67d04ee4e4a35be84fd07f38e0d18, type: 3}
+      propertyPath: aggroDistance
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 91f67d04ee4e4a35be84fd07f38e0d18, type: 3}
       propertyPath: showVisionGizmos
@@ -34029,7 +34093,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -40626,7 +40694,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: showVisionGizmos
@@ -41927,7 +41999,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: showVisionGizmos
@@ -42949,7 +43025,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 36f88d31b0cf3314daca4a0d82c7485e, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 36f88d31b0cf3314daca4a0d82c7485e, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 36f88d31b0cf3314daca4a0d82c7485e, type: 3}
       propertyPath: showVisionGizmos
@@ -43653,7 +43733,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -50041,6 +50125,10 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 5ff484efa8d6408dac080144fa5d41f1, type: 3}
+      propertyPath: aggroDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 5ff484efa8d6408dac080144fa5d41f1, type: 3}
       propertyPath: showVisionGizmos
       value: 0
       objectReference: {fileID: 0}
@@ -51412,7 +51500,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
       propertyPath: showVisionGizmos
@@ -52120,7 +52212,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -53763,7 +53859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -57985,7 +58081,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
       propertyPath: showVisionGizmos
@@ -60327,7 +60427,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
+      propertyPath: aggroDistance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: showVisionGizmos
@@ -63179,7 +63283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -67153,7 +67257,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 5ff484efa8d6408dac080144fa5d41f1, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 5ff484efa8d6408dac080144fa5d41f1, type: 3}
+      propertyPath: aggroDistance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 5ff484efa8d6408dac080144fa5d41f1, type: 3}
       propertyPath: showVisionGizmos
@@ -70474,7 +70582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -71166,7 +71274,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -71834,7 +71946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -75241,7 +75353,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: showVisionGizmos
@@ -75521,7 +75637,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 6241ccb7135b37b4990884b91d66d7d4, type: 3}
       propertyPath: showVisionGizmos
@@ -81987,7 +82107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 01947ee23397b2a44afd2c00efd45c4d, type: 3}
       propertyPath: showVisionGizmos
@@ -82793,7 +82917,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
+      propertyPath: aggroDistance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 0c265f4cd75843c5b81bf29c8b93b8f9, type: 3}
       propertyPath: showVisionGizmos
@@ -82867,7 +82995,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 1547b5d0604994b4081ca5358989fc47, type: 3}
       propertyPath: showVisionGizmos
@@ -87706,7 +87838,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.25
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4118819069272086, guid: 5a7c22259d0505c4b9a0f62b4f531e3d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -89797,7 +89929,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 88170765814417b49949adbb0be265f4, type: 3}
       propertyPath: viewDistance
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190150688239428977, guid: 88170765814417b49949adbb0be265f4, type: 3}
+      propertyPath: aggroDistance
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2190150688239428977, guid: 88170765814417b49949adbb0be265f4, type: 3}
       propertyPath: showVisionGizmos
