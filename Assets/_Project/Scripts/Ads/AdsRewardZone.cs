@@ -31,9 +31,6 @@ namespace _Project.Scripts.Ads
         private int maxUses = 1;
 
         [Header("Activation")]
-        [SerializeField]
-        [Tooltip("Клавиша взаимодействия, которая открывает UI награды, пока игрок находится в триггере.")]
-        private KeyCode interactionKey = KeyCode.E;
 
         [SerializeField]
         [Tooltip("Слои объектов, которым разрешено активировать эту зону.")]
@@ -93,16 +90,6 @@ namespace _Project.Scripts.Ads
             occupants.Clear();
             requestPending = false;
             AdsRewardPanelController.Instance?.HideIfActive(this);
-        }
-
-        private void Update()
-        {
-            if (occupants.Count == 0 || requestPending || !UnityEngine.Input.GetKeyDown(interactionKey))
-            {
-                return;
-            }
-
-            AdsRewardPanelController.Instance?.Show(this);
         }
 
         private void OnTriggerEnter(Collider other)

@@ -84,7 +84,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Jump
-    m_DefaultPrimary: 32
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Jump
@@ -106,7 +106,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: SprintToggle
-    m_DefaultPrimary: 304
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Sprint (Toggle)
@@ -128,7 +128,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: CrouchToggle
-    m_DefaultPrimary: 306
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Crouch (Toggle)
@@ -139,7 +139,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: LeanLeft
-    m_DefaultPrimary: 122
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Lean Left
@@ -150,7 +150,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: LeanRight
-    m_DefaultPrimary: 99
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Lean Right
@@ -161,7 +161,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Use
-    m_DefaultPrimary: 101
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Use
@@ -172,7 +172,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: PickUp
-    m_DefaultPrimary: 120
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Pick Up
@@ -194,7 +194,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: SecondaryFire
-    m_DefaultPrimary: 324
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 2
     m_DisplayName: Secondary Fire
@@ -205,7 +205,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: SwitchWeaponModes
-    m_DefaultPrimary: 325
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Switch Weapon Modes
@@ -238,7 +238,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: AimToggle
-    m_DefaultPrimary: 324
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 1
     m_DisplayName: Aim (Toggle)
@@ -359,7 +359,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: PrevWeapon
-    m_DefaultPrimary: 91
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Previous Weapon
@@ -370,7 +370,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: NextWeapon
-    m_DefaultPrimary: 93
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Next Weapon
@@ -381,7 +381,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: SwitchWeapon
-    m_DefaultPrimary: 113
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Switch Weapon
@@ -392,7 +392,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: DropWeapon
-    m_DefaultPrimary: 103
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Drop Weapon
@@ -403,7 +403,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Inspect
-    m_DefaultPrimary: 108
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Inspect Weapon
@@ -414,7 +414,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Holster
-    m_DefaultPrimary: 104
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Holster Weapon
@@ -425,7 +425,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: QuickMenu
-    m_DefaultPrimary: 47
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Quick Menu
@@ -436,7 +436,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Stats
-    m_DefaultPrimary: 9
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Show Stats
@@ -447,7 +447,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Inventory
-    m_DefaultPrimary: 105
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Inventory
@@ -480,7 +480,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Journal
-    m_DefaultPrimary: 106
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Journal
@@ -491,7 +491,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Map
-    m_DefaultPrimary: 109
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Map
@@ -502,7 +502,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: QuickSave
-    m_DefaultPrimary: 286
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Quick Save
@@ -513,7 +513,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: QuickLoad
-    m_DefaultPrimary: 290
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Quick Load
@@ -524,8 +524,8 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Ability
-    m_DefaultPrimary: 308
-    m_DefaultSecondary: 326
+    m_DefaultPrimary: 0
+    m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Ability
     m_Category: 0
@@ -535,7 +535,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Flashlight
-    m_DefaultPrimary: 102
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Flashlight
@@ -546,7 +546,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: OpticsLightPlus
-    m_DefaultPrimary: 270
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Optics Light (+)
@@ -557,7 +557,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: OpticsLightMinus
-    m_DefaultPrimary: 269
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Optics Light (-)
@@ -779,7 +779,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Jump
-    m_DefaultPrimary: 32
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Jump
@@ -801,7 +801,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: SprintToggle
-    m_DefaultPrimary: 304
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Sprint (Toggle)
@@ -823,7 +823,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: CrouchToggle
-    m_DefaultPrimary: 306
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Crouch (Toggle)
@@ -834,7 +834,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: LeanLeft
-    m_DefaultPrimary: 122
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Lean Left
@@ -845,7 +845,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: LeanRight
-    m_DefaultPrimary: 99
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Lean Right
@@ -856,7 +856,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Use
-    m_DefaultPrimary: 101
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Use
@@ -867,7 +867,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: PickUp
-    m_DefaultPrimary: 120
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Pick Up
@@ -889,7 +889,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: SecondaryFire
-    m_DefaultPrimary: 324
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 2
     m_DisplayName: Secondary Fire
@@ -900,7 +900,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: SwitchWeaponModes
-    m_DefaultPrimary: 325
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Switch Weapon Modes
@@ -933,7 +933,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: AimToggle
-    m_DefaultPrimary: 324
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 1
     m_DisplayName: Aim (Toggle)
@@ -1054,7 +1054,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: PrevWeapon
-    m_DefaultPrimary: 91
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Previous Weapon
@@ -1065,7 +1065,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: NextWeapon
-    m_DefaultPrimary: 93
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Next Weapon
@@ -1076,7 +1076,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: SwitchWeapon
-    m_DefaultPrimary: 113
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Switch Weapon
@@ -1087,7 +1087,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: DropWeapon
-    m_DefaultPrimary: 103
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Drop Weapon
@@ -1098,7 +1098,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Inspect
-    m_DefaultPrimary: 108
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Inspect Weapon
@@ -1109,7 +1109,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Holster
-    m_DefaultPrimary: 104
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Holster Weapon
@@ -1120,7 +1120,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: QuickMenu
-    m_DefaultPrimary: 47
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Quick Menu
@@ -1131,7 +1131,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Stats
-    m_DefaultPrimary: 9
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Show Stats
@@ -1142,7 +1142,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Inventory
-    m_DefaultPrimary: 105
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Inventory
@@ -1175,7 +1175,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Journal
-    m_DefaultPrimary: 106
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Journal
@@ -1186,7 +1186,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Map
-    m_DefaultPrimary: 109
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Map
@@ -1197,7 +1197,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: QuickSave
-    m_DefaultPrimary: 286
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Quick Save
@@ -1208,7 +1208,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: QuickLoad
-    m_DefaultPrimary: 290
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Quick Load
@@ -1219,7 +1219,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Ability
-    m_DefaultPrimary: 308
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Ability
@@ -1230,7 +1230,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: Flashlight
-    m_DefaultPrimary: 102
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Flashlight
@@ -1241,7 +1241,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: OpticsLightPlus
-    m_DefaultPrimary: 270
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Optics Light (+)
@@ -1252,7 +1252,7 @@ MonoBehaviour:
     m_DisplayNameInvalidError: 0
     m_DisplayNameDuplicateError: 0
   - m_Name: OpticsLightMinus
-    m_DefaultPrimary: 269
+    m_DefaultPrimary: 0
     m_DefaultSecondary: 0
     m_Context: 0
     m_DisplayName: Optics Light (-)

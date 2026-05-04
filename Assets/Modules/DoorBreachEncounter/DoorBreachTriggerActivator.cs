@@ -42,6 +42,13 @@ namespace Modules.DoorBreachEncounter
                 return;
             }
 
+            if (MatchesFilter(other.gameObject))
+            {
+                Debug.Log(
+                    $"DoorBreach: игрок вошёл в триггер '{name}' у encounter '{encounter.name}' (root: '{transform.root.name}').",
+                    this);
+            }
+
             if (triggerOnce && triggered)
             {
                 return;

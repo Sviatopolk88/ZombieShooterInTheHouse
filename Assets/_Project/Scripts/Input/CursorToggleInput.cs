@@ -9,18 +9,7 @@ namespace _Project.Scripts.Input
 
         private void Update()
         {
-            if (!UnityEngine.Input.GetKeyDown(toggleKey))
-            {
-                return;
-            }
-
-            if (CursorStateService.Instance == null)
-            {
-                Debug.LogWarning("CursorToggleInput: CursorStateService instance not found.", this);
-                return;
-            }
-
-            CursorStateService.Instance.ToggleMode();
+            return;
         }
     }
 }

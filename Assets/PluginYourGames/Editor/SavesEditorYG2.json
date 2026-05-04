@@ -3,7 +3,7 @@
         "game_progress_v1"
     ],
     "saveSystemValues": [
-        "{\"version\":1,\"currentLevel\":2,\"weapons\":[\"firearm_pistol\",\"weapon_shotgun\"],\"weaponMagazines\":[{\"weaponId\":\"firearm_pistol\",\"magazine\":9},{\"weaponId\":\"weapon_shotgun\",\"magazine\":0}],\"ammo9mm\":60,\"ammo12Gauge\":0}"
+        "{\"version\":1,\"currentLevel\":1,\"weapons\":[\"firearm_pistol\",\"weapon_shotgun\"],\"weaponMagazines\":[{\"weaponId\":\"firearm_pistol\",\"magazine\":15},{\"weaponId\":\"weapon_shotgun\",\"magazine\":8}],\"ammo9mm\":77,\"ammo12Gauge\":86}"
     ],
     "stringKeys": [],
     "stringValues": [],
@@ -19,7 +19,7 @@
         false,
         false
     ],
-    "idSave": 1,
+    "idSave": 3,
     "purchasedWeaponShotgun": false,
     "purchasesOwnershipMigrated": true,
     "purchasedProductIds": []

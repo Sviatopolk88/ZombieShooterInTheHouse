@@ -19,8 +19,6 @@ namespace _Project.Scripts.Purchases
         [SerializeField] private string productId = PurchaseRewardApplier.ShotgunEditorSimulationProductId;
 
         [Header("Activation")]
-        [Tooltip("Клавиша взаимодействия с зоной покупки.")]
-        [SerializeField] private KeyCode interactionKey = KeyCode.E;
         [Tooltip("Слои объектов, которые могут активировать зону покупки.")]
         [SerializeField] private LayerMask activatorLayers = ~0;
         [Tooltip("Тег объекта, которому разрешено активировать зону покупки.")]
@@ -32,6 +30,7 @@ namespace _Project.Scripts.Purchases
         [Tooltip("Текстовый компонент, в который выводится название и цена товара.")]
         [SerializeField] private TMP_Text promptLabel;
 
+        private const KeyCode interactionKey = KeyCode.None;
         private readonly HashSet<Collider> occupants = new();
         private bool requestPending;
 
@@ -65,24 +64,6 @@ namespace _Project.Scripts.Purchases
             occupants.Clear();
             requestPending = false;
             RefreshPrompt();
-        }
-
-        private void Update()
-        {
-            if (occupants.Count == 0)
-            {
-                RefreshPrompt();
-                return;
-            }
-
-            RefreshPrompt();
-
-            if (requestPending || !UnityEngine.Input.GetKeyDown(interactionKey))
-            {
-                return;
-            }
-
-            TryRequestPurchase();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -150,7 +131,7 @@ namespace _Project.Scripts.Purchases
         {
             if (promptRoot != null)
             {
-                promptRoot.SetActive(occupants.Count > 0);
+                promptRoot.SetActive(false);
             }
 
             if (promptLabel == null)
@@ -158,13 +139,7 @@ namespace _Project.Scripts.Purchases
                 return;
             }
 
-            if (occupants.Count == 0)
-            {
-                promptLabel.text = string.Empty;
-                return;
-            }
-
-            promptLabel.text = BuildPromptText();
+            promptLabel.text = string.Empty;
         }
 
         private string BuildPromptText()
