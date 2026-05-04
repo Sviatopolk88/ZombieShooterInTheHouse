@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using _Project.Scripts.Localization;
 using Modules.AdsCore;
-using TMPro;
 using UnityEngine;
 using YG;
 
@@ -13,30 +13,40 @@ namespace _Project.Scripts.Ads
         ResourceBased = 2
     }
 
-    /// <summary>
-    /// Reusable project-side зона поддержки, которая вызывает rewarded ads через project-side reward bridge.
-    /// Использует MVP-flow: игрок входит в trigger и осознанно жмёт кнопку взаимодействия.
-    /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider))]
     public sealed class AdsRewardZone : MonoBehaviour
     {
         [Header("Reward")]
-        [SerializeField] private AdsRewardType rewardType = AdsRewardType.Heal;
-        [SerializeField] private AdsRewardZoneUsageMode usageMode = AdsRewardZoneUsageMode.ByRewardType;
-        [SerializeField] private int maxUses = 1;
+        [SerializeField]
+        [Tooltip("Тип rewarded-награды, которую запрашивает эта world-зона.")]
+        private AdsRewardType rewardType = AdsRewardType.Heal;
+
+        [SerializeField]
+        [Tooltip("Правило расходования зоны после успешной выдачи награды.")]
+        private AdsRewardZoneUsageMode usageMode = AdsRewardZoneUsageMode.ByRewardType;
+
+        [SerializeField]
+        [Tooltip("Количество успешных использований для режима LimitedUses.")]
+        private int maxUses = 1;
 
         [Header("Activation")]
-        [SerializeField] private KeyCode interactionKey = KeyCode.E;
-        [SerializeField] private LayerMask activatorLayers = ~0;
-        [SerializeField] private string requiredTag = "Player";
+        [SerializeField]
+        [Tooltip("Клавиша взаимодействия, которая открывает UI награды, пока игрок находится в триггере.")]
+        private KeyCode interactionKey = KeyCode.E;
 
-        [Header("Prompt")]
-        [SerializeField] private GameObject promptRoot;
-        [SerializeField] private TMP_Text promptLabel;
+        [SerializeField]
+        [Tooltip("Слои объектов, которым разрешено активировать эту зону.")]
+        private LayerMask activatorLayers = ~0;
+
+        [SerializeField]
+        [Tooltip("Тег объекта игрока, который может активировать эту зону.")]
+        private string requiredTag = "Player";
 
         [Header("Behaviour")]
-        [SerializeField] private bool disableColliderWhenExhausted = true;
+        [SerializeField]
+        [Tooltip("Выключать триггер после исчерпания лимита использований.")]
+        private bool disableColliderWhenExhausted = true;
 
         private readonly HashSet<Collider> occupants = new();
         private bool requestPending;
@@ -44,6 +54,7 @@ namespace _Project.Scripts.Ads
 
         public AdsRewardType RewardType => rewardType;
         public int RemainingUses => remainingUses;
+        public bool IsRequestPending => requestPending;
 
         private void Reset()
         {
@@ -69,13 +80,11 @@ namespace _Project.Scripts.Ads
         {
             remainingUses = Mathf.Max(1, maxUses);
             ApplyAvailabilityState();
-            RefreshPrompt();
         }
 
         private void OnEnable()
         {
             YG2.onSwitchLang += OnSwitchLanguage;
-            RefreshPrompt();
         }
 
         private void OnDisable()
@@ -83,25 +92,17 @@ namespace _Project.Scripts.Ads
             YG2.onSwitchLang -= OnSwitchLanguage;
             occupants.Clear();
             requestPending = false;
-            RefreshPrompt();
+            AdsRewardPanelController.Instance?.HideIfActive(this);
         }
 
         private void Update()
         {
-            if (occupants.Count == 0)
-            {
-                RefreshPrompt();
-                return;
-            }
-
-            RefreshPrompt();
-
-            if (requestPending || !UnityEngine.Input.GetKeyDown(interactionKey))
+            if (occupants.Count == 0 || requestPending || !UnityEngine.Input.GetKeyDown(interactionKey))
             {
                 return;
             }
 
-            TryRequestReward();
+            AdsRewardPanelController.Instance?.Show(this);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -112,7 +113,7 @@ namespace _Project.Scripts.Ads
             }
 
             occupants.Add(other);
-            RefreshPrompt();
+            AdsRewardPanelController.Instance?.Show(this);
         }
 
         private void OnTriggerExit(Collider other)
@@ -123,7 +124,78 @@ namespace _Project.Scripts.Ads
             }
 
             occupants.Remove(other);
-            RefreshPrompt();
+            if (occupants.Count == 0)
+            {
+                AdsRewardPanelController.Instance?.HideIfActive(this);
+            }
+        }
+
+        public bool CanRequestReward(out string reason)
+        {
+            if (IsLimitedZoneExhausted())
+            {
+                reason = ProjectLocalizationYG.Get(ProjectTextKey.AdsRewardStationUsed);
+                return false;
+            }
+
+            return ProjectAdsRewardService.CanRequestReward(rewardType, out reason);
+        }
+
+        public void RequestRewardFromUi()
+        {
+            if (IsLimitedZoneExhausted())
+            {
+                AdsRewardPanelController.Instance?.Refresh(this);
+                return;
+            }
+
+            if (!ProjectAdsRewardService.TryShowRewarded(rewardType, OnRewardRequestCompleted))
+            {
+                AdsRewardPanelController.Instance?.Refresh(this);
+                return;
+            }
+
+            requestPending = true;
+            AdsRewardPanelController.Instance?.Refresh(this);
+        }
+
+        public string GetRewardTitle()
+        {
+            return rewardType switch
+            {
+                AdsRewardType.Heal => ProjectLocalizationYG.Get(ProjectTextKey.AdsRewardTitleHeal),
+                AdsRewardType.Ammo9mm => ProjectLocalizationYG.Get(ProjectTextKey.AdsRewardTitleAmmo9mm),
+                _ => ProjectLocalizationYG.Get(ProjectTextKey.AdsRewardTitleDefault)
+            };
+        }
+
+        private void OnRewardRequestCompleted(AdsShowResult result)
+        {
+            requestPending = false;
+
+            if (result.IsSuccess && UsesLimitedCounter())
+            {
+                remainingUses = Mathf.Max(0, remainingUses - 1);
+            }
+
+            ApplyAvailabilityState();
+
+            if (IsLimitedZoneExhausted())
+            {
+                AdsRewardPanelController.Instance?.HideIfActive(this);
+                return;
+            }
+
+            AdsRewardPanelController.Instance?.Refresh(this);
+        }
+
+        private void ApplyAvailabilityState()
+        {
+            Collider zoneCollider = GetComponent<Collider>();
+            if (zoneCollider != null)
+            {
+                zoneCollider.enabled = !disableColliderWhenExhausted || !IsLimitedZoneExhausted();
+            }
         }
 
         private bool MatchesActivator(Collider other)
@@ -139,122 +211,12 @@ namespace _Project.Scripts.Ads
                 return false;
             }
 
-            if (!string.IsNullOrWhiteSpace(requiredTag) && !candidate.CompareTag(requiredTag))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private void TryRequestReward()
-        {
-            if (IsLimitedZoneExhausted())
-            {
-                RefreshPrompt();
-                return;
-            }
-
-            if (!ProjectAdsRewardService.TryShowRewarded(rewardType, OnRewardRequestCompleted))
-            {
-                RefreshPrompt();
-                return;
-            }
-
-            requestPending = true;
-            RefreshPrompt();
-        }
-
-        private void OnRewardRequestCompleted(AdsShowResult result)
-        {
-            requestPending = false;
-
-            if (result.IsSuccess && UsesLimitedCounter())
-            {
-                remainingUses = Mathf.Max(0, remainingUses - 1);
-            }
-
-            ApplyAvailabilityState();
-            RefreshPrompt();
-        }
-
-        private void ApplyAvailabilityState()
-        {
-            Collider zoneCollider = GetComponent<Collider>();
-            if (zoneCollider != null)
-            {
-                zoneCollider.enabled = !disableColliderWhenExhausted || !IsLimitedZoneExhausted();
-            }
-        }
-
-        private void RefreshPrompt()
-        {
-            if (promptRoot != null)
-            {
-                promptRoot.SetActive(occupants.Count > 0);
-            }
-
-            if (promptLabel == null)
-            {
-                return;
-            }
-
-            if (occupants.Count == 0)
-            {
-                promptLabel.text = string.Empty;
-                return;
-            }
-
-            promptLabel.text = BuildPromptText();
-        }
-
-        private string BuildPromptText()
-        {
-            bool isRussian = IsRussianLanguage();
-
-            if (requestPending)
-            {
-                return isRussian ? "Запрос рекламы..." : "Ad request...";
-            }
-
-            if (IsLimitedZoneExhausted())
-            {
-                return isRussian ? "Станция исчерпана" : "Station depleted";
-            }
-
-            int rewardAmount = ProjectAdsRewardService.GetConfiguredRewardAmount(rewardType);
-            if (ProjectAdsRewardService.CanRequestReward(rewardType, out string reason))
-            {
-                if (UsesLimitedCounter())
-                {
-                    return isRussian
-                    ? $"[{interactionKey}] {GetRewardTitle(true)} +{rewardAmount} | Осталось: {remainingUses}"
-                    : $"[{interactionKey}] {GetRewardTitle(false)} +{rewardAmount} | Left: {remainingUses}";
-                }
-
-                return isRussian
-                    ? $"[{interactionKey}] {GetRewardTitle(true)} +{rewardAmount}"
-                    : $"[{interactionKey}] {GetRewardTitle(false)} +{rewardAmount}";
-            }
-
-            return isRussian
-                ? $"{GetRewardTitle(true)} недоступно: {reason}"
-                : $"{GetRewardTitle(false)} unavailable: {reason}";
-        }
-
-        private string GetRewardTitle(bool isRussian)
-        {
-            return rewardType switch
-            {
-                AdsRewardType.Heal => isRussian ? "Лечение" : "Healing",
-                AdsRewardType.Ammo9mm => isRussian ? "Патроны 9mm" : "9mm ammo",
-                _ => isRussian ? "Награда" : "Reward"
-            };
+            return string.IsNullOrWhiteSpace(requiredTag) || candidate.CompareTag(requiredTag);
         }
 
         private void OnSwitchLanguage(string language)
         {
-            RefreshPrompt();
+            AdsRewardPanelController.Instance?.Refresh(this);
         }
 
         private bool UsesLimitedCounter()
@@ -279,17 +241,6 @@ namespace _Project.Scripts.Ads
                 AdsRewardType.Ammo9mm => AdsRewardZoneUsageMode.ResourceBased,
                 _ => AdsRewardZoneUsageMode.LimitedUses
             };
-        }
-
-        private static bool IsRussianLanguage()
-        {
-            string language = YG2.lang;
-            if (string.IsNullOrWhiteSpace(language))
-            {
-                language = YG2.envir.language;
-            }
-
-            return !string.IsNullOrWhiteSpace(language) && language.ToLowerInvariant().StartsWith("ru");
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Project.Scripts.Localization;
 using Modules.PurchasesCore;
 using TMPro;
 using UnityEngine;
@@ -168,36 +169,28 @@ namespace _Project.Scripts.Purchases
 
         private string BuildPromptText()
         {
-            bool isRussian = IsRussianLanguage();
-
             if (requestPending)
             {
-                return isRussian ? "Запрос покупки..." : "Purchase request...";
+                return ProjectLocalizationYG.Get(ProjectTextKey.PurchaseRequest);
             }
 
-            string productTitle = GetProductTitle(isRussian);
+            string productTitle = GetProductTitle();
             string productPrice = GetProductPrice();
 
             if (ProjectPurchaseService.CanPurchase(productId, out string reason))
             {
                 if (string.IsNullOrWhiteSpace(productPrice))
                 {
-                    return isRussian
-                        ? $"[{interactionKey}] Купить: {productTitle}"
-                        : $"[{interactionKey}] Buy: {productTitle}";
+                    return ProjectLocalizationYG.FormatPurchaseBuy(interactionKey, productTitle);
                 }
 
-                return isRussian
-                    ? $"[{interactionKey}] Купить: {productTitle} | {productPrice}"
-                    : $"[{interactionKey}] Buy: {productTitle} | {productPrice}";
+                return ProjectLocalizationYG.FormatPurchaseBuyWithPrice(interactionKey, productTitle, productPrice);
             }
 
-            return isRussian
-                ? $"{productTitle} недоступно: {reason}"
-                : $"{productTitle} unavailable: {reason}";
+            return ProjectLocalizationYG.FormatPurchaseUnavailable(productTitle, reason);
         }
 
-        private string GetProductTitle(bool isRussian)
+        private string GetProductTitle()
         {
             if (ProjectPurchaseService.TryGetProduct(productId, out PurchaseProductInfo productInfo)
                 && !string.IsNullOrWhiteSpace(productInfo.Title))
@@ -205,7 +198,7 @@ namespace _Project.Scripts.Purchases
                 return productInfo.Title;
             }
 
-            return isRussian ? "Покупка" : "Purchase";
+            return ProjectLocalizationYG.Get(ProjectTextKey.PurchaseFallbackTitle);
         }
 
         private string GetProductPrice()
@@ -221,17 +214,6 @@ namespace _Project.Scripts.Purchases
         private void OnSwitchLanguage(string language)
         {
             RefreshPrompt();
-        }
-
-        private static bool IsRussianLanguage()
-        {
-            string language = YG2.lang;
-            if (string.IsNullOrWhiteSpace(language))
-            {
-                language = YG2.envir.language;
-            }
-
-            return !string.IsNullOrWhiteSpace(language) && language.ToLowerInvariant().StartsWith("ru");
         }
     }
 }

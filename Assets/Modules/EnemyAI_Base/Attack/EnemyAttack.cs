@@ -16,35 +16,52 @@ namespace Modules.EnemyAI_Base.Attack
         [SerializeField] private float attackDistance = 1.5f;
 
         [Header("Тайминг")]
+        [Tooltip("Минимальный интервал между запусками атакующего цикла.")]
+        [SerializeField, Min(0f)] private float attackCooldown = 1.5f;
         [Tooltip("Задержка перед нанесением урона после старта атаки.")]
         [SerializeField] private float attackDelay = 0.4f;
+        [Tooltip("Скорость разворота врага к цели во время подготовки и выполнения атаки.")]
+        [SerializeField, Min(0f)] private float attackTurnSpeed = 12f;
 
         private bool isAttacking;
         private bool damageApplied;
         private Transform target;
-        private Animator animator;
         private EnemyAnimationController animationController;
         private Coroutine attackRoutine;
+        private float nextAttackTime;
 
         public bool IsAttacking => isAttacking;
         public int Damage => damage;
+        public float AttackDistance => attackDistance;
+        public float AttackTurnSpeed => attackTurnSpeed;
+        public bool CanStartAttack => !isAttacking && Time.time >= nextAttackTime;
 
         private void Awake()
         {
-            animator = GetComponentInChildren<Animator>(true);
             animationController = GetComponent<EnemyAnimationController>();
         }
 
         public void StartAttack(Transform newTarget)
         {
+            TryStartAttack(newTarget);
+        }
+
+        public bool TryStartAttack(Transform newTarget)
+        {
             if (isAttacking)
             {
-                return;
+                return false;
+            }
+
+            if (Time.time < nextAttackTime)
+            {
+                return false;
             }
 
             target = newTarget;
             isAttacking = true;
             damageApplied = false;
+            nextAttackTime = Time.time + attackCooldown;
 
             if (attackRoutine != null)
             {
@@ -52,6 +69,7 @@ namespace Modules.EnemyAI_Base.Attack
             }
 
             attackRoutine = StartCoroutine(AttackRoutine());
+            return true;
         }
 
         private IEnumerator AttackRoutine()
@@ -62,7 +80,7 @@ namespace Modules.EnemyAI_Base.Attack
             }
 
             // Если к моменту удара анимация уже закончилась, урон не наносим.
-            if (animator != null && !IsInAttackState())
+            if (animationController != null && animationController.HasAnimator && !animationController.IsAttackAnimationActive())
             {
                 FinishAttack();
                 yield break;
@@ -71,7 +89,7 @@ namespace Modules.EnemyAI_Base.Attack
             TryApplyDamage();
             animationController?.StopAttack();
 
-            while (IsInAttackState())
+            while (animationController != null && animationController.IsAttackAnimationActive())
             {
                 yield return null;
             }
@@ -93,14 +111,7 @@ namespace Modules.EnemyAI_Base.Attack
                 return;
             }
 
-            IDamageable damageable = target.GetComponent<IDamageable>();
-
-            if (damageable == null)
-            {
-                damageable = target.GetComponentInParent<IDamageable>();
-            }
-
-            if (damageable == null || !damageable.CanTakeDamage)
+            if (!EnemyDamageResolver.TryGetDamageable(target, out IDamageable damageable) || !damageable.CanTakeDamage)
             {
                 return;
             }
@@ -114,28 +125,6 @@ namespace Modules.EnemyAI_Base.Attack
 
             damageable.TakeDamage(context);
             damageApplied = true;
-        }
-
-        private bool IsInAttackState()
-        {
-            if (animator == null)
-            {
-                return false;
-            }
-
-            AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
-            if (state.IsName("Attack") || state.IsName("Base Layer.Attack"))
-            {
-                return true;
-            }
-
-            if (!animator.IsInTransition(0))
-            {
-                return false;
-            }
-
-            AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0);
-            return nextState.IsName("Attack") || nextState.IsName("Base Layer.Attack");
         }
 
         private void FinishAttack()
@@ -155,6 +144,28 @@ namespace Modules.EnemyAI_Base.Attack
             }
 
             FinishAttack();
+        }
+    }
+
+    internal static class EnemyDamageResolver
+    {
+        public static bool TryGetDamageable(Component target, out IDamageable damageable)
+        {
+            damageable = null;
+
+            if (target == null)
+            {
+                return false;
+            }
+
+            damageable = target.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                return true;
+            }
+
+            damageable = target.GetComponentInParent<IDamageable>();
+            return damageable != null;
         }
     }
 }

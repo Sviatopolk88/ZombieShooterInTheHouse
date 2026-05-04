@@ -81,6 +81,46 @@ namespace _Project.Scripts.Purchases
 #endif
         }
 
+        public static bool TryResetForDevelopment(out string message)
+        {
+#if !Storage_yg
+            message = "Модуль storage в PluginYG2 не включён.";
+            return false;
+#else
+            EnsureStorage();
+
+            bool dataChanged = false;
+
+            if (YG2.saves.purchasedProductIds != null && YG2.saves.purchasedProductIds.Count > 0)
+            {
+                YG2.saves.purchasedProductIds.Clear();
+                dataChanged = true;
+            }
+
+            if (YG2.saves.purchasedWeaponShotgun)
+            {
+                YG2.saves.purchasedWeaponShotgun = false;
+                dataChanged = true;
+            }
+
+            if (YG2.saves.purchasesOwnershipMigrated)
+            {
+                YG2.saves.purchasesOwnershipMigrated = false;
+                dataChanged = true;
+            }
+
+            if (dataChanged && YG2.isSDKEnabled)
+            {
+                YG2.SaveProgress();
+            }
+
+            message = dataChanged
+                ? "Project-side ownership очищен."
+                : "Project-side ownership уже был пуст.";
+            return true;
+#endif
+        }
+
 #if Storage_yg
         private static void EnsureStorage()
         {

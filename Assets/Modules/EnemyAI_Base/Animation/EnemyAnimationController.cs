@@ -9,7 +9,9 @@ namespace Modules.EnemyAI_Base.Animation
         private const string IsAttackingParameter = "IsAttacking";
         private const string IsDeadParameter = "IsDead";
         private const string HitParameter = "Hit";
+        private const string AttackStateShortName = "Attack";
         private const string AttackStateName = "Base Layer.Attack";
+        private const string HitStateShortName = "Hit";
         private const string HitStateName = "Base Layer.Hit";
 
         private Animator animator;
@@ -86,17 +88,12 @@ namespace Modules.EnemyAI_Base.Animation
                 return false;
             }
 
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName(HitStateName))
+            if (IsCurrentOrNextState(HitStateShortName, HitStateName))
             {
                 return true;
             }
 
-            if (!animator.IsInTransition(0))
-            {
-                return false;
-            }
-
-            return animator.GetNextAnimatorStateInfo(0).IsName(HitStateName);
+            return false;
         }
 
         public void PlayDeath()
@@ -119,7 +116,18 @@ namespace Modules.EnemyAI_Base.Animation
                 return false;
             }
 
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName(AttackStateName))
+            if (IsCurrentOrNextState(AttackStateShortName, AttackStateName))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool IsCurrentOrNextState(string shortStateName, string fullStateName)
+        {
+            AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+            if (currentState.IsName(shortStateName) || currentState.IsName(fullStateName))
             {
                 return true;
             }
@@ -129,7 +137,8 @@ namespace Modules.EnemyAI_Base.Animation
                 return false;
             }
 
-            return animator.GetNextAnimatorStateInfo(0).IsName(AttackStateName);
+            AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0);
+            return nextState.IsName(shortStateName) || nextState.IsName(fullStateName);
         }
 
         private void LogMissingAnimatorWarning()

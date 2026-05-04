@@ -76,7 +76,7 @@ namespace _Project.Scripts.GameFlow
 
             if (levelReloadService != null)
             {
-                levelReloadService.ReloadLevel();
+                levelReloadService.ReloadLevelFromCheckpoint();
             }
             else
             {

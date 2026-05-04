@@ -17,6 +17,10 @@ namespace Modules.EnemyAI_Base
 
     public sealed class EnemyAI_Base : MonoBehaviour
     {
+        private const float FallbackMoveSpeed = 2f;
+        private const float FallbackAttackDistance = 1.5f;
+        private const float FallbackAttackTurnSpeed = 12f;
+
         [Header("Target")]
         [Tooltip("Legacy fallback-тег цели. Используется только если список allowedTargetTags пуст.")]
         [SerializeField] private string playerTag = "Player";
@@ -28,20 +32,8 @@ namespace Modules.EnemyAI_Base
         [SerializeField, Min(0f)] private float lostTargetCooldown = 2f;
         [Tooltip("Насколько новая цель должна быть ближе текущей, чтобы враг переключился на неё без дёрганья.")]
         [SerializeField, Min(0f)] private float retargetDistanceAdvantage = 0.75f;
-
-        [Header("Move")]
-        [Tooltip("Базовая скорость движения врага, с которой синхронизируются NavMeshAgent и EnemyMovement.")]
-        [SerializeField] private float moveSpeed = 2f;
-        [Tooltip("Дистанция, на которой враг считает цель доступной для начала атаки.")]
-        [SerializeField] private float attackDistance = 1.5f;
-
-        [Header("Attack")]
-        [Tooltip("Минимальный интервал между запусками атакующего цикла.")]
-        [SerializeField] private float attackCooldown = 1.5f;
         [Tooltip("Как часто враг пересчитывает выбор лучшей цели и обновляет поиск.")]
         [SerializeField] private float searchInterval = 1f;
-        [Tooltip("Скорость разворота врага к цели во время подготовки и выполнения атаки.")]
-        [SerializeField] private float attackTurnSpeed = 12f;
 
         private Transform target;
         private EnemyAttack enemyAttack;
@@ -51,7 +43,6 @@ namespace Modules.EnemyAI_Base
         private NavMeshAgent agent;
         private Rigidbody cachedRigidbody;
         private Health health;
-        private float nextAttackTime;
         private float nextSearchTime;
         private float lastSeenTargetTime = float.NegativeInfinity;
         private float reachedLastKnownTargetTime = float.NegativeInfinity;
@@ -77,14 +68,8 @@ namespace Modules.EnemyAI_Base
 
             if (agent != null)
             {
-                agent.speed = moveSpeed;
-                agent.stoppingDistance = attackDistance;
+                agent.stoppingDistance = GetAttackDistance();
                 agent.updateRotation = true;
-            }
-
-            if (movement != null)
-            {
-                movement.SetBaseSpeed(moveSpeed);
             }
         }
 
@@ -145,7 +130,7 @@ namespace Modules.EnemyAI_Base
 
             float distance = Vector3.Distance(transform.position, target.position);
 
-            if (distance <= attackDistance)
+            if (distance <= GetAttackDistance())
             {
                 Attack();
                 return;
@@ -224,7 +209,6 @@ namespace Modules.EnemyAI_Base
 
             if (agent != null)
             {
-                agent.speed = moveSpeed;
                 agent.SetDestination(target.position);
                 return;
             }
@@ -232,7 +216,7 @@ namespace Modules.EnemyAI_Base
             Vector3 nextPosition = Vector3.MoveTowards(
                 transform.position,
                 target.position,
-                moveSpeed * Time.deltaTime);
+                GetMoveSpeed() * Time.deltaTime);
 
             transform.position = nextPosition;
             FaceTarget();
@@ -255,7 +239,7 @@ namespace Modules.EnemyAI_Base
                 return;
             }
 
-            if (Time.time < nextAttackTime)
+            if (enemyAttack != null && !enemyAttack.CanStartAttack)
             {
                 return;
             }
@@ -265,14 +249,13 @@ namespace Modules.EnemyAI_Base
 
             if (enemyAttack == null)
             {
-                nextAttackTime = Time.time + attackCooldown;
                 return;
             }
 
-            enemyAttack?.StartAttack(target);
-            animationController?.PlayAttack();
-
-            nextAttackTime = Time.time + attackCooldown;
+            if (enemyAttack.TryStartAttack(target))
+            {
+                animationController?.PlayAttack();
+            }
         }
 
         private void FaceTarget()
@@ -294,7 +277,7 @@ namespace Modules.EnemyAI_Base
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 lookRotation,
-                Time.deltaTime * attackTurnSpeed);
+                Time.deltaTime * GetAttackTurnSpeed());
         }
 
         private void SubscribeToHealth()
@@ -480,7 +463,6 @@ namespace Modules.EnemyAI_Base
 
             if (agent != null)
             {
-                agent.speed = moveSpeed;
                 agent.SetDestination(position);
                 return;
             }
@@ -488,7 +470,7 @@ namespace Modules.EnemyAI_Base
             Vector3 nextPosition = Vector3.MoveTowards(
                 transform.position,
                 position,
-                moveSpeed * Time.deltaTime);
+                GetMoveSpeed() * Time.deltaTime);
 
             transform.position = nextPosition;
             FaceTowardsPosition(position);
@@ -508,7 +490,32 @@ namespace Modules.EnemyAI_Base
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 lookRotation,
-                Time.deltaTime * attackTurnSpeed);
+                Time.deltaTime * GetAttackTurnSpeed());
+        }
+
+        private float GetMoveSpeed()
+        {
+            if (movement != null)
+            {
+                return movement.BaseSpeed;
+            }
+
+            if (agent != null)
+            {
+                return Mathf.Max(0f, agent.speed);
+            }
+
+            return FallbackMoveSpeed;
+        }
+
+        private float GetAttackDistance()
+        {
+            return enemyAttack != null ? enemyAttack.AttackDistance : FallbackAttackDistance;
+        }
+
+        private float GetAttackTurnSpeed()
+        {
+            return enemyAttack != null ? enemyAttack.AttackTurnSpeed : FallbackAttackTurnSpeed;
         }
 
         private bool HasTargetMemory()

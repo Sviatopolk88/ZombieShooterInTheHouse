@@ -142,7 +142,22 @@ namespace _Project.Scripts.Localization
         VictoryRemainingFormat = 10,
         VictorySummaryPerfect = 11,
         VictorySummaryIncomplete = 12,
-        VictoryNext = 13
+        VictoryNext = 13,
+        BootstrapLoading = 14,
+        AdsRewardTitleHeal = 15,
+        AdsRewardTitleAmmo9mm = 16,
+        AdsRewardTitleDefault = 17,
+        AdsRewardStationUsed = 18,
+        AdsRewardMessageFormat = 19,
+        AdsRewardUnavailableFormat = 20,
+        AdsRewardLoading = 21,
+        AdsRewardWatchAd = 22,
+        AdsRewardClose = 23,
+        PurchaseRequest = 24,
+        PurchaseBuyFormat = 25,
+        PurchaseBuyWithPriceFormat = 26,
+        PurchaseUnavailableFormat = 27,
+        PurchaseFallbackTitle = 28
     }
 
     public static class ProjectLocalizationYG
@@ -214,6 +229,51 @@ namespace _Project.Scripts.Localization
                 case ProjectTextKey.VictoryNext:
                     return isRussian ? "ДАЛЕЕ" : "NEXT";
 
+                case ProjectTextKey.BootstrapLoading:
+                    return isRussian ? "Загрузка..." : "Loading...";
+
+                case ProjectTextKey.AdsRewardTitleHeal:
+                    return isRussian ? "Лечение" : "Healing";
+
+                case ProjectTextKey.AdsRewardTitleAmmo9mm:
+                    return isRussian ? "Патроны 9mm" : "9mm ammo";
+
+                case ProjectTextKey.AdsRewardTitleDefault:
+                    return isRussian ? "Награда" : "Reward";
+
+                case ProjectTextKey.AdsRewardStationUsed:
+                    return isRussian ? "Станция уже использована." : "Station already used.";
+
+                case ProjectTextKey.AdsRewardMessageFormat:
+                    return isRussian ? "Получить +{0} за просмотр рекламы." : "Watch an ad to get +{0}.";
+
+                case ProjectTextKey.AdsRewardUnavailableFormat:
+                    return isRussian ? "Награда недоступна: {0}" : "Reward unavailable: {0}";
+
+                case ProjectTextKey.AdsRewardLoading:
+                    return isRussian ? "Загрузка..." : "Loading...";
+
+                case ProjectTextKey.AdsRewardWatchAd:
+                    return isRussian ? "Смотреть рекламу" : "Watch ad";
+
+                case ProjectTextKey.AdsRewardClose:
+                    return isRussian ? "Закрыть" : "Close";
+
+                case ProjectTextKey.PurchaseRequest:
+                    return isRussian ? "Запрос покупки..." : "Purchase request...";
+
+                case ProjectTextKey.PurchaseBuyFormat:
+                    return isRussian ? "[{0}] Купить: {1}" : "[{0}] Buy: {1}";
+
+                case ProjectTextKey.PurchaseBuyWithPriceFormat:
+                    return isRussian ? "[{0}] Купить: {1} | {2}" : "[{0}] Buy: {1} | {2}";
+
+                case ProjectTextKey.PurchaseUnavailableFormat:
+                    return isRussian ? "{0} недоступно: {1}" : "{0} unavailable: {1}";
+
+                case ProjectTextKey.PurchaseFallbackTitle:
+                    return isRussian ? "Покупка" : "Purchase";
+
                 default:
                     return string.Empty;
             }
@@ -247,6 +307,31 @@ namespace _Project.Scripts.Localization
         public static string FormatVictoryRemaining(int remainingCount, string language = null)
         {
             return string.Format(Get(ProjectTextKey.VictoryRemainingFormat, language), remainingCount);
+        }
+
+        public static string FormatAdsRewardMessage(int rewardAmount, string language = null)
+        {
+            return string.Format(Get(ProjectTextKey.AdsRewardMessageFormat, language), rewardAmount);
+        }
+
+        public static string FormatAdsRewardUnavailable(string reason, string language = null)
+        {
+            return string.Format(Get(ProjectTextKey.AdsRewardUnavailableFormat, language), reason);
+        }
+
+        public static string FormatPurchaseBuy(KeyCode interactionKey, string productTitle, string language = null)
+        {
+            return string.Format(Get(ProjectTextKey.PurchaseBuyFormat, language), interactionKey, productTitle);
+        }
+
+        public static string FormatPurchaseBuyWithPrice(KeyCode interactionKey, string productTitle, string productPrice, string language = null)
+        {
+            return string.Format(Get(ProjectTextKey.PurchaseBuyWithPriceFormat, language), interactionKey, productTitle, productPrice);
+        }
+
+        public static string FormatPurchaseUnavailable(string productTitle, string reason, string language = null)
+        {
+            return string.Format(Get(ProjectTextKey.PurchaseUnavailableFormat, language), productTitle, reason);
         }
 
         private static string NormalizeLanguage(string language)

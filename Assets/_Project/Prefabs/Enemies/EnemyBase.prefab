@@ -6323,11 +6323,7 @@ MonoBehaviour:
   targetPriorityMode: 1
   lostTargetCooldown: 5
   retargetDistanceAdvantage: 0.75
-  moveSpeed: 2
-  attackDistance: 1.5
-  attackCooldown: 1
   searchInterval: 0.35
-  attackTurnSpeed: 12
 --- !u!114 &671701866205479914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6342,7 +6338,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Modules.EnemyAI_Base::Modules.EnemyAI_Base.Attack.EnemyAttack
   damage: 10
   attackDistance: 1.5
+  attackCooldown: 1
   attackDelay: 0.4
+  attackTurnSpeed: 12
 --- !u!114 &7013659246099269574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6376,7 +6374,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Modules.EnemyAI_Base::Modules.EnemyAI_Base.Vision.EnemyVision
   viewDistance: 25
   aggroDistance: 3
-  viewAngle: 180
+  aggroPathLengthMultiplier: 1.25
+  viewAngle: 270
   obstacleMask:
     serializedVersion: 2
     m_Bits: 134217523

@@ -28,6 +28,8 @@ namespace Modules.EnemyAI_Base.Movement
         private float twitchEndTime;
         private bool isTwitching;
 
+        public float BaseSpeed => baseSpeed;
+
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();

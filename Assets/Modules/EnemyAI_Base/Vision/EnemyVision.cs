@@ -16,7 +16,7 @@ namespace Modules.EnemyAI_Base.Vision
         [Tooltip("Насколько реальная длина пути по NavMesh может превышать aggroDistance, чтобы ближнее обнаружение всё ещё сработало.")]
         [SerializeField, Min(1f)] private float aggroPathLengthMultiplier = 1.25f;
         [Tooltip("Полный угол обзора врага в градусах.")]
-        [SerializeField] [Range(0f, 180f)] private float viewAngle = 90f;
+        [SerializeField] [Range(0f, 270f)] private float viewAngle = 90f;
         [Tooltip("Слои препятствий, которые могут перекрыть линию видимости до цели.")]
         [SerializeField] private LayerMask obstacleMask = Physics.DefaultRaycastLayers;
         [Tooltip("Показывать ли в редакторе сферы дистанции обзора и ближнего чувства. В игре gizmo всё равно не рисуются.")]
