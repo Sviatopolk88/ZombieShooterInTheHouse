@@ -1,4 +1,5 @@
 using _Project.Scripts.GameFlow;
+using _Project.Scripts.Systems.Platform;
 using UnityEngine;
 
 namespace _Project.Scripts.UI.Mobile
@@ -8,10 +9,6 @@ namespace _Project.Scripts.UI.Mobile
         [SerializeField]
         [Tooltip("Корневой объект экранных элементов мобильного управления, который можно редактировать прямо в сцене.")]
         private GameObject mobileControlsRoot;
-
-        [SerializeField]
-        [Tooltip("Показывать мобильное управление на устройствах, где Unity сообщает о поддержке touch-ввода.")]
-        private bool showWhenTouchSupported = true;
 
         [SerializeField]
         [Tooltip("Показывать мобильное управление во время Play Mode в редакторе для ручной проверки layout.")]
@@ -59,8 +56,7 @@ namespace _Project.Scripts.UI.Mobile
             }
 #endif
 
-            bool isTouchPlatform = Application.isMobilePlatform || (showWhenTouchSupported && UnityEngine.Input.touchSupported);
-            return isTouchPlatform && IsGameplayInputAllowed();
+            return ProjectPlatformProvider.IsMobile && IsGameplayInputAllowed();
         }
 
         private bool IsGameplayInputAllowed()

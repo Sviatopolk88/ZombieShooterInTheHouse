@@ -1,3 +1,4 @@
+using _Project.Scripts.Systems.Platform;
 using UnityEngine;
 
 namespace _Project.Scripts.UI.HUD
@@ -15,10 +16,6 @@ namespace _Project.Scripts.UI.HUD
         [SerializeField]
         [Tooltip("Корневой объект HUD-элементов, которые должны быть видны только на мобильных устройствах.")]
         private GameObject mobileHudRoot;
-
-        [SerializeField]
-        [Tooltip("Считать устройство мобильным, если Unity сообщает о поддержке touch-ввода.")]
-        private bool showMobileWhenTouchSupported = true;
 
         [SerializeField]
         [Tooltip("Показывать мобильную ветку HUD во время Play Mode в редакторе для ручной проверки layout.")]
@@ -57,7 +54,7 @@ namespace _Project.Scripts.UI.HUD
             }
 #endif
 
-            return Application.isMobilePlatform || (showMobileWhenTouchSupported && UnityEngine.Input.touchSupported);
+            return ProjectPlatformProvider.IsMobile;
         }
 
         private static void SetActiveIfNeeded(GameObject target, bool active)

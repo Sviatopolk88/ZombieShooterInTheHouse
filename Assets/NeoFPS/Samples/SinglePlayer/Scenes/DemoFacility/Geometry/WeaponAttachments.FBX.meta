@@ -1,151 +1,437 @@
 fileFormatVersion: 2
 guid: e0289d26e6feef64f97a91e17ab998ff
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: Aim007
-    100002: Aim_HoloEotech
-    100004: Aim_IronSights_MBUS
-    100006: Aim_RedDotMRO
-    100008: Aim_RedDotRMR
-    100010: Aim_RevolverScope
-    100012: Aim_SniperScope
-    100014: Attachment_FlashLight_SideMounted
-    100016: Attachment_Laser_TopMounted
-    100018: Optics_HoloEotech
-    100020: Optics_IronSight_MBUS_Front
-    100022: Optics_IronSight_MBUS_FrontFlip
-    100024: Optics_IronSight_MBUS_RearFlip
-    100026: Optics_IronSights_MBUS_Rear
-    100028: Optics_RedDotMRO
-    100030: Optics_RedDotRMR
-    100032: Optics_ScopeAcog
-    100034: Optics_ScopeRevolver
-    100036: Optics_ScopeSniper
-    100038: Optics_ScopeSniper_TopRingPlain
-    100040: Optics_ScopeSniper_TopRingRail
-    100042: //RootNode
-    100044: Dummy001
-    100046: Optics_ScopeAcog_Lens
-    100048: Optics_ScopeRevolver_Lens
-    100050: Optics_ScopeSniper_Lens
-    100052: Aim_RedDotMRO_Raised
-    100054: Optics_RedDotMRO_Raised
-    100056: Aim_Acog
-    100058: Optics_ScopeAcog_LensFlip
-    100060: Optics_ScopeRevolver_LensFlip
-    100062: Optics_ScopeSniper_LensFlip
-    100064: LaserBeamSource
-    400000: Aim007
-    400002: Aim_HoloEotech
-    400004: Aim_IronSights_MBUS
-    400006: Aim_RedDotMRO
-    400008: Aim_RedDotRMR
-    400010: Aim_RevolverScope
-    400012: Aim_SniperScope
-    400014: Attachment_FlashLight_SideMounted
-    400016: Attachment_Laser_TopMounted
-    400018: Optics_HoloEotech
-    400020: Optics_IronSight_MBUS_Front
-    400022: Optics_IronSight_MBUS_FrontFlip
-    400024: Optics_IronSight_MBUS_RearFlip
-    400026: Optics_IronSights_MBUS_Rear
-    400028: Optics_RedDotMRO
-    400030: Optics_RedDotRMR
-    400032: Optics_ScopeAcog
-    400034: Optics_ScopeRevolver
-    400036: Optics_ScopeSniper
-    400038: Optics_ScopeSniper_TopRingPlain
-    400040: Optics_ScopeSniper_TopRingRail
-    400042: //RootNode
-    400044: Dummy001
-    400046: Optics_ScopeAcog_Lens
-    400048: Optics_ScopeRevolver_Lens
-    400050: Optics_ScopeSniper_Lens
-    400052: Aim_RedDotMRO_Raised
-    400054: Optics_RedDotMRO_Raised
-    400056: Aim_Acog
-    400058: Optics_ScopeAcog_LensFlip
-    400060: Optics_ScopeRevolver_LensFlip
-    400062: Optics_ScopeSniper_LensFlip
-    400064: LaserBeamSource
-    2100000: MAT_WeaponPalette
-    2100002: MAT_ScopeGlass
-    2100004: MAT_ScopeRing
-    2100006: MAT_ScoprGlassOpaque
-    2100008: MAT_HoloSightGlass
-    2100010: MAT_AcogClear
-    2100012: MAT_AcogRed
-    2100014: MAT_ScopeGlassOpaque
-    2100016: MAT_WeaponPrimary
-    2100018: MAT_WeaponDetailsPalette
-    2100020: MAT_WeaponSecondary
-    2100022: MAT_WeaponGunMetal
-    2100024: MAT_ScopeGlassTransparent
-    2100026: MAT_TrijiconRed
-    2300000: Attachment_FlashLight_SideMounted
-    2300002: Attachment_Laser_TopMounted
-    2300004: Optics_HoloEotech
-    2300006: Optics_IronSight_MBUS_Front
-    2300008: Optics_IronSight_MBUS_FrontFlip
-    2300010: Optics_IronSight_MBUS_RearFlip
-    2300012: Optics_IronSights_MBUS_Rear
-    2300014: Optics_RedDotMRO
-    2300016: Optics_RedDotRMR
-    2300018: Optics_ScopeAcog
-    2300020: Optics_ScopeRevolver
-    2300022: Optics_ScopeSniper
-    2300024: Optics_ScopeSniper_TopRingPlain
-    2300026: Optics_ScopeSniper_TopRingRail
-    2300028: Optics_ScopeAcog_Lens
-    2300030: Optics_ScopeRevolver_Lens
-    2300032: Optics_ScopeSniper_Lens
-    2300034: Optics_RedDotMRO_Raised
-    2300036: Optics_ScopeAcog_LensFlip
-    2300038: Optics_ScopeRevolver_LensFlip
-    2300040: Optics_ScopeSniper_LensFlip
-    3300000: Attachment_FlashLight_SideMounted
-    3300002: Attachment_Laser_TopMounted
-    3300004: Optics_HoloEotech
-    3300006: Optics_IronSight_MBUS_Front
-    3300008: Optics_IronSight_MBUS_FrontFlip
-    3300010: Optics_IronSight_MBUS_RearFlip
-    3300012: Optics_IronSights_MBUS_Rear
-    3300014: Optics_RedDotMRO
-    3300016: Optics_RedDotRMR
-    3300018: Optics_ScopeAcog
-    3300020: Optics_ScopeRevolver
-    3300022: Optics_ScopeSniper
-    3300024: Optics_ScopeSniper_TopRingPlain
-    3300026: Optics_ScopeSniper_TopRingRail
-    3300028: Optics_ScopeAcog_Lens
-    3300030: Optics_ScopeRevolver_Lens
-    3300032: Optics_ScopeSniper_Lens
-    3300034: Optics_RedDotMRO_Raised
-    3300036: Optics_ScopeAcog_LensFlip
-    3300038: Optics_ScopeRevolver_LensFlip
-    3300040: Optics_ScopeSniper_LensFlip
-    4300000: Optics_HoloEotech
-    4300002: Optics_ScopeSniper
-    4300004: Optics_RedDotRMR
-    4300006: Optics_ScopeRevolver
-    4300008: Optics_RedDotMRO
-    4300010: Optics_ScopeAcog
-    4300012: Attachment_Laser_TopMounted
-    4300014: Attachment_FlashLight_SideMounted
-    4300016: Optics_IronSights_MBUS_Rear
-    4300018: Optics_IronSight_MBUS_RearFlip
-    4300020: Optics_IronSight_MBUS_Front
-    4300022: Optics_IronSight_MBUS_FrontFlip
-    4300024: Optics_ScopeSniper_TopRingPlain
-    4300026: Optics_ScopeSniper_TopRingRail
-    4300028: Optics_ScopeSniper_Lens
-    4300030: Optics_ScopeRevolver_Lens
-    4300032: Optics_ScopeAcog_Lens
-    4300034: Optics_RedDotMRO_Raised
-    4300036: Optics_ScopeSniper_LensFlip
-    4300038: Optics_ScopeRevolver_LensFlip
-    4300040: Optics_ScopeAcog_LensFlip
+  serializedVersion: 24200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Aim007
+  - first:
+      1: 100002
+    second: Aim_HoloEotech
+  - first:
+      1: 100004
+    second: Aim_IronSights_MBUS
+  - first:
+      1: 100006
+    second: Aim_RedDotMRO
+  - first:
+      1: 100008
+    second: Aim_RedDotRMR
+  - first:
+      1: 100010
+    second: Aim_RevolverScope
+  - first:
+      1: 100012
+    second: Aim_SniperScope
+  - first:
+      1: 100014
+    second: Attachment_FlashLight_SideMounted
+  - first:
+      1: 100016
+    second: Attachment_Laser_TopMounted
+  - first:
+      1: 100018
+    second: Optics_HoloEotech
+  - first:
+      1: 100020
+    second: Optics_IronSight_MBUS_Front
+  - first:
+      1: 100022
+    second: Optics_IronSight_MBUS_FrontFlip
+  - first:
+      1: 100024
+    second: Optics_IronSight_MBUS_RearFlip
+  - first:
+      1: 100026
+    second: Optics_IronSights_MBUS_Rear
+  - first:
+      1: 100028
+    second: Optics_RedDotMRO
+  - first:
+      1: 100030
+    second: Optics_RedDotRMR
+  - first:
+      1: 100032
+    second: Optics_ScopeAcog
+  - first:
+      1: 100034
+    second: Optics_ScopeRevolver
+  - first:
+      1: 100036
+    second: Optics_ScopeSniper
+  - first:
+      1: 100038
+    second: Optics_ScopeSniper_TopRingPlain
+  - first:
+      1: 100040
+    second: Optics_ScopeSniper_TopRingRail
+  - first:
+      1: 100042
+    second: //RootNode
+  - first:
+      1: 100044
+    second: Dummy001
+  - first:
+      1: 100046
+    second: Optics_ScopeAcog_Lens
+  - first:
+      1: 100048
+    second: Optics_ScopeRevolver_Lens
+  - first:
+      1: 100050
+    second: Optics_ScopeSniper_Lens
+  - first:
+      1: 100052
+    second: Aim_RedDotMRO_Raised
+  - first:
+      1: 100054
+    second: Optics_RedDotMRO_Raised
+  - first:
+      1: 100056
+    second: Aim_Acog
+  - first:
+      1: 100058
+    second: Optics_ScopeAcog_LensFlip
+  - first:
+      1: 100060
+    second: Optics_ScopeRevolver_LensFlip
+  - first:
+      1: 100062
+    second: Optics_ScopeSniper_LensFlip
+  - first:
+      1: 100064
+    second: LaserBeamSource
+  - first:
+      4: 400000
+    second: Aim007
+  - first:
+      4: 400002
+    second: Aim_HoloEotech
+  - first:
+      4: 400004
+    second: Aim_IronSights_MBUS
+  - first:
+      4: 400006
+    second: Aim_RedDotMRO
+  - first:
+      4: 400008
+    second: Aim_RedDotRMR
+  - first:
+      4: 400010
+    second: Aim_RevolverScope
+  - first:
+      4: 400012
+    second: Aim_SniperScope
+  - first:
+      4: 400014
+    second: Attachment_FlashLight_SideMounted
+  - first:
+      4: 400016
+    second: Attachment_Laser_TopMounted
+  - first:
+      4: 400018
+    second: Optics_HoloEotech
+  - first:
+      4: 400020
+    second: Optics_IronSight_MBUS_Front
+  - first:
+      4: 400022
+    second: Optics_IronSight_MBUS_FrontFlip
+  - first:
+      4: 400024
+    second: Optics_IronSight_MBUS_RearFlip
+  - first:
+      4: 400026
+    second: Optics_IronSights_MBUS_Rear
+  - first:
+      4: 400028
+    second: Optics_RedDotMRO
+  - first:
+      4: 400030
+    second: Optics_RedDotRMR
+  - first:
+      4: 400032
+    second: Optics_ScopeAcog
+  - first:
+      4: 400034
+    second: Optics_ScopeRevolver
+  - first:
+      4: 400036
+    second: Optics_ScopeSniper
+  - first:
+      4: 400038
+    second: Optics_ScopeSniper_TopRingPlain
+  - first:
+      4: 400040
+    second: Optics_ScopeSniper_TopRingRail
+  - first:
+      4: 400042
+    second: //RootNode
+  - first:
+      4: 400044
+    second: Dummy001
+  - first:
+      4: 400046
+    second: Optics_ScopeAcog_Lens
+  - first:
+      4: 400048
+    second: Optics_ScopeRevolver_Lens
+  - first:
+      4: 400050
+    second: Optics_ScopeSniper_Lens
+  - first:
+      4: 400052
+    second: Aim_RedDotMRO_Raised
+  - first:
+      4: 400054
+    second: Optics_RedDotMRO_Raised
+  - first:
+      4: 400056
+    second: Aim_Acog
+  - first:
+      4: 400058
+    second: Optics_ScopeAcog_LensFlip
+  - first:
+      4: 400060
+    second: Optics_ScopeRevolver_LensFlip
+  - first:
+      4: 400062
+    second: Optics_ScopeSniper_LensFlip
+  - first:
+      4: 400064
+    second: LaserBeamSource
+  - first:
+      21: 2100000
+    second: MAT_WeaponPalette
+  - first:
+      21: 2100002
+    second: MAT_ScopeGlass
+  - first:
+      21: 2100004
+    second: MAT_ScopeRing
+  - first:
+      21: 2100006
+    second: MAT_ScoprGlassOpaque
+  - first:
+      21: 2100008
+    second: MAT_HoloSightGlass
+  - first:
+      21: 2100010
+    second: MAT_AcogClear
+  - first:
+      21: 2100012
+    second: MAT_AcogRed
+  - first:
+      21: 2100014
+    second: MAT_ScopeGlassOpaque
+  - first:
+      21: 2100016
+    second: MAT_WeaponPrimary
+  - first:
+      21: 2100018
+    second: MAT_WeaponDetailsPalette
+  - first:
+      21: 2100020
+    second: MAT_WeaponSecondary
+  - first:
+      21: 2100022
+    second: MAT_WeaponGunMetal
+  - first:
+      21: 2100024
+    second: MAT_ScopeGlassTransparent
+  - first:
+      21: 2100026
+    second: MAT_TrijiconRed
+  - first:
+      23: 2300000
+    second: Attachment_FlashLight_SideMounted
+  - first:
+      23: 2300002
+    second: Attachment_Laser_TopMounted
+  - first:
+      23: 2300004
+    second: Optics_HoloEotech
+  - first:
+      23: 2300006
+    second: Optics_IronSight_MBUS_Front
+  - first:
+      23: 2300008
+    second: Optics_IronSight_MBUS_FrontFlip
+  - first:
+      23: 2300010
+    second: Optics_IronSight_MBUS_RearFlip
+  - first:
+      23: 2300012
+    second: Optics_IronSights_MBUS_Rear
+  - first:
+      23: 2300014
+    second: Optics_RedDotMRO
+  - first:
+      23: 2300016
+    second: Optics_RedDotRMR
+  - first:
+      23: 2300018
+    second: Optics_ScopeAcog
+  - first:
+      23: 2300020
+    second: Optics_ScopeRevolver
+  - first:
+      23: 2300022
+    second: Optics_ScopeSniper
+  - first:
+      23: 2300024
+    second: Optics_ScopeSniper_TopRingPlain
+  - first:
+      23: 2300026
+    second: Optics_ScopeSniper_TopRingRail
+  - first:
+      23: 2300028
+    second: Optics_ScopeAcog_Lens
+  - first:
+      23: 2300030
+    second: Optics_ScopeRevolver_Lens
+  - first:
+      23: 2300032
+    second: Optics_ScopeSniper_Lens
+  - first:
+      23: 2300034
+    second: Optics_RedDotMRO_Raised
+  - first:
+      23: 2300036
+    second: Optics_ScopeAcog_LensFlip
+  - first:
+      23: 2300038
+    second: Optics_ScopeRevolver_LensFlip
+  - first:
+      23: 2300040
+    second: Optics_ScopeSniper_LensFlip
+  - first:
+      33: 3300000
+    second: Attachment_FlashLight_SideMounted
+  - first:
+      33: 3300002
+    second: Attachment_Laser_TopMounted
+  - first:
+      33: 3300004
+    second: Optics_HoloEotech
+  - first:
+      33: 3300006
+    second: Optics_IronSight_MBUS_Front
+  - first:
+      33: 3300008
+    second: Optics_IronSight_MBUS_FrontFlip
+  - first:
+      33: 3300010
+    second: Optics_IronSight_MBUS_RearFlip
+  - first:
+      33: 3300012
+    second: Optics_IronSights_MBUS_Rear
+  - first:
+      33: 3300014
+    second: Optics_RedDotMRO
+  - first:
+      33: 3300016
+    second: Optics_RedDotRMR
+  - first:
+      33: 3300018
+    second: Optics_ScopeAcog
+  - first:
+      33: 3300020
+    second: Optics_ScopeRevolver
+  - first:
+      33: 3300022
+    second: Optics_ScopeSniper
+  - first:
+      33: 3300024
+    second: Optics_ScopeSniper_TopRingPlain
+  - first:
+      33: 3300026
+    second: Optics_ScopeSniper_TopRingRail
+  - first:
+      33: 3300028
+    second: Optics_ScopeAcog_Lens
+  - first:
+      33: 3300030
+    second: Optics_ScopeRevolver_Lens
+  - first:
+      33: 3300032
+    second: Optics_ScopeSniper_Lens
+  - first:
+      33: 3300034
+    second: Optics_RedDotMRO_Raised
+  - first:
+      33: 3300036
+    second: Optics_ScopeAcog_LensFlip
+  - first:
+      33: 3300038
+    second: Optics_ScopeRevolver_LensFlip
+  - first:
+      33: 3300040
+    second: Optics_ScopeSniper_LensFlip
+  - first:
+      43: 4300000
+    second: Optics_HoloEotech
+  - first:
+      43: 4300002
+    second: Optics_ScopeSniper
+  - first:
+      43: 4300004
+    second: Optics_RedDotRMR
+  - first:
+      43: 4300006
+    second: Optics_ScopeRevolver
+  - first:
+      43: 4300008
+    second: Optics_RedDotMRO
+  - first:
+      43: 4300010
+    second: Optics_ScopeAcog
+  - first:
+      43: 4300012
+    second: Attachment_Laser_TopMounted
+  - first:
+      43: 4300014
+    second: Attachment_FlashLight_SideMounted
+  - first:
+      43: 4300016
+    second: Optics_IronSights_MBUS_Rear
+  - first:
+      43: 4300018
+    second: Optics_IronSight_MBUS_RearFlip
+  - first:
+      43: 4300020
+    second: Optics_IronSight_MBUS_Front
+  - first:
+      43: 4300022
+    second: Optics_IronSight_MBUS_FrontFlip
+  - first:
+      43: 4300024
+    second: Optics_ScopeSniper_TopRingPlain
+  - first:
+      43: 4300026
+    second: Optics_ScopeSniper_TopRingRail
+  - first:
+      43: 4300028
+    second: Optics_ScopeSniper_Lens
+  - first:
+      43: 4300030
+    second: Optics_ScopeRevolver_Lens
+  - first:
+      43: 4300032
+    second: Optics_ScopeAcog_Lens
+  - first:
+      43: 4300034
+    second: Optics_RedDotMRO_Raised
+  - first:
+      43: 4300036
+    second: Optics_ScopeSniper_LensFlip
+  - first:
+      43: 4300038
+    second: Optics_ScopeRevolver_LensFlip
+  - first:
+      43: 4300040
+    second: Optics_ScopeAcog_LensFlip
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -213,7 +499,7 @@ ModelImporter:
       name: MAT_WeaponSecondary
     second: {fileID: 2100000, guid: 37190d8152f2f3e42a1a6aa2e75f9027, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -222,9 +508,8 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -243,28 +528,42 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 0
+    meshCompression: 3
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -273,10 +572,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -286,13 +585,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
