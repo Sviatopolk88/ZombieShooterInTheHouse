@@ -50097,6 +50097,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.35
       objectReference: {fileID: 0}
+    - target: {fileID: 114373602100104844, guid: 13027a0fcdf7ebb4ea590983994f42a0, type: 3}
+      propertyPath: m_MotionGraph
+      value: 0
+      objectReference: {fileID: 11400000, guid: 4002949ca76e4ae9853ca20fc65011e6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -50113,6 +50117,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1000010381446024, guid: 13027a0fcdf7ebb4ea590983994f42a0, type: 3}
       insertIndex: 4
       addedObject: {fileID: 1702201013}
+      objectReference: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 13027a0fcdf7ebb4ea590983994f42a0, type: 3}
 --- !u!1001 &1152327251
 PrefabInstance:

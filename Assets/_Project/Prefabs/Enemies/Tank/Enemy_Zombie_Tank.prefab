@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ce1384a76e04794a8c66555d79a1e9b, type: 3}
-  m_Name: 
+  m_Name: ''
   m_EditorClassIdentifier: Modules.NeoFPS_Adapter::Modules.NeoFPS_Adapter.EnemyHeadHitbox
 --- !u!1 &3271553845210118850
 GameObject:
@@ -1408,6 +1408,8 @@ GameObject:
   - component: {fileID: -6175447322969959884}
   - component: {fileID: 1411142155938832477}
   - component: {fileID: 1111111111111111113}
+  - component: {fileID: 5555555555555555511}
+  - component: {fileID: 5555555555555555522}
   m_Layer: 0
   m_Name: Enemy_Zombie_Tank
   m_TagString: Untagged
@@ -1630,6 +1632,136 @@ MonoBehaviour:
   m_EditorClassIdentifier: Modules.NeoFPS_Adapter::Modules.NeoFPS_Adapter.EnemyHeadshotProfile
   headshotMode: 2
   headshotDamageMultiplier: 2
+--- !u!82 &5555555555555555511
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204055610906755583}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243059815924327020, guid: a6f18d72e4ba7bb44a99c8b5e4d9703c, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 10
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &5555555555555555522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204055610906755583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92ea4d61282543e9b607a462b47e7f1d, type: 3}
+  m_Name: ''
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Gameplay.Enemy.EnemyAudioBridge
+  audioSource: {fileID: 5555555555555555511}
+  enemyAi: {fileID: 8760103348300844928}
+  enemyAttack: {fileID: 671701866205479914}
+  health: {fileID: 7196322616479006856}
+  aggroClips:
+  - {fileID: 8300000, guid: a5f960da57f4c2c4bb03605b02050cfc, type: 3}
+  - {fileID: 8300000, guid: ff06a646142691e428a34606e0289e85, type: 3}
+  - {fileID: 8300000, guid: 5a88c467fe0f5ab4b93f679dec837386, type: 3}
+  - {fileID: 8300000, guid: 88fdebb6782ef8a49821cee3fcfe00d0, type: 3}
+  attackClips:
+  - {fileID: 8300000, guid: f359b71e30fb50f4bbed384a9b5154a9, type: 3}
+  hurtClips:
+  - {fileID: 8300000, guid: 80c87de23e52d034dbea3aa5928a1127, type: 3}
+  deathClips:
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 80c87de23e52d034dbea3aa5928a1127, type: 3}
+  pitchMin: 0.96
+  pitchMax: 1.04
+  aggroCooldown: 0.75
+  attackCooldown: 0.35
+  hurtCooldown: 0.2
 --- !u!1 &7296646204849118781
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Pickups.HealthPickup
   healAmount: 35
+  pickupAudioSource: {fileID: 3308995314227634858}
+  useSoundClip: {fileID: 8300000, guid: a50a32e0dacd59041a413b3b2d418838, type: 3}
 --- !u!82 &3308995314227634858
 AudioSource:
   m_ObjectHideFlags: 0

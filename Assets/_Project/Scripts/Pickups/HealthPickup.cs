@@ -1,5 +1,6 @@
 using Modules.HealthSystem;
 using Modules.NeoFPS_Adapter;
+using NeoFPS;
 using UnityEngine;
 
 namespace _Project.Scripts.Pickups
@@ -9,9 +10,36 @@ namespace _Project.Scripts.Pickups
     /// </summary>
     public sealed class HealthPickup : MonoBehaviour
     {
-        [SerializeField] private int healAmount = 35;
+        [SerializeField]
+        [Tooltip("Сколько здоровья восстанавливает аптечка при успешном подборе.")]
+        private int healAmount = 35;
+
+        [SerializeField]
+        [Tooltip("Источник настроек пространственного звука аптечки. Используется для проверки и ручной настройки в Inspector.")]
+        private AudioSource pickupAudioSource;
+
+        [SerializeField]
+        [Tooltip("Клип, который проигрывается при успешном использовании аптечки. Если не задан, берётся clip из AudioSource.")]
+        private AudioClip useSoundClip;
 
         private bool consumed;
+
+        private void Awake()
+        {
+            if (pickupAudioSource == null)
+                pickupAudioSource = GetComponent<AudioSource>();
+        }
+
+        private void Reset()
+        {
+            pickupAudioSource = GetComponent<AudioSource>();
+        }
+
+        private void OnValidate()
+        {
+            if (pickupAudioSource == null)
+                pickupAudioSource = GetComponent<AudioSource>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -43,7 +71,28 @@ namespace _Project.Scripts.Pickups
                 return;
 
             consumed = true;
+            PlayPickupSound();
             Destroy(gameObject);
+        }
+
+        private void PlayPickupSound()
+        {
+            AudioClip clip = ResolvePickupSound();
+            if (clip == null)
+                return;
+
+            NeoFpsAudioManager.PlayEffectAudioAtPosition(clip, transform.position);
+        }
+
+        private AudioClip ResolvePickupSound()
+        {
+            if (useSoundClip != null)
+                return useSoundClip;
+
+            if (pickupAudioSource != null)
+                return pickupAudioSource.clip;
+
+            return null;
         }
     }
 }

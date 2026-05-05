@@ -46613,6 +46613,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 114373602100104844, guid: 13027a0fcdf7ebb4ea590983994f42a0, type: 3}
+      propertyPath: m_MotionGraph
+      value: 0
+      objectReference: {fileID: 11400000, guid: 4002949ca76e4ae9853ca20fc65011e6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
