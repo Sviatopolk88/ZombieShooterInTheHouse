@@ -39,7 +39,7 @@ namespace _Project.Scripts.Systems.SceneFlow
 
         public void ReloadLevelFresh()
         {
-            StartCoroutine(LoadLevelRoutine(GetCurrentLevelName(), suppressAutoLoad: true));
+            StartLevelTransition(GetCurrentLevelName(), suppressAutoLoad: true);
         }
 
         public void ReloadLevelFromCheckpoint()
@@ -52,7 +52,7 @@ namespace _Project.Scripts.Systems.SceneFlow
                 Debug.LogWarning("LevelReloadService: checkpoint текущего уровня не найден. Уровень будет перезагружен без сохранения прогресса попытки.");
             }
 
-            StartCoroutine(LoadLevelRoutine(GetCurrentLevelName(), suppressAutoLoad: true));
+            StartLevelTransition(GetCurrentLevelName(), suppressAutoLoad: true);
         }
 
         public void LoadNextLevel()
@@ -67,7 +67,32 @@ namespace _Project.Scripts.Systems.SceneFlow
                 Debug.LogWarning($"LevelReloadService: failed to save current player state before loading '{nextLevelName}'.");
             }
 
-            StartCoroutine(LoadLevelRoutine(nextLevelName, suppressAutoLoad: !savedForNextLevel));
+            StartLevelTransition(nextLevelName, suppressAutoLoad: !savedForNextLevel);
+        }
+
+        private void StartLevelTransition(string levelSceneName, bool suppressAutoLoad = false)
+        {
+            bool loadStarted = false;
+
+            void BeginLoad(AdsShowResult _)
+            {
+                if (loadStarted)
+                {
+                    return;
+                }
+
+                loadStarted = true;
+                StartCoroutine(LoadLevelRoutine(levelSceneName, suppressAutoLoad));
+            }
+
+            if (AdsService.Instance.TryShowInterstitial(
+                    AdsInterstitialPlacement.SceneTransition,
+                    BeginLoad))
+            {
+                return;
+            }
+
+            BeginLoad(default);
         }
 
         private IEnumerator LoadLevelRoutine(string levelSceneName, bool suppressAutoLoad = false)
@@ -109,7 +134,6 @@ namespace _Project.Scripts.Systems.SceneFlow
             }
 
             CursorStateService.Instance?.SetGameplayMode();
-            AdsService.Instance.TryShowInterstitial(AdsInterstitialPlacement.SceneTransition);
         }
 
         private static string GetCurrentLevelName()

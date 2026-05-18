@@ -70,7 +70,6 @@ namespace _Project.Scripts.GameFlow
 
         public void RestartLevel()
         {
-            Time.timeScale = 1f;
             currentState = GameState.Playing;
             CursorStateService.Instance?.ExitGameOverMode();
 

@@ -34,17 +34,25 @@ namespace Modules.AdsCore
 
         public bool TryShowInterstitial(AdsInterstitialPlacement placement)
         {
+            return TryShowInterstitial(placement, null);
+        }
+
+        public bool TryShowInterstitial(AdsInterstitialPlacement placement, Action<AdsShowResult> callback)
+        {
             if (adRequestInProgress)
             {
-                return false;
-            }
-
-            if (!provider.TryShowInterstitial(placement, OnInterstitialCompleted))
-            {
+                callback?.Invoke(AdsShowResult.Rejected("Ad request is already in progress."));
                 return false;
             }
 
             adRequestInProgress = true;
+
+            if (!provider.TryShowInterstitial(placement, result => OnInterstitialCompleted(result, callback)))
+            {
+                adRequestInProgress = false;
+                return false;
+            }
+
             return true;
         }
 
@@ -80,12 +88,14 @@ namespace Modules.AdsCore
                 return false;
             }
 
+            adRequestInProgress = true;
+
             if (!provider.TryShowRewarded(rewardType, result => OnRewardedCompleted(rewardType, result, callback)))
             {
+                adRequestInProgress = false;
                 return false;
             }
 
-            adRequestInProgress = true;
             return true;
         }
 
@@ -99,7 +109,7 @@ namespace Modules.AdsCore
             };
         }
 
-        private void OnInterstitialCompleted(AdsShowResult result)
+        private void OnInterstitialCompleted(AdsShowResult result, Action<AdsShowResult> callback)
         {
             adRequestInProgress = false;
 
@@ -107,6 +117,8 @@ namespace Modules.AdsCore
             {
                 Debug.Log($"AdsService: interstitial завершён со статусом {result.Status}. {result.Message}");
             }
+
+            callback?.Invoke(result);
         }
 
         private void OnRewardedCompleted(AdsRewardType rewardType, AdsShowResult result, Action<AdsShowResult> callback)
