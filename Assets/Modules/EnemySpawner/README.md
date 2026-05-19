@@ -1,43 +1,38 @@
-# EnemySpawner
+# Module: EnemySpawner
 
 ## Назначение
+Простой спавнер, который создаёт заданное число экземпляров prefab в случайных точках.
 
-Простой спавнер врагов для прототипа.
-Создает заданное количество врагов в случайных точках спавна и не управляет ими после создания.
+## Расположение
+`Assets/Modules/EnemySpawner`
 
-## Публичный API
+## Статус переиспользования
+Reusable with cleanup
 
-Поля компонента `EnemySpawner`:
+## Основные классы
+- `EnemySpawner` — MonoBehaviour для одномоментного спавна `enemyCount` объектов.
 
-- `spawnOnStart`
-- `enemyPrefab`
-- `spawnPoints`
-- `parent`
-- `enemyCount`
+## Публичные точки входа
+- Компонент `EnemySpawner`.
+- Метод `Spawn()`.
+- Inspector-поля `enemyPrefab`, `spawnPoints`, `parent`, `enemyCount`, `spawnOnStart`.
 
-Методы:
+## Зависимости
+- Unity runtime (`Instantiate`, `Transform`, `Random`).
 
-- `Spawn()`
+## Как подключить в новый проект
+1. Скопировать папку вместе с `EnemySpawner.asmdef`.
+2. Поставить компонент на scene object.
+3. Назначить prefab и массив `spawnPoints`, затем вызывать `Spawn()` вручную или через `spawnOnStart`.
 
-## Пример использования
+## Что важно не сломать
+- Спавнер не управляет жизненным циклом врагов после создания.
+- Одна и та же точка может использоваться несколько раз.
+- Здесь нет волн, таймеров, лимитов по occupancy, pooling или respawn-логики.
 
-```csharp
-using Modules.EnemySpawner;
-using UnityEngine;
+## Риски переноса
+- Низкий runtime-риск.
+- Средний архитектурный риск, если ожидать от него `wave spawning`: текущая реализация этого не покрывает.
 
-public class ExampleSpawnerSetup : MonoBehaviour
-{
-    [SerializeField] private EnemySpawner enemySpawner;
-
-    private void Start()
-    {
-        enemySpawner.Spawn();
-    }
-}
-```
-
-## Примечания
-
-- Спавн может использовать одну и ту же точку несколько раз.
-- Модуль не управляет жизненным циклом врагов.
-- Автоспавн можно отключить через `spawnOnStart`.
+## Рекомендации для Bake or Die
+Подходит как временный MVP-спавнер для прототипа волн, но для полноценного `wave spawning` нужен отдельный orchestration-слой поверх него.

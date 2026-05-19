@@ -1,135 +1,41 @@
-# DoorBreachEncounter
+# Module: DoorBreachEncounter
 
 ## Назначение
+Сценарный encounter выбивания двери: серия ударов, финальное открытие и активация связанных объектов в сцене.
 
-- Переиспользуемый модуль scripted encounter для постановочного выбивания двери.
-- Модуль намеренно не является универсальной системой дверей, получающих урон.
-- Работает через scene references и умеет активировать после прорыва любые объекты, а не только врагов.
+## Расположение
+`Assets/Modules/DoorBreachEncounter`
 
-## Архитектура
+## Статус переиспользования
+Reusable with cleanup
 
-- `DoorBreachEncounter`
-  Управляет переиспользуемым сценарием: `Idle -> BreachSequence -> Breached`.
-- `DoorBreachTriggerActivator`
-  Опциональный helper-компонент, который запускает encounter через trigger-зону.
+## Основные классы
+- `DoorBreachEncounter` — основной state machine `Idle -> BreachSequence -> Breached`.
+- `DoorBreachTriggerActivator` — опциональный trigger-активатор encounter.
 
-Переиспользуемая логика находится внутри модуля.
-Scene-specific настройка остаётся в Level:
-- какая дверь трясётся
-- какие объекты используются как закрытая и открытая дверь
-- какой blocker нужно отключить
-- какие объекты должны активироваться после прорыва
-- запускается ли encounter триггером или внешним вызовом
+## Публичные точки входа
+- Компонент `DoorBreachEncounter`.
+- Методы `Activate()`, `ForceBreach()`, `ResetEncounter()`.
+- Компонент `DoorBreachTriggerActivator`.
+- UnityEvents `onSequenceStarted`, `onBreach`.
 
-## DoorBreachEncounter
+## Зависимости
+- Unity runtime и `UnityEvent`
+- Scene references на дверь, blocker и объекты из `activateOnBreach`
 
-### Ответственность
+## Как подключить в новый проект
+1. Скопировать папку вместе с `DoorBreachEncounter.asmdef`.
+2. Повесить `DoorBreachEncounter` на scene object рядом с дверью и назначить `shakeTarget`/`openTarget`.
+3. Либо вызывать `Activate()` внешним кодом, либо поставить `DoorBreachTriggerActivator` на trigger-зону.
 
-- Хранит текущее состояние encounter
-- Запускает последовательность ударов через публичный `Activate()`
-- Несколько раз встряхивает назначенный `Transform` двери
-- Переводит дверь в состояние breached/open
-- Активирует назначенные scene objects после прорыва
-- Корректно сбрасывается при reload сцены или повторном включении объекта
+## Что важно не сломать
+- Модуль целиком завязан на scene references, а не на данные-конфиги.
+- В `RotateLocalY` меняется только локальная ось `Y`; pivot двери должен быть настроен заранее.
+- `activateOnBreach` используется как orchestration hook и не должен содержать критичные объекты, которые обязаны быть активны до старта sequence.
 
-### Важные ссылки
+## Риски переноса
+- Средний риск.
+- Логику легко перенести, но придётся заново собирать prefab/scene setup и door pivot.
 
-- `shakeTarget`
-  Transform, к которому применяется локальная тряска.
-- `openMode`
-  Режим финального открытия: переключение объектов или поворот двери по локальной оси Y.
-- `openTarget`
-  Transform, который открывается через `localRotation`. Если не задан, используется `shakeTarget`.
-- `closedDoorObject`
-  Закрытая версия двери, активная до прорыва.
-- `openedDoorObject`
-  Опциональная открытая или разрушенная версия двери.
-- `blockingObject`
-  Опциональный blocker-объект, который отключается при прорыве.
-- `activateOnBreach`
-  Любые scene objects, которые нужно включить после прорыва.
-
-### Параметры последовательности
-
-- `hitCount`
-- `initialDelay`
-- `intervalBetweenHits`
-- `delayBeforeBreach`
-- `localPositionShake`
-- `localRotationShake`
-- `singleHitDuration`
-
-### Параметры открытия
-
-- `openMode`
-- `openTarget`
-- `openDuration`
-- `openedLocalY`
-
-## DoorBreachTriggerActivator
-
-### Назначение
-
-- Опциональный trigger-активатор для encounter
-- Фильтрует по `LayerMask`
-- Может дополнительно требовать конкретный tag
-- Поддерживает one-shot поведение
-
-### Примечание
-
-Если нужен другой источник активации, вызывайте `DoorBreachEncounter.Activate()` напрямую из другого scene-скрипта или timeline event.
-
-## Настройка в сцене
-
-1. Добавьте `DoorBreachEncounter` на scene object рядом с дверью.
-2. Назначьте `shakeTarget`.
-3. Выберите `openMode`:
-   - `ToggleObjects` для переключения закрытой и открытой версии двери;
-   - `RotateLocalY` для реального поворота двери по петлям.
-4. Для `ToggleObjects` назначьте `closedDoorObject` и при необходимости `openedDoorObject`.
-5. Для `RotateLocalY` назначьте `openTarget` или оставьте его пустым, чтобы использовался `shakeTarget`.
-6. При необходимости назначьте `blockingObject`.
-7. Заполните `activateOnBreach` врагами, монстром, VFX, аудио-эмиттерами или любыми другими scene objects.
-8. Настройте тайминги ударов, параметры shake и параметры открытия.
-9. Если нужен trigger-запуск, добавьте `DoorBreachTriggerActivator` на trigger-зону и укажите ссылку на encounter.
-
-## Настройка открытия по петлям
-
-Для двери, которая должна быстро распахиваться после последнего удара:
-
-- установите `openMode = RotateLocalY`
-- в `openedLocalY` задайте `-146`
-- в `openDuration` задайте короткое время, например `0.15 - 0.25`
-- в `openTarget` укажите transform двери или pivot-объект на петлях
-
-Модуль берёт текущее локальное вращение как закрытое состояние и меняет только ось `Y`.
-Локальные `X` и `Z` сохраняются автоматически.
-
-Если pivot двери стоит не на петлях:
-
-- создайте пустой parent-объект в точке петель, например `Door_Hinge`
-- вложите в него модель двери
-- вращайте `Door_Hinge`, а не сам mesh
-- этот `Door_Hinge` назначьте в `shakeTarget` и `openTarget`
-
-В режиме `RotateLocalY` проход открывается только после завершения поворота:
-
-- затем отключается `blockingObject`
-- затем активируются `activateOnBreach`
-
-Это позволяет врагам начать выход только после фактического открытия двери.
-
-## Переиспользование в другом проекте
-
-- Скопируйте всю папку `Assets/Modules/DoorBreachEncounter/`.
-- Сохраните `asmdef` вместе с модулем.
-- Переназначьте scene references в новом проекте.
-- Зависимости от NeoFPS, текущих врагов, UI или GameFlow не требуются.
-
-## Примечания
-
-- Encounter по задумке является one-shot, пока сцена или объект не будут сброшены.
-- `ResetEncounter()` восстанавливает исходное состояние двери и отключает `activateOnBreach`, если включён `deactivateTargetsOnEnable`.
-- Модуль предполагает, что объекты за дверью уже подготовлены в сцене и должны только активироваться после прорыва.
-- Для одной и той же двери допустимо назначать одинаковый объект в `shakeTarget` и `openTarget`.
-- Если используется `RotateLocalY`, поля `closedDoorObject` и `openedDoorObject` можно не заполнять, если дверь не переключается между двумя версиями.
+## Рекомендации для Bake or Die
+Использовать только если в MVP есть scripted breach/ambush encounter. Для обычной интерактивной двери модуль избыточен.

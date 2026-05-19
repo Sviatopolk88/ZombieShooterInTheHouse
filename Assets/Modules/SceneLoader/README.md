@@ -1,39 +1,41 @@
-# SceneLoader
+# Module: SceneLoader
 
 ## Назначение
+Синхронный utility для загрузки, выгрузки, перезагрузки и активации сцен.
 
-Простой utility-модуль для загрузки, выгрузки и переключения сцен.
-Подходит для схемы `Bootstrap -> Main -> Level`, но не знает про конкретные сцены проекта.
+## Расположение
+`Assets/Modules/SceneLoader`
 
-## Публичный API
+## Статус переиспользования
+Reusable
 
-- `LoadScene(string sceneName)`
-- `LoadAdditive(string sceneName)`
-- `UnloadScene(string sceneName)`
+## Основные классы
+- `SceneLoader` — статический helper над `SceneManager`.
+
+## Публичные точки входа
+- `LoadScene(string)`
+- `LoadAdditive(string)`
+- `UnloadScene(string)`
 - `ReloadActiveScene()`
-- `SetActiveScene(string sceneName)`
-- `IsSceneLoaded(string sceneName)`
+- `SetActiveScene(string)`
+- `IsSceneLoaded(string)`
 
-## Пример использования
+## Зависимости
+- Unity `SceneManagement`
 
-```csharp
-using Modules.SceneLoader;
+## Как подключить в новый проект
+1. Скопировать папку вместе с `SceneLoader.asmdef`.
+2. Добавить вызывающий bootstrap/flow-код в новом проекте.
+3. Использовать `LoadAdditive` и `SetActiveScene` там, где нужен multi-scene flow.
 
-public static class ExampleSceneFlow
-{
-    public static void LoadLevel()
-    {
-        SceneLoader.LoadAdditive("Level_01");
-    }
+## Что важно не сломать
+- API синхронный: модуль не возвращает `AsyncOperation`.
+- `LoadAdditive` не грузит уже загруженную сцену.
+- `SetActiveScene` работает только для уже загруженных сцен.
 
-    public static void UnloadLevel()
-    {
-        SceneLoader.UnloadScene("Level_01");
-    }
+## Риски переноса
+- Низкий риск.
+- Если новому проекту нужен полностью асинхронный flow, этот модуль придётся оборачивать дополнительным orchestration-слоем.
 
-    public static void ReloadCurrent()
-    {
-        SceneLoader.ReloadActiveScene();
-    }
-}
-```
+## Рекомендации для Bake or Die
+Использовать для `scene flow / bootstrap`, если MVP останется на additive-схеме сцен.

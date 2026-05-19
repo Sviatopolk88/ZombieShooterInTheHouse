@@ -1,140 +1,43 @@
-# RescueObjective
+# Module: RescueObjective
 
 ## Назначение
+Нейтральное ядро rescue-цели со статусами `WaitingForRescue`, `Rescued`, `Failed` и опциональным trigger-входом спасения.
 
-- Переиспользуемый MVP-модуль для целей спасения.
-- Подходит для мирных жителей, заложников, учёных, выживших и любых других rescue-objective сущностей.
-- Не зависит от NeoFPS, UI, конкретных врагов или текущего `GameFlow`.
+## Расположение
+`Assets/Modules/RescueObjective`
 
-## Архитектура
+## Статус переиспользования
+Reusable
 
-- `RescueObjective`
-  Хранит универсальное состояние цели: `WaitingForRescue -> Rescued / Failed`.
-- `RescueInteractionTrigger`
-  Опциональный helper-компонент для MVP-спасения через trigger-зону.
+## Основные классы
+- `RescueObjective` — хранит состояние цели и публикует `StateChanged`.
+- `RescueInteractionTrigger` — trigger-адаптер, который вызывает `Rescue()`.
+- `RescueObjectiveState` — enum состояний.
 
-Переиспользуемая логика находится внутри модуля.
-Scene-specific настройка остаётся на уровне:
-- какой объект является целью спасения
-- через какой trigger она спасается
-- есть ли у цели `Health`
-- какие события должны происходить при `Rescued` и `Failed`
+## Публичные точки входа
+- Компонент `RescueObjective`.
+- Методы `Rescue()`, `Fail()`, `ResetState()`.
+- Свойства `State`, `IsWaitingForRescue`, `IsRescued`, `IsFailed`, `IsValidEnemyTarget`.
+- Событие `StateChanged`.
+- Компонент `RescueInteractionTrigger`.
 
-## RescueObjective
+## Зависимости
+- `Modules.HealthSystem`
+- UnityEvents и trigger-collider runtime
 
-### Состояния
+## Как подключить в новый проект
+1. Скопировать папку вместе с `RescueObjective.asmdef`.
+2. Повесить `RescueObjective` на NPC/объект цели.
+3. При необходимости добавить `RescueInteractionTrigger` рядом с целью или вызывать `Rescue()` / `Fail()` из внешнего flow-кода.
 
-- `WaitingForRescue`
-  Цель ожидает спасения и ещё не потеряна.
-- `Rescued`
-  Цель успешно спасена.
-- `Failed`
-  Цель потеряна.
+## Что важно не сломать
+- `RescueObjective` не должен знать о HUD, сценах, статистике уровня или конкретных визуальных реакциях.
+- `IsValidEnemyTarget` должен отражать только состояние objective, а не scene-specific условия.
+- При использовании `failOnHealthDeath` цель должна иметь корректно найденный `Health`.
 
-### Публичный API
+## Риски переноса
+- Низкий риск.
+- Потребуется отдельно перенести визуальные bridge-компоненты, если в новом проекте тоже нужны анимации, fade-out и level statistics.
 
-- `bool Rescue()`
-- `bool Fail()`
-- `void ResetState()`
-- `State`
-- `IsWaitingForRescue`
-- `IsRescued`
-- `IsFailed`
-- `event StateChanged`
-
-### Событие состояния
-
-- `StateChanged` вызывается при любом реальном переходе между `WaitingForRescue`, `Rescued` и `Failed`.
-- Событие остаётся нейтральным и не содержит level-specific логики.
-- Оно предназначено для безопасной project-side интеграции: HUD, счётчики, условия победы, сценические реакции.
-
-### Интеграция с HealthSystem
-
-- Если на цели есть `Health`, модуль может автоматически переводить её в `Failed` по `Health.OnDeath`.
-- Это поведение управляется флагом `failOnHealthDeath`.
-- Если `Health` не нужен, цель можно переводить в `Failed` внешним кодом через `Fail()`.
-
-### Совместимость с EnemyAI_Base
-
-- Если враги должны уметь выбирать rescue-цель, назначьте объекту отдельный тег, например `RescueTarget`.
-- В `EnemyAI_Base` добавьте этот тег в `allowedTargetTags`.
-- Пока `RescueObjective` находится в состоянии `WaitingForRescue`, цель остаётся валидной для выбора.
-- После перехода в `Rescued` или `Failed` такая цель автоматически перестаёт быть валидной для врагов.
-
-## RescueInteractionTrigger
-
-### Назначение
-
-- Даёт простой MVP-способ спасения через вход подходящего объекта в trigger.
-- Сам не хранит состояние objective, а только вызывает `objective.Rescue()`.
-- Может фильтровать активатора по `LayerMask` и `Tag`.
-
-### Как работает
-
-1. Подходящий объект входит в trigger.
-2. `RescueInteractionTrigger` проверяет фильтр по слою и тегу.
-3. Если цель находится в состоянии `WaitingForRescue`, вызывается `objective.Rescue()`.
-4. Если objective уже `Rescued` или `Failed`, trigger больше ничего не делает.
-
-Поле `rescueOnEnter` оставлено для гибкости:
-- `true` — спасение срабатывает на `OnTriggerEnter`
-- `false` — спасение срабатывает на `OnTriggerStay`
-
-## Настройка в сцене
-
-### Вариант 1. Простой мирный житель с автоспасением через trigger
-
-1. Поставьте объект мирного жителя на сцену.
-2. Добавьте на него `RescueObjective`.
-3. Добавьте рядом или на него trigger-объект с `Collider` в режиме `Is Trigger`.
-4. Повесьте на trigger `RescueInteractionTrigger`.
-5. В поле `objective` укажите нужный `RescueObjective`.
-6. Настройте `rescueOnEnter`, `activatorLayers` и `requiredTag`.
-
-### Вариант 2. Мирный житель может погибнуть до спасения
-
-1. Добавьте на цель `Health`.
-2. Оставьте в `RescueObjective` включённым `failOnHealthDeath`.
-3. При смертельном уроне цель автоматически перейдёт в `Failed`.
-
-## Граница между модулем и проектом
-
-Модуль отвечает за:
-- состояние rescue-цели
-- спасение через публичный API
-- провал по внешнему вызову
-- опциональный провал по `Health.OnDeath`
-- простой reusable trigger для спасения через вход в зону
-
-Проект или сцена отвечают за:
-- визуал мирного жителя
-- кто и как наносит ему урон
-- UI-подсказки
-- подсчёт общего числа спасённых и потерянных
-- условия победы уровня
-- более сложные сценарии вроде эвакуации или escort
-
-## Расширение в будущем
-
-Этот MVP можно без ломки расширить под:
-- счётчик спасённых
-- общий менеджер rescue-задач
-- условия победы `спасти N из M`
-- эвакуационную зону
-- escort-поведение
-- UI-индикаторы статуса
-
-## Переиспользование в другом проекте
-
-- Скопируйте всю папку `Assets/Modules/RescueObjective/`.
-- Сохраните `asmdef` вместе с модулем.
-- Если нужен автопровал при смерти, оставьте зависимость от `Modules.HealthSystem`.
-- Если `HealthSystem` не используется, `RescueObjective` всё равно работает через `Rescue()` и `Fail()` вручную.
-
-## Что проверять руками
-
-1. Цель в состоянии `WaitingForRescue` спасается сразу при входе подходящего объекта в trigger.
-2. Повторный вход после `Rescued` больше ничего не делает.
-3. Смертельный урон по цели переводит её в `Failed`, если подключён `Health`.
-4. `ResetState()` возвращает цель обратно в `WaitingForRescue`.
-5. Несколько rescue-целей на сцене работают независимо друг от друга.
+## Рекомендации для Bake or Die
+Использовать только если в Bake or Die есть rescue/escort/hostage-механика. Для чистого боевого MVP модуль не обязателен.

@@ -1,51 +1,40 @@
-# DamageSystem
+# Module: DamageSystem
 
 ## Назначение
+Тонкий фасад нанесения урона, который ищет `IDamageable` на объекте или в родителях и передаёт туда `DamageContext`.
 
-Единый способ наносить урон объектам через интерфейс `IDamageable`.
-Модуль не знает о конкретной реализации здоровья и работает только через публичный контракт.
+## Расположение
+`Assets/Modules/DamageSystem`
 
-## Публичный API
+## Статус переиспользования
+Reusable
 
-- `ApplyDamage(GameObject target, int amount)`
-- `ApplyDamage(GameObject target, DamageContext context)`
-- `ApplyDamage(Component target, int amount)`
-- `ApplyDamage(Component target, DamageContext context)`
-- `ApplyDamage(Collider collider, DamageContext context)`
-- `TryGetDamageable(GameObject target, out IDamageable damageable)`
+## Основные классы
+- `DamageSystem` — статический вход для применения урона.
 
-## Пример использования
+## Публичные точки входа
+- `DamageSystem.ApplyDamage(GameObject, int)`
+- `DamageSystem.ApplyDamage(GameObject, DamageContext)`
+- `DamageSystem.ApplyDamage(Component, int|DamageContext)`
+- `DamageSystem.ApplyDamage(Collider, DamageContext)`
+- `DamageSystem.TryGetDamageable(GameObject, out IDamageable)`
 
-```csharp
-using Modules.DamageSystem;
-using Modules.HealthSystem;
-using UnityEngine;
+## Зависимости
+- `Modules.HealthSystem`
 
-public class ExampleDamageDealer : MonoBehaviour
-{
-    [SerializeField] private GameObject target;
+## Как подключить в новый проект
+1. Скопировать папку вместе с `DamageSystem.asmdef`.
+2. Подключить зависимость на `Modules.HealthSystem`.
+3. Вызывать `DamageSystem.ApplyDamage(...)` из оружия, ловушек, снарядов и AI.
 
-    public void DealSimpleDamage()
-    {
-        DamageSystem.ApplyDamage(target, 10);
-    }
+## Что важно не сломать
+- Модуль не считает итоговый урон и не содержит gameplay-правил.
+- Поиск `IDamageable` идёт сначала на объекте, потом по иерархии вверх.
+- Валидация урона должна оставаться в реализации `IDamageable`, а не в фасаде.
 
-    public void DealBulletDamage()
-    {
-        DamageContext context = new DamageContext(
-            25,
-            DamageType.Bullet,
-            gameObject,
-            true,
-            HitZone.Head);
+## Риски переноса
+- Низкий риск.
+- Если новый проект ожидает попадание по дочерним хитбоксам, нужно сохранить текущую схему поиска в родителях.
 
-        DamageSystem.ApplyDamage(target, context);
-    }
-}
-```
-
-## Примечания
-
-- `DamageSystem` не рассчитывает урон.
-- `DamageSystem` только передает урон в `IDamageable`.
-- Вся логика проверки урона находится в `HealthSystem`.
+## Рекомендации для Bake or Die
+Использовать как общую точку нанесения урона для `player combat`, `enemy combat`, `wave spawning` последствий и интерактивных объектов.

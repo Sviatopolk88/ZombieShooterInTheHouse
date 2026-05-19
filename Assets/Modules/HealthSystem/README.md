@@ -1,74 +1,43 @@
-# HealthSystem
-
-Автономный модуль здоровья: HP, урон, лечение, смерть.
-
-## Публичный API
-
-### Методы
-
-- `TakeDamage(int amount)`
-- `TakeDamage(DamageContext context) -> bool`
-- `Heal(int amount)`
-- `Kill()`
-- `ResetHealth()`
-- `SetMaxHealth(int value, bool fillHealth = true)`
-- `CanApplyDamage(in DamageContext context) -> bool`
-
-### Свойства
-
-- `CurrentHealth`
-- `MaxHealth`
-- `IsDead`
-- `IsAlive`
-- `NormalizedHealth`
-- `CanTakeDamage`
-- `LastDamageContext`
-
-### События
-
-- `OnDamageApplied(DamageContext context, int appliedDamage)`
-- `OnDamaged(int appliedDamage)`
-- `OnHealthChanged(int currentHealth, int maxHealth)`
-- `OnHealed(int restoredHealth)`
-- `OnDeath()`
+# Module: HealthSystem
 
 ## Назначение
+Базовый модуль здоровья, урона, лечения и смерти через `Health`, `DamageContext` и интерфейсы `IDamageable` / `IHealable` / `IHealth`.
 
-- `Health` хранит здоровье и события.
-- `HealthDamageableAdapter` связывает `Health` с `DamageSystem` через `IDamageable`.
+## Расположение
+`Assets/Modules/HealthSystem`
 
-## Интеграция с DamageSystem
+## Статус переиспользования
+Reusable
 
-- Добавь на объект `Health`.
-- Добавь на тот же объект или дочерний объект `HealthDamageableAdapter`.
-- `DamageSystem` найдёт `IDamageable` и передаст урон в `Health`.
+## Основные классы
+- `Health` — runtime-компонент HP, событий урона, лечения и смерти.
+- `DamageContext` — типизированный контекст урона.
+- `DamageType`, `HitZone` — перечисления типа и зоны попадания.
+- `IDamageable`, `IHealable`, `IHealth`, `ITargetableEntity` — публичные контракты модуля.
 
-## Правила урона
+## Публичные точки входа
+- Компонент `Health`.
+- Методы `TakeDamage`, `Heal`, `Kill`, `ResetHealth`, `SetMaxHealth`.
+- События `OnHealthChanged`, `OnDamageApplied`, `OnDamaged`, `OnHealed`, `OnDeath`.
+- Интерфейсы `IDamageable`, `IHealable`, `IHealth`.
 
-- Урон игнорируется, если объект мертв.
-- Урон игнорируется, если включена неуязвимость.
-- Урон игнорируется, если `amount <= 0`.
-- Здоровье всегда находится в диапазоне `0..MaxHealth`.
-- `TakeDamage(int)` вызывает `TakeDamage(DamageContext)` внутри.
-- `Kill()` не вызывает события урона.
-- `Kill()` вызывает только `OnHealthChanged` и `OnDeath`.
-- `CanApplyDamage(...)` используется только для простых проверок.
-- `CanApplyDamage(...)` не должен содержать сложной логики.
+## Зависимости
+- Unity runtime (`UnityEngine`).
+- Внешних project-specific или vendor-зависимостей нет.
 
-## Порядок событий
+## Как подключить в новый проект
+1. Скопировать папку вместе с `HealthSystem.asmdef`.
+2. Повесить `Health` на сущности, которые должны иметь HP.
+3. Подключать атакующие системы через `IDamageable` или через модуль `DamageSystem`.
 
-### Нанесение урона
+## Что важно не сломать
+- Порядок событий в `Health.TakeDamage`: `OnDamageApplied` -> `OnDamaged` -> `OnHealthChanged` -> `OnDeath`.
+- `CanTakeDamage` и `CanApplyDamage` должны оставаться единой точкой валидации.
+- `Health` сам управляет `destroyOnDeath`; внешний код не должен дублировать это поведение без необходимости.
 
-1. Проверка
-2. Изменение HP
-3. `OnDamageApplied`
-4. `OnDamaged`
-5. `OnHealthChanged`
-6. `OnDeath`
+## Риски переноса
+- Низкий риск.
+- Потребуется заново назначить подписчиков на события и inspector-настройки компонентов.
 
-### Лечение
-
-1. Проверка
-2. Изменение HP
-3. `OnHealed`
-4. `OnHealthChanged`
+## Рекомендации для Bake or Die
+Использовать как базу для `enemy health / damage`, `player health`, `pickups / resources` и любых интерактивных сущностей с HP.
