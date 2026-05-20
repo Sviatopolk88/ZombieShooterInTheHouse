@@ -43,6 +43,14 @@
 | -------- | ------ | --------------- | ---------- |
 | Toggle Cursor | `Tab` | `CursorToggleInput` | Переключает режим UI / Game |
 
+## 3.1. Мобильные touch-зоны
+
+- Мобильный HUD в `_Main` использует NeoFPS `NeoFpsTouchScreenController`: `Analog_Move` отдаёт движение, `TouchLookArea` отдаёт обзор камеры.
+- `TouchLookArea` обслуживается project-side компонентом `ProjectMobileTouchLookArea`, который повторяет trackball-look NeoFPS и имеет список исключённых UI-зон.
+- Если touch начался на `Analog_Move`, этот fingerId не генерирует look-input до завершения касания. Поэтому левый джойстик не вращает камеру, а второй палец в правой look-зоне может одновременно поворачивать обзор.
+- Touch-кнопки стрельбы, перезарядки и переключения оружия остаются отдельными NeoFPS touch-button controls с более высоким priority и consume.
+- Компонент добавлен в `_Project` как точечный override сцены; vendor-code в `Assets/NeoFPS` для этого исправления не изменялся.
+
 ## 4. Подбор предметов
 
 - `Weapon Pickup` -> `Tap E`, через штатный NeoFPS `InteractivePickup`.
