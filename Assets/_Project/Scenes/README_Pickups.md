@@ -88,16 +88,34 @@ pickup-prefab из ветки `QuickSwitchInventory` и стандартные a
 - `Pickup_Ammo_12Gauge_16`
 - `Pickup_Health_35` можно использовать как готовый project-side prefab для аптечки
 
+Для автомата подготовлены project-owned prefab без правки `Assets/NeoFPS`:
+
+- `Assets/_Project/Resources/Weapons/Firearm_AssaultRifle_Quickswitch_Project.prefab`
+- `Assets/_Project/Resources/Weapons/BackupWeapon_Hands_Project.prefab`
+- `Assets/_Project/Resources/Weapons/Inventory_Ammo556mm_60.prefab`
+- `Assets/_Project/Prefabs/Pickups/Weapons/Pickup_Weapon_AssaultRifle.prefab`
+- `Assets/_Project/Prefabs/Pickups/Ammo/Pickup_Ammo_556mm_60.prefab`
+
+`Pickup_Weapon_AssaultRifle` собран по pattern `Pickup_Weapon_Shotgun`: тот же набор project-side компонентов, root trigger / `InteractivePickup`, `ModularFirearmAmmoPickup` и `tap E` (`m_HoldDuration = 0`). Отличаются только визуальная модель автомата, tooltip, ссылка на `Firearm_AssaultRifle_Quickswitch_Project` и встроенный ammo type `556mm`.
+
+`Pickup_Ammo_556mm_60` собран по pattern `Pickup_Ammo_12Gauge_16`: тот же trigger pickup flow, но `m_ItemPrefab` указывает на project-owned `Inventory_Ammo556mm_60`.
+
+Hands/melee подключён как стартовый `BackupWeapon_Hands_Project` в `NeoFPS_PlayerLoadoutAdapter` сцен `Level_1`, `Level_2` и `Level_3`. В project copy он переведён из backup slot `-1` в normal QuickSwitch slot `0`, чтобы выбираться как отдельное оружие, отображаться в weapon UI и не висеть поверх firearm. Автомат и `556mm` ammo не расставлены в scene YAML автоматически: для проверки перетащите `Pickup_Weapon_AssaultRifle` и `Pickup_Ammo_556mm_60` в нужную точку уровня, чтобы не рисковать ручной правкой prefab instance в сцене.
+
 ## Текущая проектная настройка
 
 - `Pickup_Weapon_Shotgun` использует `tap E`.
 - У `Pickup_Weapon_Shotgun` расширен корневой интерактивный `BoxCollider` для более лёгкого наведения.
 - Это project-side override поверх vendor prefab, без правки исходников NeoFPS.
 - `Pickup_Health_35` лечит `+35 HP`, подбирается автоматически и не тратится при полном здоровье.
+- `Pickup_Weapon_AssaultRifle` использует стандартный NeoFPS `InteractivePickup` и выдаёт QuickSwitch assault rifle.
+- `Pickup_Ammo_556mm_60` добавляет запас `556mm`, который расходует assault rifle.
+- Save/load сохраняет `firearm_assault_rifle`, состояние магазина автомата и `ammo556mm`.
+- `melee_hands` не сохраняется: это baseline weapon из стартового loadout.
 
 ## Что проверять руками
 
-1. Игрок стартует только с pistol.
+1. Игрок стартует с pistol, стартовым `9mm` ammo и `BackupWeapon_Hands_Project`.
 2. `Pickup_Weapon_Shotgun` подбирается обычным нажатием `E`, без удержания.
 3. У дробовика больше не требуется точное наведение в край модели: interaction hit area ощущается шире.
 4. `Pickup_Ammo_9mm_30` добавляет запас патронов для pistol и исчезает / уходит в respawn по правилам prefab.
@@ -106,3 +124,7 @@ pickup-prefab из ветки `QuickSwitchInventory` и стандартные a
 7. `Pickup_Ammo_12Gauge_16` добавляет патроны для shotgun.
 8. После смерти и рестарта уровня pickup-объекты возвращаются, потому что сцена Level пересоздаётся целиком.
 9. `Pickup_Health_35` лечит только при неполном здоровье, после успешного лечения исчезает.
+10. `BackupWeapon_Hands_Project` доступен в quickswitch/loadout и наносит melee-урон штатным input NeoFPS.
+11. `Pickup_Weapon_AssaultRifle` добавляет автомат, автомат стреляет и расходует `556mm`.
+12. `Pickup_Ammo_556mm_60` пополняет запас `556mm`.
+13. После save/load автомат и `Ammo556mm` восстанавливаются, hands снова приходят из стартового loadout, а pistol/shotgun/9mm/12Gauge продолжают работать как раньше.

@@ -31,9 +31,14 @@ MVP-сохранение фиксирует:
 
 - текущий уровень
 - список оружия игрока
+- состояние магазинов оружия
 - количество патронов `9mm`
+- количество патронов `12Gauge`
+- количество патронов `556mm`
 
 Данные хранятся в project DTO `GameSaveData` и сериализуются в JSON через `SaveService`.
+
+`GameSaveData.version = 2` добавляет поле `ammo556mm`. Старые сохранения без этого поля остаются валидными: значение по умолчанию равно `0`.
 
 ## Provider Yandex / PluginYG2
 
@@ -59,7 +64,18 @@ MVP-сохранение фиксирует:
 1. `GameSaveController` ждёт загрузку gameplay-level и готовность SDK/save-data
 2. `SaveService` читает JSON
 3. `SaveDataApplier` при необходимости загружает нужный уровень
-4. `SaveDataApplier` восстанавливает loadout и `Ammo9mm`
+4. `SaveDataApplier` восстанавливает loadout, магазины оружия и ammo items
+
+## Оружие и Ammo в Save
+
+Project-side каталог `GameSaveWeaponCatalog` знает только stable save-id и project-owned prefab:
+
+- `firearm_pistol` берётся из стартового loadout текущего `NeoFPS_PlayerLoadoutAdapter`
+- `weapon_shotgun` берётся из `Resources/Purchases/Firearm_Shotgun_Quickswitch_Purchase`
+- `firearm_assault_rifle` берётся из `Resources/Weapons/Firearm_AssaultRifle_Quickswitch_Project`
+- `Ammo556mm` восстанавливается через `Resources/Weapons/Inventory_Ammo556mm_60`
+
+Hands/melee добавлен в стартовый loadout `Level_1`, `Level_2` и `Level_3` как normal QuickSwitch slot `0`, поэтому доступен игроку сразу и отображается в weapon UI. Он не сохраняется как полученное оружие: `melee_hands` считается baseline item, а старые save с этим id молча пропускаются при восстановлении. Автомат не добавлен в стартовый loadout: он должен выдаваться через pickup/reward/content flow, после чего save/load восстановит его по `firearm_assault_rifle`.
 
 ## Автоматические Точки Вызова
 
@@ -88,7 +104,8 @@ Reusable `SaveService` и `YandexSaveProvider` при этом менять не
 ## Что Проверить Руками
 
 1. При старте после загрузки `Level_1` сохранение автоматически подхватывается из `YG2.saves`.
-2. После рестарта уровня оружие и `Ammo9mm` восстанавливаются из последнего save.
+2. После рестарта уровня оружие, магазины и `Ammo9mm` / `Ammo12Gauge` / `Ammo556mm` восстанавливаются из последнего save.
 3. При отсутствии save проект не падает и стартует с дефолтным состоянием.
 4. Повреждённый JSON не ломает игру и даёт warning в лог.
-5. `Level_2` не изменялся.
+5. После подбора `Pickup_Weapon_AssaultRifle` и `Pickup_Ammo_556mm_60` сохранение содержит `firearm_assault_rifle` и ненулевой `ammo556mm`.
+6. После загрузки того же save автомат остаётся в QuickSwitch inventory, а запас `556mm` восстанавливается.

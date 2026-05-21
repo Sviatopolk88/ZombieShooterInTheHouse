@@ -9,7 +9,7 @@ namespace _Project.Scripts.Save
     [Serializable]
     public sealed class GameSaveData
     {
-        public const int CurrentVersion = 1;
+        public const int CurrentVersion = 2;
 
         public int version = CurrentVersion;
         public int currentLevel = 1;
@@ -17,6 +17,7 @@ namespace _Project.Scripts.Save
         public WeaponMagazineSaveData[] weaponMagazines = Array.Empty<WeaponMagazineSaveData>();
         public int ammo9mm;
         public int ammo12Gauge;
+        public int ammo556mm;
 
         public GameSaveData Clone()
         {
@@ -27,7 +28,8 @@ namespace _Project.Scripts.Save
                 weapons = weapons != null ? (string[])weapons.Clone() : Array.Empty<string>(),
                 weaponMagazines = CloneWeaponMagazines(weaponMagazines),
                 ammo9mm = ammo9mm,
-                ammo12Gauge = ammo12Gauge
+                ammo12Gauge = ammo12Gauge,
+                ammo556mm = ammo556mm
             };
         }
 

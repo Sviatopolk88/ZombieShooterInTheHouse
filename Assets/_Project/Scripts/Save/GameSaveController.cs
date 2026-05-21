@@ -107,7 +107,7 @@ namespace _Project.Scripts.Save
 
             if (saved)
             {
-                Debug.Log($"GameSaveController: прогресс сохранён. Уровень {data.currentLevel}, оружие: {data.weapons.Length}, ammo9mm: {data.ammo9mm}.");
+                Debug.Log($"GameSaveController: прогресс сохранён. Уровень {data.currentLevel}, оружие: {data.weapons.Length}, ammo9mm: {data.ammo9mm}, ammo12Gauge: {data.ammo12Gauge}, ammo556mm: {data.ammo556mm}.");
             }
 
             return saved;
@@ -265,7 +265,7 @@ namespace _Project.Scripts.Save
             loadInProgress = false;
             autoLoadCompleted = markAutoLoaded || autoLoadCompleted;
 
-            Debug.Log($"GameSaveController: прогресс загружен. Уровень {Mathf.Max(1, data.currentLevel)}, оружие: {(data.weapons != null ? data.weapons.Length : 0)}, ammo9mm: {Mathf.Max(0, data.ammo9mm)}.");
+            Debug.Log($"GameSaveController: прогресс загружен. Уровень {Mathf.Max(1, data.currentLevel)}, оружие: {(data.weapons != null ? data.weapons.Length : 0)}, ammo9mm: {Mathf.Max(0, data.ammo9mm)}, ammo12Gauge: {Mathf.Max(0, data.ammo12Gauge)}, ammo556mm: {Mathf.Max(0, data.ammo556mm)}.");
         }
 
         private IEnumerator RestoreCheckpointRoutine()
@@ -282,7 +282,7 @@ namespace _Project.Scripts.Save
             ProjectPurchaseService.RestoreOwnedPurchases();
             loadInProgress = false;
 
-            Debug.Log($"GameSaveController: checkpoint уровня восстановлен. Уровень {Mathf.Max(1, levelStartCheckpoint.currentLevel)}, оружие: {(levelStartCheckpoint.weapons != null ? levelStartCheckpoint.weapons.Length : 0)}, ammo9mm: {Mathf.Max(0, levelStartCheckpoint.ammo9mm)}.");
+            Debug.Log($"GameSaveController: checkpoint уровня восстановлен. Уровень {Mathf.Max(1, levelStartCheckpoint.currentLevel)}, оружие: {(levelStartCheckpoint.weapons != null ? levelStartCheckpoint.weapons.Length : 0)}, ammo9mm: {Mathf.Max(0, levelStartCheckpoint.ammo9mm)}, ammo12Gauge: {Mathf.Max(0, levelStartCheckpoint.ammo12Gauge)}, ammo556mm: {Mathf.Max(0, levelStartCheckpoint.ammo556mm)}.");
         }
 
         private void EnsureLevelStartCheckpointCaptured()

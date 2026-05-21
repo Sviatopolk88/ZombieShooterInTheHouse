@@ -24,7 +24,8 @@ namespace _Project.Scripts.Save
                 weapons = System.Array.Empty<string>(),
                 weaponMagazines = System.Array.Empty<WeaponMagazineSaveData>(),
                 ammo9mm = 0,
-                ammo12Gauge = 0
+                ammo12Gauge = 0,
+                ammo556mm = 0
             };
 
             if (!TryGetPlayerInventory(out IInventory inventory))
@@ -45,6 +46,9 @@ namespace _Project.Scripts.Save
 
             IInventoryItem ammo12GaugeItem = inventory.GetItem(FpsInventoryKey.Ammo12gauge);
             data.ammo12Gauge = ammo12GaugeItem != null ? Mathf.Max(0, ammo12GaugeItem.quantity) : 0;
+
+            IInventoryItem ammo556mmItem = inventory.GetItem(FpsInventoryKey.Ammo556mm);
+            data.ammo556mm = ammo556mmItem != null ? Mathf.Max(0, ammo556mmItem.quantity) : 0;
 
             return true;
         }

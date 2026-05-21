@@ -46,10 +46,15 @@
 ## 3.1. Мобильные touch-зоны
 
 - Мобильный HUD в `_Main` использует NeoFPS `NeoFpsTouchScreenController`: `Analog_Move` отдаёт движение, `TouchLookArea` отдаёт обзор камеры.
-- `TouchLookArea` обслуживается project-side компонентом `ProjectMobileTouchLookArea`, который повторяет trackball-look NeoFPS и имеет список исключённых UI-зон.
-- Если touch начался на `Analog_Move`, этот fingerId не генерирует look-input до завершения касания. Поэтому левый джойстик не вращает камеру, а второй палец в правой look-зоне может одновременно поворачивать обзор.
+- `TouchLookArea` обслуживается project-side компонентом `ProjectMobileTouchLookArea`, который повторяет trackball-look NeoFPS и работает по allow-list: look-input разрешён только touch-ам, начатым внутри явной правой look-зоны.
+- Текущая настройка находится на объекте `_Main/MobileControlsRoot/MobileControls/TouchLookArea`: `Use Allowed Look Zone = true`, `Allowed Look Zone Rect = TouchLookArea`.
+- Правая look-зона расширена влево через anchors самого `TouchLookArea`: `Anchor Min X = 0.38`, `Anchor Max X = 1`. Touch, начатый левее этой зоны, никогда не может стать look-touch до завершения касания.
+- `Analog_Move`, `Button_Fire`, `Button_Reload`, `Button_NextWeapon` и `Button_PreviousWeapon` добавлены в `Excluded UI Zones`. Touch на этих UI-зонах не пишет look axes и не consume-ится, поэтому кнопки поверх look-зоны продолжают нажиматься.
+- Второй палец, начатый внутри right look-зоны и вне UI-кнопок, продолжает одновременно поворачивать обзор камеры.
+- `Analog_Move` использует project-side `ProjectMobileFloatingAnalog`: зона активации остаётся на месте, а визуал джойстика переносится в точку первого касания внутри этой зоны.
 - Touch-кнопки стрельбы, перезарядки и переключения оружия остаются отдельными NeoFPS touch-button controls с более высоким priority и consume.
 - Компонент добавлен в `_Project` как точечный override сцены; vendor-code в `Assets/NeoFPS` для этого исправления не изменялся.
+- Для проверки в редакторе используйте `Tools/Development/Platform`: `Mobile` принудительно включает mobile HUD/controls через `ProjectPlatformProvider`, `PC` принудительно включает desktop-ветку, `Auto` возвращает обычное определение платформы через PluginYG2 / Unity.
 
 ## 4. Подбор предметов
 
@@ -79,3 +84,10 @@
 - `Tab` для переключения курсора это project-side override, а не штатный NeoFPS binding.
 - Любое изменение input через NeoFPS `KeyBindings` требует корректного массива длиной `FpsInputButton.count`.
 - Для прототипа weapon pickup зафиксирован как обычный `tap E`, без удержания.
+
+## 7. Mobile / PC look separation
+
+- Player prefab `Assets/_Project/Prefabs/Player/PrototypeSpawnerlessCharacter_Project.prefab` uses project-side `ProjectInputCharacterMotion` instead of vendor `InputCharacterMotion`.
+- In mobile runtime `ProjectInputCharacterMotion` ignores `Mouse X / Mouse Y`, because WebGL/Yandex touch can be reported as mouse movement by the browser.
+- Mobile camera look must come only from NeoFPS virtual axes `LookX / LookY`; `_Main/MobileControlsRoot/MobileControls/TouchLookArea` writes to those axes through `ProjectMobileTouchLookArea`.
+- In PC runtime mouse look is unchanged and still uses `MouseX / MouseY`.

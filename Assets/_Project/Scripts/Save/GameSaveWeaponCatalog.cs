@@ -15,16 +15,25 @@ namespace _Project.Scripts.Save
     {
         public const string PistolWeaponId = "firearm_pistol";
         public const string ShotgunWeaponId = "weapon_shotgun";
+        public const string AssaultRifleWeaponId = "firearm_assault_rifle";
+        public const string HandsWeaponId = "melee_hands";
         public const int PistolRuntimeItemId = -1790531922;
         public const int ShotgunRuntimeItemId = 1014509881;
+        public const int AssaultRifleRuntimeItemId = -845682173;
 
         private const string ShotgunPrefabResourcePath = "Purchases/Firearm_Shotgun_Quickswitch_Purchase";
         private const string Ammo12GaugePrefabResourcePath = "Purchases/Inventory_Ammo12gauge_1";
+        private const string AssaultRiflePrefabResourcePath = "Weapons/Firearm_AssaultRifle_Quickswitch_Project";
+        private const string Ammo556mmPrefabResourcePath = "Weapons/Inventory_Ammo556mm_60";
 
         private static FpsInventoryItemBase cachedShotgunPrefab;
         private static FpsInventoryItemBase cachedAmmo12GaugePrefab;
+        private static FpsInventoryItemBase cachedAssaultRiflePrefab;
+        private static FpsInventoryItemBase cachedAmmo556mmPrefab;
         private static bool shotgunPrefabLoaded;
         private static bool ammo12GaugePrefabLoaded;
+        private static bool assaultRiflePrefabLoaded;
+        private static bool ammo556mmPrefabLoaded;
 
         public static FpsInventoryItemBase[] GetStartupLoadoutPrefabs()
         {
@@ -44,7 +53,7 @@ namespace _Project.Scripts.Save
                 return System.Array.Empty<string>();
             }
 
-            List<string> result = new(2);
+            List<string> result = new(3);
 
             if (inventory.GetItem(FpsInventoryKey.FirearmPistol) != null
                 || inventory.GetItem(PistolRuntimeItemId) != null)
@@ -58,7 +67,19 @@ namespace _Project.Scripts.Save
                 result.Add(ShotgunWeaponId);
             }
 
+            if (inventory.GetItem(FpsInventoryKey.FirearmAssaultRifle) != null
+                || inventory.GetItem(AssaultRifleRuntimeItemId) != null)
+            {
+                result.Add(AssaultRifleWeaponId);
+            }
+
             return result.ToArray();
+        }
+
+        public static bool IsBaselineWeaponId(string weaponId)
+        {
+            // Hands выдаются стартовым loadout, поэтому старые save с этим id просто пропускаются.
+            return string.Equals(weaponId, HandsWeaponId, System.StringComparison.Ordinal);
         }
 
         public static WeaponMagazineSaveData[] CollectWeaponMagazines(IInventory inventory)
@@ -68,9 +89,10 @@ namespace _Project.Scripts.Save
                 return System.Array.Empty<WeaponMagazineSaveData>();
             }
 
-            List<WeaponMagazineSaveData> result = new(2);
+            List<WeaponMagazineSaveData> result = new(3);
             TryCollectWeaponMagazine(inventory, PistolWeaponId, FpsInventoryKey.FirearmPistol, PistolRuntimeItemId, result);
             TryCollectWeaponMagazine(inventory, ShotgunWeaponId, FpsInventoryKey.FirearmShotgun, ShotgunRuntimeItemId, result);
+            TryCollectWeaponMagazine(inventory, AssaultRifleWeaponId, FpsInventoryKey.FirearmAssaultRifle, AssaultRifleRuntimeItemId, result);
             return result.ToArray();
         }
 
@@ -98,6 +120,12 @@ namespace _Project.Scripts.Save
             if (string.Equals(weaponId, ShotgunWeaponId, System.StringComparison.Ordinal))
             {
                 itemPrefab = GetShotgunPrefab();
+                return itemPrefab != null;
+            }
+
+            if (string.Equals(weaponId, AssaultRifleWeaponId, System.StringComparison.Ordinal))
+            {
+                itemPrefab = GetAssaultRiflePrefab();
                 return itemPrefab != null;
             }
 
@@ -131,6 +159,12 @@ namespace _Project.Scripts.Save
             return itemPrefab != null;
         }
 
+        public static bool TryResolveAmmo556mmPrefab(out FpsInventoryItemBase itemPrefab)
+        {
+            itemPrefab = GetAmmo556mmPrefab();
+            return itemPrefab != null;
+        }
+
         public static bool TryGetWeaponInventoryItem(IInventory inventory, string weaponId, out IInventoryItem item)
         {
             item = null;
@@ -148,6 +182,11 @@ namespace _Project.Scripts.Save
             if (string.Equals(weaponId, ShotgunWeaponId, System.StringComparison.Ordinal))
             {
                 return TryGetInventoryItem(inventory, FpsInventoryKey.FirearmShotgun, ShotgunRuntimeItemId, out item);
+            }
+
+            if (string.Equals(weaponId, AssaultRifleWeaponId, System.StringComparison.Ordinal))
+            {
+                return TryGetInventoryItem(inventory, FpsInventoryKey.FirearmAssaultRifle, AssaultRifleRuntimeItemId, out item);
             }
 
             return false;
@@ -244,6 +283,44 @@ namespace _Project.Scripts.Save
 
             cachedAmmo12GaugePrefab = ammoPrefabObject.GetComponent<FpsInventoryItemBase>();
             return cachedAmmo12GaugePrefab;
+        }
+
+        private static FpsInventoryItemBase GetAssaultRiflePrefab()
+        {
+            if (assaultRiflePrefabLoaded)
+            {
+                return cachedAssaultRiflePrefab;
+            }
+
+            assaultRiflePrefabLoaded = true;
+
+            GameObject weaponPrefabObject = Resources.Load<GameObject>(AssaultRiflePrefabResourcePath);
+            if (weaponPrefabObject == null)
+            {
+                return null;
+            }
+
+            cachedAssaultRiflePrefab = weaponPrefabObject.GetComponent<FpsInventoryItemBase>();
+            return cachedAssaultRiflePrefab;
+        }
+
+        private static FpsInventoryItemBase GetAmmo556mmPrefab()
+        {
+            if (ammo556mmPrefabLoaded)
+            {
+                return cachedAmmo556mmPrefab;
+            }
+
+            ammo556mmPrefabLoaded = true;
+
+            GameObject ammoPrefabObject = Resources.Load<GameObject>(Ammo556mmPrefabResourcePath);
+            if (ammoPrefabObject == null)
+            {
+                return null;
+            }
+
+            cachedAmmo556mmPrefab = ammoPrefabObject.GetComponent<FpsInventoryItemBase>();
+            return cachedAmmo556mmPrefab;
         }
     }
 }

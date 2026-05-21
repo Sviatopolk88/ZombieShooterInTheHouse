@@ -548,6 +548,7 @@ GameObject:
   - component: {fileID: 6689334768394523301}
   - component: {fileID: 5555555555555555511}
   - component: {fileID: 5555555555555555522}
+  - component: {fileID: -7699999999999999998}
   m_Layer: 0
   m_Name: Enemy_Zombie_BigBoss
   m_TagString: Untagged
@@ -626,7 +627,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c6a4292653b1484a96d908f060c58cb, type: 3}
-  m_Name: ''
+  m_Name: 
   m_EditorClassIdentifier: Modules.EnemyAI_Base::Modules.EnemyAI_Base.EnemyAI_Base
   playerTag: Player
   allowedTargetTags:
@@ -651,7 +652,7 @@ MonoBehaviour:
   damage: 35
   attackDistance: 1.9
   attackCooldown: 1.15
-  attackDelay: 0.45
+  attackDelay: 0.8
   attackTurnSpeed: 12
 --- !u!114 &1162780332083675552
 MonoBehaviour:
@@ -877,7 +878,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92ea4d61282543e9b607a462b47e7f1d, type: 3}
-  m_Name: ''
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Gameplay.Enemy.EnemyAudioBridge
   audioSource: {fileID: 5555555555555555511}
   enemyAi: {fileID: 507825422581803794}
@@ -900,6 +901,21 @@ MonoBehaviour:
   aggroCooldown: 0.75
   attackCooldown: 0.35
   hurtCooldown: 0.2
+--- !u!114 &-7699999999999999998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059452704296428365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ad27df3d4f4b64ad17a5e39a1bb7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Modules.NeoFPS_Adapter::Modules.NeoFPS_Adapter.NeoFPS_DamageHandlerAdapter
+  damageMultiplier: 1
+  critical: 0
+  hitZone: 2
 --- !u!1 &2169976502127739644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,6 +2007,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce1384a76e04794a8c66555d79a1e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Modules.NeoFPS_Adapter::Modules.NeoFPS_Adapter.EnemyHeadHitbox
+  meleeDamageMultiplier: 1
+  critical: 1
 --- !u!1 &7205833753243301555
 GameObject:
   m_ObjectHideFlags: 0

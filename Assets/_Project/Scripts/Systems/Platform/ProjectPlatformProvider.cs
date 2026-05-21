@@ -9,12 +9,50 @@ namespace _Project.Scripts.Systems.Platform
     /// </summary>
     public static class ProjectPlatformProvider
     {
+#if UNITY_EDITOR
+        private const string EditorOverridePrefsKey = "ZombieShooter.ProjectPlatformProvider.EditorOverride";
+#endif
+
         public static bool IsMobile => GetPlatformKind() == ProjectPlatformKind.Mobile;
 
         public static bool IsDesktop => GetPlatformKind() == ProjectPlatformKind.Desktop;
 
+#if UNITY_EDITOR
+        public static ProjectPlatformEditorOverride EditorOverride
+        {
+            get
+            {
+                int value = PlayerPrefs.GetInt(EditorOverridePrefsKey, (int)ProjectPlatformEditorOverride.Auto);
+                return System.Enum.IsDefined(typeof(ProjectPlatformEditorOverride), value)
+                    ? (ProjectPlatformEditorOverride)value
+                    : ProjectPlatformEditorOverride.Auto;
+            }
+        }
+
+        public static void SetEditorOverride(ProjectPlatformEditorOverride editorOverride)
+        {
+            if (editorOverride == ProjectPlatformEditorOverride.Auto)
+            {
+                PlayerPrefs.DeleteKey(EditorOverridePrefsKey);
+            }
+            else
+            {
+                PlayerPrefs.SetInt(EditorOverridePrefsKey, (int)editorOverride);
+            }
+
+            PlayerPrefs.Save();
+        }
+#endif
+
         private static ProjectPlatformKind GetPlatformKind()
         {
+#if UNITY_EDITOR
+            if (TryGetEditorOverride(out ProjectPlatformKind editorPlatformKind))
+            {
+                return editorPlatformKind;
+            }
+#endif
+
             if (TryGetPlatformFromYg(out ProjectPlatformKind platformKind))
             {
                 return platformKind;
@@ -79,10 +117,37 @@ namespace _Project.Scripts.Systems.Platform
             return false;
         }
 
+#if UNITY_EDITOR
+        private static bool TryGetEditorOverride(out ProjectPlatformKind platformKind)
+        {
+            switch (EditorOverride)
+            {
+                case ProjectPlatformEditorOverride.PC:
+                    platformKind = ProjectPlatformKind.Desktop;
+                    return true;
+                case ProjectPlatformEditorOverride.Mobile:
+                    platformKind = ProjectPlatformKind.Mobile;
+                    return true;
+                default:
+                    platformKind = ProjectPlatformKind.Desktop;
+                    return false;
+            }
+        }
+#endif
+
         private enum ProjectPlatformKind
         {
             Desktop,
             Mobile
         }
+
+#if UNITY_EDITOR
+        public enum ProjectPlatformEditorOverride
+        {
+            Auto = -1,
+            PC = 0,
+            Mobile = 1
+        }
+#endif
     }
 }

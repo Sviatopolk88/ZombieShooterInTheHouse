@@ -6,41 +6,33 @@ using UnityEngine;
 
 namespace Modules.NeoFPS_Adapter
 {
-    /// <summary>
-    /// Маркер отдельного hitbox головы. Используется для headshot-логики в adapter-layer.
-    /// </summary>
-    [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider))]
-    public sealed class EnemyHeadHitbox : MonoBehaviour, IDamageHandler
+    public sealed class NeoFPS_DamageHandlerAdapter : MonoBehaviour, IDamageHandler
     {
-        [Tooltip("Множитель урона NeoFPS melee при попадании в голову.")]
-        [SerializeField, Min(0f)] private float meleeDamageMultiplier = 1f;
+        [Tooltip("Множитель входящего урона NeoFPS перед передачей в HealthSystem.")]
+        [SerializeField, Min(0f)] private float damageMultiplier = 1f;
 
-        [Tooltip("Считать ли попадание в голову критическим для NeoFPS feedback и HealthSystem.")]
-        [SerializeField] private bool critical = true;
+        [Tooltip("Считать ли попадание критическим для HealthSystem.")]
+        [SerializeField] private bool critical;
 
-        private Collider cachedCollider;
+        [Tooltip("Зона попадания, которая передается в HealthSystem.")]
+        [SerializeField] private HitZone hitZone = HitZone.Body;
+
+        private Collider damageCollider;
 
         public IHealthManager healthManager => null;
 
         public DamageFilter inDamageFilter { get; set; } = DamageFilter.AllDamageAllTeams;
 
-        public Collider HitCollider
+        private void Awake()
         {
-            get
-            {
-                if (cachedCollider == null)
-                {
-                    cachedCollider = GetComponent<Collider>();
-                }
-
-                return cachedCollider;
-            }
+            damageCollider = GetComponent<Collider>();
         }
 
         public DamageResult AddDamage(float damage)
         {
-            return ApplyDamage(damage, null, HitCollider.bounds.center);
+            Vector3 hitPoint = damageCollider != null ? damageCollider.bounds.center : transform.position;
+            return ApplyDamage(damage, null, hitPoint);
         }
 
         public DamageResult AddDamage(float damage, RaycastHit hit)
@@ -50,7 +42,8 @@ namespace Modules.NeoFPS_Adapter
 
         public DamageResult AddDamage(float damage, IDamageSource source)
         {
-            return ApplyDamage(damage, source, HitCollider.bounds.center);
+            Vector3 hitPoint = damageCollider != null ? damageCollider.bounds.center : transform.position;
+            return ApplyDamage(damage, source, hitPoint);
         }
 
         public DamageResult AddDamage(float damage, RaycastHit hit, IDamageSource source)
@@ -72,7 +65,7 @@ namespace Modules.NeoFPS_Adapter
                 return DamageResult.Ignored;
             }
 
-            int finalDamage = Mathf.RoundToInt(damage * meleeDamageMultiplier);
+            int finalDamage = Mathf.RoundToInt(damage * damageMultiplier);
             if (finalDamage <= 0)
             {
                 ReportHit(source, hitPoint, DamageResult.Ignored, 0f);
@@ -84,7 +77,7 @@ namespace Modules.NeoFPS_Adapter
                 HealthDamageType.Melee,
                 ResolveSource(source),
                 critical,
-                HitZone.Head);
+                hitZone);
 
             if (!damageable.CanApplyDamage(context))
             {

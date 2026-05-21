@@ -40,6 +40,7 @@ namespace _Project.Scripts.Save
 
             ApplyAmmoQuantity(inventory, FpsInventoryKey.Ammo9mm, ResolveDesiredAmmo9mmQuantity(data));
             ApplyAmmoQuantity(inventory, FpsInventoryKey.Ammo12gauge, ResolveDesiredAmmo12GaugeQuantity(data));
+            ApplyAmmoQuantity(inventory, FpsInventoryKey.Ammo556mm, ResolveDesiredAmmo556mmQuantity(data));
             ApplyWeaponMagazines(inventory, data.weaponMagazines);
         }
 
@@ -110,6 +111,11 @@ namespace _Project.Scripts.Save
             string[] weapons = data.weapons ?? System.Array.Empty<string>();
             for (int i = 0; i < weapons.Length; i++)
             {
+                if (GameSaveWeaponCatalog.IsBaselineWeaponId(weapons[i]))
+                {
+                    continue;
+                }
+
                 if (!GameSaveWeaponCatalog.TryResolveWeaponPrefab(weapons[i], out FpsInventoryItemBase weaponPrefab) || weaponPrefab == null)
                 {
                     Debug.LogWarning($"SaveDataApplier: prefab оружия '{weapons[i]}' не найден и будет пропущен.");
@@ -141,6 +147,16 @@ namespace _Project.Scripts.Save
                 if (!ContainsItem(result, ammo12GaugePrefab.itemIdentifier))
                 {
                     result.Add(ammo12GaugePrefab);
+                }
+            }
+
+            if (ResolveDesiredAmmo556mmQuantity(data) > 0
+                && GameSaveWeaponCatalog.TryResolveAmmo556mmPrefab(out FpsInventoryItemBase ammo556mmPrefab)
+                && ammo556mmPrefab != null)
+            {
+                if (!ContainsItem(result, ammo556mmPrefab.itemIdentifier))
+                {
+                    result.Add(ammo556mmPrefab);
                 }
             }
 
@@ -206,6 +222,11 @@ namespace _Project.Scripts.Save
         private static int ResolveDesiredAmmo12GaugeQuantity(GameSaveData data)
         {
             return data != null ? Mathf.Max(0, data.ammo12Gauge) : 0;
+        }
+
+        private static int ResolveDesiredAmmo556mmQuantity(GameSaveData data)
+        {
+            return data != null ? Mathf.Max(0, data.ammo556mm) : 0;
         }
 
         private static string GetSceneNameForLevel(int levelIndex)

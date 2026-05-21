@@ -70,7 +70,15 @@
   2. Маленький `SphereCollider` на кости `Head` с базовыми параметрами `radius = 0.15` и `center.y = +0.05`.
   3. `EnemyHeadHitbox` на том же объекте `Head`.
 
-## 6. Как добавлять новые архетипы
+## 6. Hands melee damage
+
+- Для попаданий руками используется NeoFPS `MeleeWeapon`, который ищет `IDamageHandler` на collider transform.
+- На root collider всех текущих project enemy prefabs добавлен `NeoFPS_DamageHandlerAdapter`.
+- Adapter передаёт body/root урон в `HealthSystem` как `DamageType.Melee`, поэтому hit reaction запускается тем же путём, что и firearm damage: `Health.OnDamaged -> EnemyAI_Base -> EnemyAnimationController.PlayHit()`.
+- Head collider обрабатывается через `EnemyHeadHitbox`: компонент реализует NeoFPS `IDamageHandler`, передаёт урон как `HitZone.Head` и помечает попадание критическим.
+- При добавлении нового enemy prefab проверьте, что на body/root collider есть `NeoFPS_DamageHandlerAdapter`, а на head collider есть `EnemyHeadHitbox`.
+
+## 7. Как добавлять новые архетипы
 
 1. Скопировать `EnemyBase.prefab` или существующий archetype prefab в `Assets/_Project/Prefabs/Enemies/`.
 2. Переименовать prefab по шаблону `Enemy_Zombie_<Role>`.
